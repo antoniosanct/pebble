@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.PebbleTestCase;
 
 /**
@@ -42,7 +49,7 @@ public class ActionFactoryTest extends PebbleTestCase {
   private ActionFactory factory;
 
   @Override
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     DefaultActionFactory factory = new DefaultActionFactory();
     factory.setApplicationContext(testApplicationContext);
@@ -51,13 +58,13 @@ public class ActionFactoryTest extends PebbleTestCase {
     this.factory = factory;
   }
 
-  public void testGetAction() throws Exception {
+  @Test public void testGetAction() throws Exception {
 
     assertNotNull(factory.getAction("viewDay"));
     assertTrue(factory.getAction("viewDay") instanceof ViewDayAction);
   }
 
-  public void testActionNotFound() {
+  @Test public void testActionNotFound() {
     try {
       assertNotNull(factory.getAction("SomeUnknownAction"));
       fail();

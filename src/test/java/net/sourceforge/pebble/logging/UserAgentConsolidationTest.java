@@ -32,11 +32,14 @@
 
 package net.sourceforge.pebble.logging;
 
-import junit.framework.TestCase;
 import static net.sourceforge.pebble.logging.UserAgentConsolidator.consolidate;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserAgentConsolidationTest extends TestCase {
-  public void testUserAgentConsolidation() throws Exception {
+import org.junit.jupiter.api.Test;
+
+public class UserAgentConsolidationTest {
+	
+  @Test public void testUserAgentConsolidation() throws Exception {
     assertEquals("MSIE 8.0", consolidate("Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6.3; SIMBAR={1C3922DD-71F2-472A-A5C6-940389EF01C9}; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; OfficeLiveConnector.1.3; OfficeLivePatch.0.0)"));
     assertEquals("Other", consolidate("Mozilla/5.0 (compatible; Ask Jeeves/Teoma; +http://about.ask.com/en/docs/about/webmasters.shtml)"));
     assertEquals("Googlebot", consolidate("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"));

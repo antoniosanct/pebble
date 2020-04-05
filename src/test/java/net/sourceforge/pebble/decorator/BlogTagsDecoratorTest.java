@@ -31,11 +31,16 @@
  */
 package net.sourceforge.pebble.decorator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.decorator.ContentDecorator;
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Category;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.api.decorator.ContentDecorator;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 
 /**
  * Tests for the BlogTagsDecorator class.
@@ -48,7 +53,7 @@ public class BlogTagsDecoratorTest extends SingleBlogTestCase {
   private BlogEntry blogEntry;
   private ContentDecoratorContext context;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     blogEntry = new BlogEntry(blog);
@@ -59,7 +64,7 @@ public class BlogTagsDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry with no tags remains unchanged.
    */
-  public void testBlogEntryHasNoTags() throws Exception {
+  @Test public void testBlogEntryHasNoTags() throws Exception {
     blogEntry.setExcerpt("Excerpt - here is some text");
     blogEntry.setBody("Body - here is some text");
     context.setMedia(ContentDecoratorContext.HTML_PAGE);
@@ -71,7 +76,7 @@ public class BlogTagsDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry with tags gets modified, when output to a HTML page.
    */
-  public void testBlogEntryHasTagsAndMediaIsHtml() throws Exception {
+  @Test public void testBlogEntryHasTagsAndMediaIsHtml() throws Exception {
     Category category = new Category("/java", "Java");
     category.setBlog(blog);
     category.setTags("java");
@@ -96,7 +101,7 @@ public class BlogTagsDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry with tags gets modified, when output to a newsfeed.
    */
-  public void testBlogEntryHasTagsAndMediaIsNewsfeed() throws Exception {
+  @Test public void testBlogEntryHasTagsAndMediaIsNewsfeed() throws Exception {
     Category category = new Category("/java", "Java");
     category.setBlog(blog);
     category.setTags("java");

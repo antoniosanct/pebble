@@ -31,29 +31,32 @@
  */
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Pageable class.
  *
  * @author    Simon Brown
  */
-public class PageableTest extends TestCase {
+public class PageableTest {
 
   private Pageable pageable;
   private List list;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     list = new ArrayList();
     for (int i = 0; i < 30; i++) {
       list.add(new Integer(i));
     }
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     pageable = new Pageable(list);
     pageable.setPage(1);
     assertEquals(list, pageable.getList());
@@ -61,7 +64,7 @@ public class PageableTest extends TestCase {
     assertEquals(1, pageable.getPage());
   }
 
-  public void testOneFullPage() {
+  @Test public void testOneFullPage() {
     pageable = new Pageable(list);
     pageable.setPageSize(30);
     pageable.setPage(1);
@@ -73,7 +76,7 @@ public class PageableTest extends TestCase {
     assertEquals(list, pageable.getListForPage());
   }
 
-  public void testOnePartialPage() {
+  @Test public void testOnePartialPage() {
     pageable = new Pageable(list);
     pageable.setPageSize(50);
     pageable.setPage(1);
@@ -85,7 +88,7 @@ public class PageableTest extends TestCase {
     assertEquals(list, pageable.getListForPage());
   }
 
-  public void testTwoFullPages() {
+  @Test public void testTwoFullPages() {
     pageable = new Pageable(list);
     pageable.setPageSize(15);
 
@@ -104,7 +107,7 @@ public class PageableTest extends TestCase {
     assertEquals(list.subList(15, 30), pageable.getListForPage());
   }
 
-  public void testTwoPartialPages() {
+  @Test public void testTwoPartialPages() {
     pageable = new Pageable(list);
     pageable.setPageSize(20);
 
@@ -123,7 +126,7 @@ public class PageableTest extends TestCase {
     assertEquals(list.subList(20, 30), pageable.getListForPage());
   }
 
-  public void testSetPageOutOfBounds() {
+  @Test public void testSetPageOutOfBounds() {
     pageable = new Pageable(list);
     pageable.setPageSize(15);
 
@@ -149,7 +152,7 @@ public class PageableTest extends TestCase {
     assertEquals(list.subList(15, 30), pageable.getListForPage());
   }
 
-  public void testGetMinPageRange() {
+  @Test public void testGetMinPageRange() {
     pageable = new Pageable(list);
     pageable.setPageSize(2);
 
@@ -169,7 +172,7 @@ public class PageableTest extends TestCase {
     assertEquals(3, pageable.getMinPageRange());
   }
 
-  public void testGetMaxPageRange() {
+  @Test public void testGetMaxPageRange() {
     pageable = new Pageable(list);
     pageable.setPageSize(2);
 

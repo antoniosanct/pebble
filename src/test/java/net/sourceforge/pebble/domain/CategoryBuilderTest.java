@@ -31,8 +31,13 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the CategoryBuilder class.
@@ -43,7 +48,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
 
   private CategoryBuilder builder;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     builder = new CategoryBuilder(blog);
   }
@@ -51,7 +56,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a root category is created by default.
    */
-  public void testRootCategoryCreatedByDefault() {
+  @Test public void testRootCategoryCreatedByDefault() {
     Category category = builder.getRootCategory();
     assertNotNull(category);
     assertTrue(category.isRootCategory());
@@ -60,7 +65,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a root category can be added.
    */
-  public void testRootCategoryCanBeAdded() {
+  @Test public void testRootCategoryCanBeAdded() {
     Category root = new Category("/", "/");
     builder.addCategory(root);
     root.setTags("blog");
@@ -74,7 +79,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a level 2 category can be added with parent.
    */
-  public void testLevel2CategoryCanBeAddedWithParent() {
+  @Test public void testLevel2CategoryCanBeAddedWithParent() {
     Category root = new Category("/", "/");
     Category java = new Category("/java", "Java");
     builder.addCategory(root);
@@ -93,7 +98,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a level 2 category can be added without parent.
    */
-  public void testLevel2CategoryCanBeAddedWithoutParent() {
+  @Test public void testLevel2CategoryCanBeAddedWithoutParent() {
     Category java = new Category("/java", "Java");
     builder.addCategory(java);
     java.setTags("java");
@@ -109,7 +114,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that multiple level 2 categories can be added with parent.
    */
-  public void testLevel2CategoriesCanBeAddedWithParent() {
+  @Test public void testLevel2CategoriesCanBeAddedWithParent() {
     Category root = new Category("/", "/");
     Category java = new Category("/java", "Java");
     Category apple = new Category("/apple", "Apple");
@@ -136,7 +141,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a multiple level 2 categories can be added without parent.
    */
-  public void testLevel2CategoriesCanBeAddedWithoutParent() {
+  @Test public void testLevel2CategoriesCanBeAddedWithoutParent() {
     Category java = new Category("/java", "Java");
     Category apple = new Category("/apple", "Apple");
     builder.addCategory(java);
@@ -160,7 +165,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a level 3 category can be added with parent.
    */
-  public void testLevel3CategoryCanBeAddedWithParent() {
+  @Test public void testLevel3CategoryCanBeAddedWithParent() {
     Category root = new Category("/", "/");
     Category java = new Category("/java", "Java");
     Category junit = new Category("/java/junit", "JUnit");
@@ -189,7 +194,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a level 3 category can be added without parent.
    */
-  public void testLevel3CategoryCanBeAddedWithoutParent() {
+  @Test public void testLevel3CategoryCanBeAddedWithoutParent() {
     Category junit = new Category("/java/junit", "JUnit");
     builder.addCategory(junit);
     junit.setTags("junit");
@@ -212,7 +217,7 @@ public class CategoryBuilderTest extends SingleBlogTestCase {
   /**
    * Tests that a category can be added and retrieved.
    */
-  public void testCategoryCanBeAddedAndRetrieved() {
+  @Test public void testCategoryCanBeAddedAndRetrieved() {
     Category apple = new Category("/apple", "Apple");
     builder.addCategory(apple);
     apple.setTags("apple");

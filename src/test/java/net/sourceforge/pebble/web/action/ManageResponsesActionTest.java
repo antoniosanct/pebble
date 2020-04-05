@@ -31,10 +31,12 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.domain.Comment;
 
 /**
  * Tests for the ManageResponsesAction class.
@@ -43,7 +45,7 @@ import net.sourceforge.pebble.domain.Comment;
  */
 public class ManageResponsesActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ManageResponsesAction();
 
     super.setUp();
@@ -52,7 +54,7 @@ public class ManageResponsesActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors can manage responses.
    */
-  public void testOnlyBlogContributorsHaveAccess() {
+  @Test public void testOnlyBlogContributorsHaveAccess() {
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
     assertEquals(Constants.BLOG_CONTRIBUTOR_ROLE, roles[0]);

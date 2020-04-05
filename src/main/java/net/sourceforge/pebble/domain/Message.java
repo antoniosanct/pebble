@@ -31,18 +31,24 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.util.SecurityUtils;
-
+import java.io.Serializable;
 import java.util.Date;
+
+import net.sourceforge.pebble.util.SecurityUtils;
 
 /**
  * Represents a message, created by Pebble for the user.
  *
  * @author    Simon Brown
  */
-public class Message {
+public class Message implements Serializable {
 
-  private MessageType type;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5406761227022037169L;
+	
+private MessageType type;
   private Date date;
   private String text;
 

@@ -31,6 +31,12 @@
  */
 package net.sourceforge.pebble.web.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.MultiBlog;
 import net.sourceforge.pebble.domain.MultiBlogTestCase;
@@ -51,7 +57,7 @@ public class MultiBlogBlogLookupFilterTest extends MultiBlogTestCase {
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     filter = new BlogLookupFilter();
@@ -63,7 +69,7 @@ public class MultiBlogBlogLookupFilterTest extends MultiBlogTestCase {
     response = new MockHttpServletResponse();
   }
 
-  public void tearDown() throws Exception {
+  @Test public void tearDown() throws Exception {
     super.tearDown();
 
     filter.destroy();
@@ -74,7 +80,7 @@ public class MultiBlogBlogLookupFilterTest extends MultiBlogTestCase {
    *
    * @throws Exception
    */
-  public void testBlogInsertedIntoRequestScope() throws Exception {
+  @Test public void testBlogInsertedIntoRequestScope() throws Exception {
     request.setRequestUri("/somecontext");
     filter.doFilter(request, response, new MockFilterChain());
     assertTrue(request.getAttribute(Constants.BLOG_KEY) instanceof MultiBlog);

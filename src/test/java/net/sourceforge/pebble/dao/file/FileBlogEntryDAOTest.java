@@ -42,8 +42,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.sourceforge.pebble.dao.BlogEntryDAO;
@@ -53,7 +54,6 @@ import net.sourceforge.pebble.domain.Category;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.util.FileUtils;
 
 /**
  * Tests for the FileBlogEntryDAO class.
@@ -65,23 +65,20 @@ public class FileBlogEntryDAOTest extends SingleBlogTestCase {
   private BlogEntryDAO dao= new FileBlogEntryDAO();
   private Locale defaultLocale;
 
-  @BeforeAll
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     defaultLocale = Locale.getDefault();
     Locale.setDefault(Locale.ENGLISH);
   }
 
-  @AfterAll
-  public void tearDown() throws Exception {
+  @AfterEach public void tearDown() throws Exception {
     super.tearDown();
     
     Locale.setDefault(defaultLocale);
   }
 
-  @Test
-  public void testLoadBlogEntryFomFile() throws Exception {
+  @Test public void testLoadBlogEntryFomFile() throws Exception {
     
     File source = new File(TEST_RESOURCE_LOCATION, "1081203335000.xml");
     File destination = new File(blog.getRoot(), "2004/04/05/");
@@ -165,8 +162,7 @@ public class FileBlogEntryDAOTest extends SingleBlogTestCase {
     assertEquals(sdf.parse("06 Apr 2004 07:09:24:0 +0100"), trackBack2.getDate());
   }
 
-  @Test
-  public void testInvalidCharacters() throws Exception {
+  @Test public void testInvalidCharacters() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setTitle("A title\u0000");
     blogEntry.setBody("Some body");

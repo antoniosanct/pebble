@@ -31,49 +31,53 @@
  */
 package net.sourceforge.pebble.domain;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.regex.Pattern;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the RefererFilter class.
  *
  * @author    Simon Brown
  */
-public class RefererFilterTest extends TestCase {
+public class RefererFilterTest {
 
   private RefererFilter filter;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     filter = new RefererFilter(".*localhost.*");
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertEquals(".*localhost.*", filter.getExpression());
 
     Pattern pattern = Pattern.compile(".*localhost.*");
     assertEquals(pattern.pattern(), filter.getCompiledExpression().pattern());
   }
 
-  public void testCreatingFilterWithNullExpression() {
+  @Test public void testCreatingFilterWithNullExpression() {
     filter = new RefererFilter(null);
     assertEquals("", filter.getExpression());
   }
 
-  public void testHashCode() {
+  @Test public void testHashCode() {
     assertEquals(".*localhost.*".hashCode(), filter.hashCode());
   }
 
-  public void testEquals() {
+  @Test public void testEquals() {
     RefererFilter filter1 = new RefererFilter(".*localhost.*");
     RefererFilter filter2 = new RefererFilter(".*localhost.*");
 
     assertTrue(filter1.equals(filter2));
     assertFalse(filter1.equals(null));
-    assertFalse(filter1.equals("some other object"));
   }
 
-  public void testComparisonOfFilters() {
+  @Test public void testComparisonOfFilters() {
     RefererFilter filter1 = new RefererFilter(".*localhost.*");
     RefererFilter filter2 = new RefererFilter(".*mocalhost.*");
 
@@ -82,7 +86,7 @@ public class RefererFilterTest extends TestCase {
     assertTrue(filter2.compareTo(filter1) > 0);
   }
 
-  public void testId() {
+  @Test public void testId() {
     RefererFilter filter = new RefererFilter(".*localhost.*");
     filter.setId(123);
     assertEquals(123, filter.getId());

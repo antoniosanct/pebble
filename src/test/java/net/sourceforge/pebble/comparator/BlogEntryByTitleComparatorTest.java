@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.comparator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
@@ -41,7 +45,7 @@ import net.sourceforge.pebble.domain.SingleBlogTestCase;
  */
 public class BlogEntryByTitleComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     PageBasedContentByTitleComparator comp = new PageBasedContentByTitleComparator();
 
     BlogEntry b1 = new BlogEntry(blog);
@@ -55,7 +59,7 @@ public class BlogEntryByTitleComparatorTest extends SingleBlogTestCase {
     assertTrue(comp.compare(b2, b1) > 0);
   }
 
-  public void testCompareIgnoreCase() {
+  @Test public void testCompareIgnoreCase() {
     PageBasedContentByTitleComparator comp = new PageBasedContentByTitleComparator();
 
     BlogEntry b1 = new BlogEntry(blog);

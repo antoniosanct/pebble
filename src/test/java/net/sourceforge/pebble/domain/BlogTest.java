@@ -31,16 +31,30 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.PebbleContext;
-import net.sourceforge.pebble.event.DefaultEventDispatcher;
-import net.sourceforge.pebble.api.event.blog.BlogEvent;
-import net.sourceforge.pebble.api.event.blog.BlogListener;
-import net.sourceforge.pebble.logging.CombinedLogFormatLogger;
-import net.sourceforge.pebble.permalink.DefaultPermalinkProvider;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.TimeZone;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.api.event.blog.BlogEvent;
+import net.sourceforge.pebble.api.event.blog.BlogListener;
+import net.sourceforge.pebble.event.DefaultEventDispatcher;
+import net.sourceforge.pebble.logging.CombinedLogFormatLogger;
+import net.sourceforge.pebble.permalink.DefaultPermalinkProvider;
 
 /**
  * Tests for the Blog class.
@@ -49,7 +63,7 @@ import java.util.*;
  */
 public class BlogTest extends SingleBlogTestCase {
 
-  public void testConstructionOfDefaultInstance() {
+  @Test public void testConstructionOfDefaultInstance() {
     assertEquals(new File(TEST_BLOG_LOCATION, "blogs/default").getAbsolutePath(), blog.getRoot());
     assertNull(blog.getBlog());
     assertEquals("My blog", blog.getName());
@@ -75,14 +89,14 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get a specific property.
    */
-  public void testGetProperty() {
+  @Test public void testGetProperty() {
     assertEquals(blog.getName(), blog.getProperty(Blog.NAME_KEY));
   }
 
   /**
    * Tests that we can get a specific property.
    */
-  public void testGetProperties() {
+  @Test public void testGetProperties() {
     Properties props = blog.getProperties();
     assertNotNull(props);
     assertEquals(blog.getName(), props.getProperty(Blog.NAME_KEY));
@@ -91,7 +105,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can set a specific property.
    */
-  public void testSetProperty() {
+  @Test public void testSetProperty() {
     blog.setProperty(Blog.NAME_KEY, "New name");
     assertEquals("New name", blog.getProperty(Blog.NAME_KEY));
     assertEquals("New name", blog.getName());
@@ -103,7 +117,7 @@ public class BlogTest extends SingleBlogTestCase {
 
   /**
    * Tests that we can store properties.
-   public void testStoreProperties() {
+   @Test public void testStoreProperties() {
    blog.setProperty("aNewPropertyKey", "A new property value");
    try {
    blog.storeProperties();
@@ -123,7 +137,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can remove a specific property.
    */
-  public void testRemoveProperty() {
+  @Test public void testRemoveProperty() {
     blog.setProperty("aNewPropertyKey", "A new property value");
     assertEquals("A new property value", blog.getProperty("aNewPropertyKey"));
     blog.removeProperty("aNewPropertyKey");
@@ -133,7 +147,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that the correct calendar (with timezone) is created.
    */
-  public void testCalendar() {
+  @Test public void testCalendar() {
     Calendar cal = blog.getCalendar();
     assertEquals(blog.getTimeZone(), cal.getTimeZone());
   }
@@ -141,7 +155,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get a specific Year instance.
    */
-   public void testGetBlogForYear() {
+   @Test public void testGetBlogForYear() {
    Calendar cal = blog.getCalendar();
    Year year = blog.getBlogForYear(cal.get(Calendar.YEAR));
    assertNotNull(year);
@@ -151,7 +165,7 @@ public class BlogTest extends SingleBlogTestCase {
    /**
     * Tests that we can get a previous Year instance.
     */
-   public void testGetBlogForPreviousYear() {
+   @Test public void testGetBlogForPreviousYear() {
    Calendar cal = blog.getCalendar();
    Year year = blog.getBlogForYear(cal.get(Calendar.YEAR));
    year = blog.getBlogForPreviousYear(year);
@@ -162,7 +176,7 @@ public class BlogTest extends SingleBlogTestCase {
    /**
     * Tests that we can get a next Year instance.
     */
-   public void testGetBlogForNextYear() {
+   @Test public void testGetBlogForNextYear() {
    Calendar cal = blog.getCalendar();
    Year year = blog.getBlogForYear(cal.get(Calendar.YEAR));
    year = blog.getBlogForNextYear(year);
@@ -173,7 +187,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get the first Month instance.
    */
-  public void testGetBlogForFirstMonth() {
+  @Test public void testGetBlogForFirstMonth() {
     Month month = blog.getBlogForFirstMonth();
     assertNotNull(month);
 //    assertEquals(blog.getBlogForFirstYear(), month.getYear());
@@ -184,7 +198,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get a Month instance.
    */
-  public void testGetBlogForMonth() {
+  @Test public void testGetBlogForMonth() {
     Month month = blog.getBlogForMonth(2003, 4);
     assertNotNull(month);
     assertEquals(2003, month.getYear().getYear());
@@ -194,7 +208,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get the Month instance for this month.
    */
-  public void testGetBlogForThisMonth() {
+  @Test public void testGetBlogForThisMonth() {
     Calendar cal = blog.getCalendar();
     Month month = blog.getBlogForThisMonth();
     assertNotNull(month);
@@ -205,7 +219,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get a Day instance.
    */
-  public void testGetBlogForDay() {
+  @Test public void testGetBlogForDay() {
     Day day = blog.getBlogForDay(2003, 7, 14);
     assertNotNull(day);
     assertEquals(2003, day.getMonth().getYear().getYear());
@@ -216,7 +230,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get a Day instance.
    */
-  public void testGetBlogForDate() {
+  @Test public void testGetBlogForDate() {
     Calendar cal = blog.getCalendar();
     cal.set(Calendar.YEAR, 2003);
     cal.set(Calendar.MONTH, 6);
@@ -231,7 +245,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that we can get the Day instance for today.
    */
-  public void testGetBlogForToday() {
+  @Test public void testGetBlogForToday() {
     Calendar cal = blog.getCalendar();
     Day day = blog.getBlogForToday();
     assertNotNull(day);
@@ -243,7 +257,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that blog owners can be assigned.
    */
-  public void testAssignBlogOwners() {
+  @Test public void testAssignBlogOwners() {
     blog.setProperty(Blog.BLOG_OWNERS_KEY, "user1");
     assertEquals("user1", blog.getProperty(Blog.BLOG_OWNERS_KEY));
     assertEquals("user1", blog.getBlogOwnersAsString());
@@ -265,7 +279,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that blog owners can be assigned.
    */
-  public void testNullBlogOwners() {
+  @Test public void testNullBlogOwners() {
     blog.removeProperty(Blog.BLOG_OWNERS_KEY);
     assertEquals(null, blog.getBlogOwnersAsString());
 
@@ -276,7 +290,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that it can be determined that a user is a blog owner.
    */
-  public void testUserIsBlogOwner() {
+  @Test public void testUserIsBlogOwner() {
     blog.setProperty(Blog.BLOG_OWNERS_KEY, "user1");
     assertTrue(blog.isUserInRole(Constants.BLOG_OWNER_ROLE, "user1"));
     assertFalse(blog.isUserInRole(Constants.BLOG_OWNER_ROLE, "user2"));
@@ -286,7 +300,7 @@ public class BlogTest extends SingleBlogTestCase {
    * Tests that when no blog contributors are specified, then everybody takes
    * on that role.
    */
-  public void testUserIsBlogOwnerByDefault() {
+  @Test public void testUserIsBlogOwnerByDefault() {
     blog.removeProperty(Blog.BLOG_OWNERS_KEY);
     assertTrue(blog.isUserInRole(Constants.BLOG_OWNER_ROLE, "user1"));
     assertTrue(blog.isUserInRole(Constants.BLOG_OWNER_ROLE, "usern"));
@@ -295,7 +309,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that blog contributors can be assigned.
    */
-  public void testAssignBlogContributors() {
+  @Test public void testAssignBlogContributors() {
     blog.setProperty(Blog.BLOG_CONTRIBUTORS_KEY, "user1");
     assertEquals("user1", blog.getProperty(Blog.BLOG_CONTRIBUTORS_KEY));
     assertEquals("user1", blog.getBlogContributorsAsString());
@@ -326,7 +340,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that blog contributors can be assigned.
    */
-  public void testNullBlogContributors() {
+  @Test public void testNullBlogContributors() {
     blog.removeProperty(Blog.BLOG_CONTRIBUTORS_KEY);
     assertEquals(null, blog.getBlogContributorsAsString());
 
@@ -337,7 +351,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that it can be determined that a user is a blog contributor.
    */
-  public void testUserIsBlogContributor() {
+  @Test public void testUserIsBlogContributor() {
     blog.setProperty(Blog.BLOG_CONTRIBUTORS_KEY, "user1");
     assertTrue(blog.isUserInRole(Constants.BLOG_CONTRIBUTOR_ROLE, "user1"));
     assertFalse(blog.isUserInRole(Constants.BLOG_CONTRIBUTOR_ROLE, "user2"));
@@ -347,13 +361,13 @@ public class BlogTest extends SingleBlogTestCase {
    * Tests that when no blog contributors are specified, then everybody takes
    * on that role.
    */
-  public void testUserIsBlogContributorByDefault() {
+  @Test public void testUserIsBlogContributorByDefault() {
     blog.removeProperty(Blog.BLOG_CONTRIBUTORS_KEY);
     assertTrue(blog.isUserInRole(Constants.BLOG_CONTRIBUTOR_ROLE, "user1"));
     assertTrue(blog.isUserInRole(Constants.BLOG_CONTRIBUTOR_ROLE, "usern"));
   }
 
-  public void testInvalidDayOfMonthAfterTimeZoneChanges() {
+  @Test public void testInvalidDayOfMonthAfterTimeZoneChanges() {
     blog.getRecentBlogEntries();
     blog.setProperty(Blog.TIMEZONE_KEY, "America/New_York");
 
@@ -361,11 +375,11 @@ public class BlogTest extends SingleBlogTestCase {
     blog.getRecentBlogEntries();
   }
 
-  public void testGetRecentBlogEntriesFromEmptyBlog() {
+  @Test public void testGetRecentBlogEntriesFromEmptyBlog() {
     assertTrue(blog.getRecentBlogEntries(3).isEmpty());
   }
 
-  public void testGetRecentBlogEntries() throws BlogServiceException {
+  @Test public void testGetRecentBlogEntries() throws BlogServiceException {
     BlogService service = new BlogService();
 
     BlogEntry entry1 = new BlogEntry(blog);
@@ -397,7 +411,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests the images directory is correct and that it exists.
    */
-  public void testImagesDirectoryAccessible() {
+  @Test public void testImagesDirectoryAccessible() {
     File file = new File(blog.getRoot(), "images");
     assertEquals(file, new File(blog.getImagesDirectory()));
     assertTrue(file.exists());
@@ -406,7 +420,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests the files directory is correct and that it exists.
    */
-  public void testFilesDirectoryAccessible() {
+  @Test public void testFilesDirectoryAccessible() {
     File file = new File(blog.getRoot(), "files");
     assertEquals(file, new File(blog.getFilesDirectory()));
     assertTrue(file.exists());
@@ -417,7 +431,7 @@ public class BlogTest extends SingleBlogTestCase {
    *  - starting up Pebble creates a theme based on the template if the theme
    *  - directory doesn't exist.
    */
-  public void testThemeDirectoryAccessible() {
+  @Test public void testThemeDirectoryAccessible() {
     File file = new File(blog.getRoot(), "theme");
     assertEquals(file, new File(blog.getThemeDirectory()));
     assertTrue(file.exists());
@@ -426,7 +440,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests setting a single e-mail address.
    */
-  public void testSingleEmailAddress() {
+  @Test public void testSingleEmailAddress() {
     blog.setProperty(Blog.EMAIL_KEY, "me@mydomain.com");
     assertEquals("me@mydomain.com", blog.getEmail());
     assertEquals(1, blog.getEmailAddresses().size());
@@ -436,7 +450,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests setting multiple e-mail address.
    */
-  public void testMultipleEmailAddresses() {
+  @Test public void testMultipleEmailAddresses() {
     blog.setProperty(Blog.EMAIL_KEY, "me@mydomain.com,you@yourdomain.com");
     assertEquals("me@mydomain.com,you@yourdomain.com", blog.getEmail());
     assertEquals(2, blog.getEmailAddresses().size());
@@ -448,7 +462,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests getting the first of multiple e-mail addresses.
    */
-  public void testFirstEmailAddress() {
+  @Test public void testFirstEmailAddress() {
     blog.setProperty(Blog.EMAIL_KEY, "");
     assertEquals("", blog.getFirstEmailAddress());
     blog.setProperty(Blog.EMAIL_KEY, "me@mydomain.com");
@@ -460,7 +474,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests the domain.
    */
-  public void testDomain() {
+  @Test public void testDomain() {
     assertEquals("www.yourdomain.com", blog.getDomainName());
 
     PebbleContext.getInstance().getConfiguration().setUrl("http://www.yourdomain.com:8080/blog");
@@ -470,14 +484,14 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests the protocol.
    */
-  public void testProtocol() {
+  @Test public void testProtocol() {
     assertEquals("http://", blog.getProtocol());
   }
 
   /**
    * Tests the context.
    */
-  public void testContext() {
+  @Test public void testContext() {
     assertEquals("/blog/", blog.getContext());
 
     PebbleContext.getInstance().getConfiguration().setUrl("http://www.yourdomain.com:8080");
@@ -490,7 +504,7 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests the logger can be accessed and is of the correct type.
    */
-  public void testLogger() {
+  @Test public void testLogger() {
     assertNotNull(blog.getLogger());
     assertTrue(blog.getLogger() instanceof CombinedLogFormatLogger);
   }
@@ -498,15 +512,15 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when the blog is started.
    */
-  public void testListenersFiredWhenBlogStarted() {
+  @Test public void testListenersFiredWhenBlogStarted() {
     final StringBuffer buf = new StringBuffer("123");
     BlogListener listener = new BlogListener() {
-      public void blogStarted(BlogEvent event) {
+      @Test public void blogStarted(BlogEvent event) {
         assertEquals(blog, event.getSource());
         buf.reverse();
       }
 
-      public void blogStopped(BlogEvent event) {
+      @Test public void blogStopped(BlogEvent event) {
         fail();
       }
     };
@@ -520,14 +534,14 @@ public class BlogTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when the blog is stopped.
    */
-  public void testListenersFiredWhenBlogStopped() {
+  @Test public void testListenersFiredWhenBlogStopped() {
     final StringBuffer buf = new StringBuffer("123");
     BlogListener listener = new BlogListener() {
-      public void blogStarted(BlogEvent event) {
+      @Test public void blogStarted(BlogEvent event) {
         fail();
       }
 
-      public void blogStopped(BlogEvent event) {
+      @Test public void blogStopped(BlogEvent event) {
         assertEquals(blog, event.getSource());
         buf.reverse();
       }
@@ -537,7 +551,7 @@ public class BlogTest extends SingleBlogTestCase {
     assertEquals("321", buf.toString());
   }
 
-  public void testApprovedCommentsForUnpublishedBlogEntriesDontShowUp() throws BlogServiceException {
+  @Test public void testApprovedCommentsForUnpublishedBlogEntriesDontShowUp() throws BlogServiceException {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry = new BlogEntry(blog);

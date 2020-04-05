@@ -32,12 +32,16 @@
 
 package net.sourceforge.pebble.dao.mock;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.sourceforge.pebble.dao.BlogEntryDAO;
 import net.sourceforge.pebble.dao.PersistenceException;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.BlogEntry;
-
-import java.util.*;
 
 /**
  * This is a mock implementation of BlogEntryDAO that is used when performing

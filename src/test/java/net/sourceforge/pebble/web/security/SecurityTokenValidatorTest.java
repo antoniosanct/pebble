@@ -32,23 +32,28 @@
 
 package net.sourceforge.pebble.web.security;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 /**
  * @author James Roper
  */
-public class SecurityTokenValidatorTest extends TestCase {
+public class SecurityTokenValidatorTest {
 
-  private SecurityTokenValidator validator;
+  private static SecurityTokenValidator validator;
 
-  protected void setUp() {
+  @BeforeAll
+  protected static void setUp() {
     validator = new SecurityTokenValidatorImpl();
   }
 
-  public void testGenerateHash() {
+  @Test public void testGenerateHash() {
     Map<String, String[]> map1 = new HashMap<String, String[]>();
     map1.put("key", new String[] {"value"});
     map1.put("zed", new String[] {"value2"});

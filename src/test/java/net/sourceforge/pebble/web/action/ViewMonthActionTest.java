@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.web.model.Model;
 import net.sourceforge.pebble.web.view.View;
@@ -43,7 +50,7 @@ import net.sourceforge.pebble.web.view.impl.BlogEntriesByMonthView;
  */
 public class ViewMonthActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewMonthAction();
 
     super.setUp();
@@ -54,7 +61,7 @@ public class ViewMonthActionTest extends SingleBlogActionTestCase {
    *
    * @throws Exception
    */
-  public void testViewMonth() throws Exception {
+  @Test public void testViewMonth() throws Exception {
     request.setParameter("year", "2006");
     request.setParameter("month", "05");
     View view = action.process(request, response);

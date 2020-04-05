@@ -31,14 +31,30 @@
  */
 package net.sourceforge.pebble.webservice;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.apache.xmlrpc.XmlRpcException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.MultiBlogTestCase;
+import net.sourceforge.pebble.mock.MockAuthenticationManager;
 
 /**
  * Tests for the BloggerAPIHandler class, when using a composite blog.
@@ -49,24 +65,24 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
 
   private BloggerAPIHandler handler = new BloggerAPIHandler();
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
-
-    handler.setAuthenticationManager(new net.sourceforge.pebble.mock.MockAuthenticationManager(true, new GrantedAuthority[] {new GrantedAuthorityImpl(Constants.BLOG_CONTRIBUTOR_ROLE)}));
+    final List<GrantedAuthority> list = Arrays.asList(new GrantedAuthority[] {new SimpleGrantedAuthority(Constants.BLOG_CONTRIBUTOR_ROLE)});
+    handler.setAuthenticationManager(new MockAuthenticationManager(true, list));
     blog1.setProperty(Blog.BLOG_CONTRIBUTORS_KEY, "username");
     blog2.setProperty(Blog.BLOG_CONTRIBUTORS_KEY, "username2");
   }
 
-  public void testGetRecentPostsFromEmptyBlog() {
+  @Test public void testGetRecentPostsFromEmptyBlog() {
     try {
-      Vector posts = handler.getRecentPosts("appkey", "blog1", "username", "password", 3);
+      List<Map<String, Object>> posts = handler.getRecentPosts("appkey", "blog1", "username", "password", 3);
       assertTrue(posts.isEmpty());
     } catch (Exception e) {
-      fail();
+      fail(e);
     }
   }
 
-  public void testGetRecentPostsFromNonExistentBlog() {
+  @Test public void testGetRecentPostsFromNonExistentBlog() {
     String blogid = "someBlog";
     try {
       handler.getRecentPosts("appkey", blogid, "username", "password", 3);
@@ -76,7 +92,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetRecentPosts() {
+  @Test public void testGetRecentPosts() {
     try {
       BlogService service = new BlogService();
 
@@ -100,7 +116,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
       entry4.setBody("body4");
       service.putBlogEntry(entry4);
 
-      Vector posts = handler.getRecentPosts("appkey", "blog1", "username", "password", 3);
+      List<Map<String, Object>> posts = handler.getRecentPosts("appkey", "blog1", "username", "password", 3);
 
       assertEquals(3, posts.size());
       Hashtable ht = (Hashtable)posts.get(0);
@@ -118,7 +134,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPost() {
+  @Test public void testGetPost() {
     try {
       BlogService service = new BlogService();
       BlogEntry entry = new BlogEntry(blog1);
@@ -127,7 +143,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
       entry.setAuthor("simon");
       service.putBlogEntry(entry);
 
-      Hashtable post = handler.getPost("appkey", "blog1/" + entry.getId(), "username", "password");
+      Map<String, Object> post = handler.getPost("appkey", "blog1/" + entry.getId(), "username", "password");
       assertEquals("<title>title</title><category></category>body", post.get(BloggerAPIHandler.CONTENT));
       assertEquals(entry.getAuthor(), post.get(BloggerAPIHandler.USER_ID));
       assertEquals(entry.getDate(), post.get(BloggerAPIHandler.DATE_CREATED));
@@ -138,7 +154,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPostWithCategory() {
+  @Test public void testGetPostWithCategory() {
     try {
       BlogService service = new BlogService();
       BlogEntry entry = new BlogEntry(blog1);
@@ -148,7 +164,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
       entry.addCategory(new Category("java", "Java"));
       service.putBlogEntry(entry);
 
-      Hashtable post = handler.getPost("appkey", "blog1/" + entry.getId(), "username", "password");
+      Map<String, Object> post = handler.getPost("appkey", "blog1/" + entry.getId(), "username", "password");
       assertEquals("<title>title</title><category>/java</category>body", post.get(BloggerAPIHandler.CONTENT));
       assertEquals(entry.getAuthor(), post.get(BloggerAPIHandler.USER_ID));
       assertEquals(entry.getDate(), post.get(BloggerAPIHandler.DATE_CREATED));
@@ -159,7 +175,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPostWithIdThatDoesntExist() {
+  @Test public void testGetPostWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.getPost("appkey", "blog1/" + postid, "username", "password");
@@ -169,7 +185,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPostWithNullId() {
+  @Test public void testGetPostWithNullId() {
     String postid = null;
     try {
       handler.getPost("appkey", postid, "username", "password");
@@ -179,7 +195,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testDeletePost() {
+  @Test public void testDeletePost() {
     try {
       BlogService service = new BlogService();
       BlogEntry entry = new BlogEntry(blog1);
@@ -189,7 +205,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
       service.putBlogEntry(entry);
 
       boolean result = handler.deletePost("appkey", "blog1/" + entry.getId(), "username", "password", true);
-      assertTrue("deletePost() returned false instead of true", result);
+      assertTrue(result, "deletePost() returned false instead of true");
       assertNull(service.getBlogEntry(blog1, entry.getId()));
     } catch (Exception e) {
       e.printStackTrace();
@@ -197,7 +213,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testDeletePostWithIdThatDoesntExist() {
+  @Test public void testDeletePostWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.deletePost("appkey", "blog1/" + postid, "username", "password", true);
@@ -207,7 +223,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testDeletePostWithNullId() {
+  @Test public void testDeletePostWithNullId() {
     String postid = null;
     try {
       handler.deletePost("appkey", postid, "username", "password", true);
@@ -217,9 +233,9 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetUserInfo() {
+  @Test public void testGetUserInfo() {
     try {
-      Hashtable userInfo = handler.getUserInfo("appkey", "username", "password");
+      Map<String, String> userInfo = handler.getUserInfo("appkey", "username", "password");
       assertEquals("username", userInfo.get("userid"));
     } catch (Exception e) {
       e.printStackTrace();
@@ -227,9 +243,9 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetUsersBlogs() {
+  @Test public void testGetUsersBlogs() {
     try {
-      Vector blogs = handler.getUsersBlogs("appkey", "username", "password");
+      List<Map<String, String>> blogs = handler.getUsersBlogs("appkey", "username", "password");
       assertEquals(1, blogs.size());
 
       Hashtable blog = (Hashtable)blogs.get(0);
@@ -242,7 +258,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testAddCategory() {
+  @Test public void testAddCategory() {
     try {
       BlogService service = new BlogService();
       BlogEntry entry = new BlogEntry(blog1);
@@ -251,19 +267,19 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
 
       boolean result = handler.addCategory("appkey", "blog1/" + entry.getId(), "username", "password", "/aCategory");
       entry = service.getBlogEntry(blog1, entry.getId());
-      assertTrue("Category wasn't added", result);
+      assertTrue(result, "Category wasn't added");
       assertTrue(entry.inCategory(blog1.getCategory("aCategory")));
 
       result = handler.addCategory("appkey", "blog1/" + entry.getId(), "username", "password", "/aNonExistentCategory");
       entry = service.getBlogEntry(blog1, entry.getId());
-      assertFalse("Category was added", result);
+      assertFalse(result, "Category was added");
     } catch (Exception e) {
       e.printStackTrace();
       fail();
     }
   }
 
-  public void testAddCategoryWithIdThatDoesntExist() {
+  @Test public void testAddCategoryWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.addCategory("appkey", "blog1/" + postid, "username", "password", "aCategory");
@@ -273,7 +289,7 @@ public class MultiBlogBloggerAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testAddCategoryWithNullId() {
+  @Test public void testAddCategoryWithNullId() {
     String postid = null;
     try {
       handler.addCategory("appkey", postid, "username", "password", "aCategory");

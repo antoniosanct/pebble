@@ -32,14 +32,23 @@
 
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.api.event.comment.CommentListener;
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
 import net.sourceforge.pebble.api.event.blogentry.BlogEntryListener;
-
-import java.util.*;
+import net.sourceforge.pebble.api.event.comment.CommentEvent;
+import net.sourceforge.pebble.api.event.comment.CommentListener;
+import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
 
 /**
  * Tests for the BlogService class.
@@ -51,7 +60,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   private BlogService service;
   private BlogEntry blogEntry;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     service = new BlogService();
@@ -66,7 +75,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a comment is added.
    */
-  public void testListenersFiredWhenCommentAdded() throws Exception {
+  @Test public void testListenersFiredWhenCommentAdded() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
 
@@ -76,20 +85,20 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void commentAdded(CommentEvent event) {
+	@Test public void commentAdded(CommentEvent event) {
         assertEquals(comment, event.getSource());
         buf.reverse();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         fail();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         fail();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -104,7 +113,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a comment is removed.
    */
-  public void testListenersFiredWhenCommentRemoved() throws Exception {
+  @Test public void testListenersFiredWhenCommentRemoved() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     blogEntry.addComment(comment);
@@ -116,20 +125,20 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void commentAdded(CommentEvent event) {
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         assertEquals(comment, event.getSource());
         buf.reverse();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         fail();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -143,7 +152,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a comment is approved.
    */
-  public void testListenersFiredWhenCommentApproved() throws Exception {
+  @Test public void testListenersFiredWhenCommentApproved() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
 
@@ -157,20 +166,20 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void commentAdded(CommentEvent event) {
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         fail();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         assertEquals(comment, event.getSource());
         buf.reverse();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -184,7 +193,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a comment is rejected.
    */
-  public void testListenersFiredWhenCommentRejected() throws Exception {
+  @Test public void testListenersFiredWhenCommentRejected() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     blogEntry.addComment(comment);
@@ -197,16 +206,16 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void commentAdded(CommentEvent event) {
+	@Test public void commentAdded(CommentEvent event) {
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         assertEquals(comment, event.getSource());
         buf.reverse();
       }
@@ -221,7 +230,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a TrackBack is added.
    */
-  public void testListenersFiredWhenTrackBackAdded() throws Exception {
+  @Test public void testListenersFiredWhenTrackBackAdded() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final TrackBack trackBack = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
 
@@ -231,20 +240,20 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void trackBackAdded(TrackBackEvent event) {
+	@Test public void trackBackAdded(TrackBackEvent event) {
         assertEquals(trackBack, event.getSource());
         buf.reverse();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };
@@ -259,7 +268,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a TrackBack is removed.
    */
-  public void testListenersFiredWhenTrackBackRemoved() throws Exception {
+  @Test public void testListenersFiredWhenTrackBackRemoved() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final TrackBack trackBack = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
     blogEntry.addTrackBack(trackBack);
@@ -271,20 +280,20 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void trackBackAdded(TrackBackEvent event) {
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         assertEquals(trackBack, event.getSource());
         buf.reverse();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };
@@ -298,7 +307,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a TrackBack is approved.
    */
-  public void testListenersFiredWhenTrackBackApproved() throws Exception {
+  @Test public void testListenersFiredWhenTrackBackApproved() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final TrackBack trackBack = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
     blogEntry.addTrackBack(trackBack);
@@ -311,20 +320,20 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void trackBackAdded(TrackBackEvent event) {
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         assertEquals(trackBack, event.getSource());
         buf.reverse();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };
@@ -338,7 +347,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a TrackBack is rejected.
    */
-  public void testListenersFiredWhenTrackBackRejected() throws Exception {
+  @Test public void testListenersFiredWhenTrackBackRejected() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     final TrackBack trackBack = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
     blogEntry.addTrackBack(trackBack);
@@ -351,16 +360,16 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void trackBackAdded(TrackBackEvent event) {
+	@Test public void trackBackAdded(TrackBackEvent event) {
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         assertEquals(trackBack, event.getSource());
         buf.reverse();
       }
@@ -375,7 +384,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a blog entry is published.
    */
-  public void testListenersFiredWhenBlogEntryPublished() throws Exception {
+  @Test public void testListenersFiredWhenBlogEntryPublished() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     blogEntry.setPublished(false);
     service.putBlogEntry(blogEntry);
@@ -386,24 +395,24 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void blogEntryAdded(BlogEntryEvent event) {
+	@Test public void blogEntryAdded(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryRemoved(BlogEntryEvent event) {
+      @Test public void blogEntryRemoved(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryChanged(BlogEntryEvent event) {
+      @Test public void blogEntryChanged(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryPublished(BlogEntryEvent event) {
+      @Test public void blogEntryPublished(BlogEntryEvent event) {
         assertEquals(blogEntry, event.getSource());
         buf.reverse();
       }
 
-      public void blogEntryUnpublished(BlogEntryEvent event) {
+      @Test public void blogEntryUnpublished(BlogEntryEvent event) {
         fail();
       }
     };
@@ -417,7 +426,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a blog entry is unpublished.
    */
-  public void testListenersFiredWhenBlogEntryUnpublished() throws Exception {
+  @Test public void testListenersFiredWhenBlogEntryUnpublished() throws Exception {
     final StringBuffer buf = new StringBuffer("123");
     blogEntry.setPublished(true);
     service.putBlogEntry(blogEntry);
@@ -428,23 +437,23 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void blogEntryAdded(BlogEntryEvent event) {
+	@Test public void blogEntryAdded(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryRemoved(BlogEntryEvent event) {
+      @Test public void blogEntryRemoved(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryChanged(BlogEntryEvent event) {
+      @Test public void blogEntryChanged(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryPublished(BlogEntryEvent event) {
+      @Test public void blogEntryPublished(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryUnpublished(BlogEntryEvent event) {
+      @Test public void blogEntryUnpublished(BlogEntryEvent event) {
         assertEquals(blogEntry, event.getSource());
         buf.reverse();
       }
@@ -459,7 +468,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are fired when a blog entry is changed.
    */
-  public void testListenersFiredWhenBlogEntryChanged() throws Exception {
+  @Test public void testListenersFiredWhenBlogEntryChanged() throws Exception {
     BlogService service = new BlogService();
     service.putBlogEntry(blogEntry);
 
@@ -471,25 +480,25 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void blogEntryAdded(BlogEntryEvent event) {
+	@Test public void blogEntryAdded(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryRemoved(BlogEntryEvent event) {
+      @Test public void blogEntryRemoved(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryChanged(BlogEntryEvent event) {
+      @Test public void blogEntryChanged(BlogEntryEvent event) {
         assertEquals(blogEntry, event.getSource());
         assertNotNull(event.getPropertyChangeEvents());
         buf.reverse();
       }
 
-      public void blogEntryPublished(BlogEntryEvent event) {
+      @Test public void blogEntryPublished(BlogEntryEvent event) {
         fail();
       }
 
-      public void blogEntryUnpublished(BlogEntryEvent event) {
+      @Test public void blogEntryUnpublished(BlogEntryEvent event) {
         fail();
       }
     };
@@ -503,7 +512,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that comment listeners are fired when a blog entry is removed.
    */
-  public void testListenersFiredForCommentsWhenBlogEntryRemoved() throws Exception {
+  @Test public void testListenersFiredForCommentsWhenBlogEntryRemoved() throws Exception {
     final Comment comment1 = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     final Comment comment2 = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     final Comment comment3 = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
@@ -524,19 +533,19 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void commentAdded(CommentEvent event) {
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         comments.add(event.getSource());
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         fail();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -552,7 +561,7 @@ public class BlogServiceTest extends SingleBlogTestCase {
   /**
    * Tests that TrackBack listeners are fired when a blog entry is removed.
    */
-  public void testListenersFiredForTrackBacksWhenBlogEntryRemoved() throws Exception {
+  @Test public void testListenersFiredForTrackBacksWhenBlogEntryRemoved() throws Exception {
     final TrackBack trackBack1 = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
     final TrackBack trackBack2 = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
     final TrackBack trackBack3 = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
@@ -570,19 +579,19 @@ public class BlogServiceTest extends SingleBlogTestCase {
 		 */
 		private static final long serialVersionUID = 1L;
 
-	public void trackBackAdded(TrackBackEvent event) {
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         trackBacks.add(event.getSource());
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };

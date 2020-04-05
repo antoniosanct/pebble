@@ -31,6 +31,14 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.web.view.View;
@@ -43,17 +51,17 @@ import net.sourceforge.pebble.web.view.impl.BlogEntryFormView;
  */
 public class AddBlogEntryActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new AddBlogEntryAction();
 
     super.setUp();
   }
 
-  public void testProcess() throws Exception {
+  @Test public void testProcess() throws Exception {
     View view = action.process(request, response);
 
     BlogEntry blogEntry = (BlogEntry)action.getModel().get(Constants.BLOG_ENTRY_KEY);
-    assertNotNull("No blog entry was created", blogEntry);
+    assertNotNull(blogEntry, "No blog entry was created");
     assertFalse(blogEntry.isPersistent());
 
     assertTrue(view instanceof BlogEntryFormView);
@@ -62,7 +70,7 @@ public class AddBlogEntryActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors have access to add a blog entry.
    */
-  public void testOnlyBlogContributorsHaveAccess() {
+  @Test public void testOnlyBlogContributorsHaveAccess() {
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
     assertEquals(Constants.BLOG_CONTRIBUTOR_ROLE, roles[0]);

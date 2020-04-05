@@ -31,16 +31,19 @@
  */
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the utilities in the FileUtils class.
  *
  * @author    Simon Brown
  */
-public class FileUtilsTest extends TestCase {
+public class FileUtilsTest {
 
-  public void testGetContentType() {
+  @Test public void testGetContentType() {
     // try a common file extension
     assertEquals("application/zip", FileUtils.getContentType("somefile.zip"));
 

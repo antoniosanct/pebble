@@ -31,6 +31,11 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.web.view.RedirectView;
 
 /**
@@ -40,13 +45,13 @@ import net.sourceforge.pebble.web.view.RedirectView;
  */
 public class LoginActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new LoginAction();
 
     super.setUp();
   }
 
-  public void testUserRedirectedToBlogHomePage() throws Exception {
+  @Test public void testUserRedirectedToBlogHomePage() throws Exception {
     request.setParameter("redirectUrl", blog.getUrl());
     RedirectView view = (RedirectView)action.process(request, response);
     assertEquals(blog.getUrl(), view.getUri());

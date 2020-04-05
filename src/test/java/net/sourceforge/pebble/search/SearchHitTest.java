@@ -31,9 +31,13 @@
  */
 package net.sourceforge.pebble.search;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the SearchHit class.
@@ -45,7 +49,7 @@ public class SearchHitTest extends SingleBlogTestCase {
   /**
    * Tests construction of SearchHit instances.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     Date date = new Date();
 
     SearchHit hit = new SearchHit(

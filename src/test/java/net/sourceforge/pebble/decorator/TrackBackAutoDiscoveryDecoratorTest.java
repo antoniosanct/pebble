@@ -31,13 +31,17 @@
  */
 package net.sourceforge.pebble.decorator;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Category;
-import net.sourceforge.pebble.api.decorator.ContentDecorator;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Calendar;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.decorator.ContentDecorator;
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the TrackBackAutoDisoveryDecorator class.
@@ -67,7 +71,7 @@ public class TrackBackAutoDiscoveryDecoratorTest extends SingleBlogTestCase {
   private BlogEntry blogEntry;
   private ContentDecoratorContext context;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     blogEntry = new BlogEntry(blog);
@@ -89,7 +93,7 @@ public class TrackBackAutoDiscoveryDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that the blog entry body is decorated correctly.
    */
-  public void testDecoration() throws Exception {
+  @Test public void testDecoration() throws Exception {
     decorator.decorate(context, blogEntry);
     assertTrue(blogEntry.getBody().startsWith("Body" + DISCOVERY_TEXT_START));
     assertTrue(blogEntry.getBody().endsWith(DISCOVERY_TEXT_END));

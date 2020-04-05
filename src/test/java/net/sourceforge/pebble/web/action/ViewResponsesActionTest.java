@@ -31,10 +31,17 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.util.Pageable;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.ResponsesView;
@@ -46,7 +53,7 @@ import net.sourceforge.pebble.web.view.impl.ResponsesView;
  */
 public class ViewResponsesActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewResponsesAction();
 
     super.setUp();
@@ -55,19 +62,19 @@ public class ViewResponsesActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors can manage responses.
    */
-  public void testOnlyBlogContributorsHaveAccess() {
+  @Test public void testOnlyBlogContributorsHaveAccess() {
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
     assertEquals(Constants.BLOG_CONTRIBUTOR_ROLE, roles[0]);
   }
 
-  public void testActionCalledWithDefaultParameters() throws Exception {
+  @Test public void testActionCalledWithDefaultParameters() throws Exception {
     View view = action.process(request, response);
     assertTrue(view instanceof ResponsesView);
 
     assertEquals("approved", model.get("type"));
     Pageable pageable = (Pageable)model.get("pageable");
-    assertNotNull("pageable", pageable);
+    assertNotNull(pageable, "pageable");
     assertEquals(0, pageable.getList().size());
     assertEquals(0, pageable.getPage());
     assertEquals(0, pageable.getMaxPages());
@@ -75,7 +82,7 @@ public class ViewResponsesActionTest extends SecureActionTestCase {
     assertEquals(0, pageable.getNextPage());
   }
 
-  public void testActionCalledWithDefaultParametersAndLessThanAPageOfResponses() throws Exception {
+  @Test public void testActionCalledWithDefaultParametersAndLessThanAPageOfResponses() throws Exception {
     int numberOfComments = ViewResponsesAction.PAGE_SIZE - 1;
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
@@ -99,7 +106,7 @@ public class ViewResponsesActionTest extends SecureActionTestCase {
 
     assertEquals("approved", model.get("type"));
     Pageable pageable = (Pageable)model.get("pageable");
-    assertNotNull("pageable", pageable);
+    assertNotNull(pageable, "pageable");
     assertEquals(numberOfComments, pageable.getList().size());
     assertEquals(1, pageable.getPage());
     assertEquals(1, pageable.getMaxPages());

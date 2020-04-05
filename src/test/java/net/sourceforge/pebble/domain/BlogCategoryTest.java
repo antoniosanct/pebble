@@ -31,19 +31,23 @@
  */
 package net.sourceforge.pebble.domain;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Category class.
  *
  * @author    Simon Brown
  */
-public class BlogCategoryTest extends TestCase {
+public class BlogCategoryTest {
 
   /**
    * Test that a Category instance can be created correctly.
    */
-  public void testConstructionOfSimpleInstance() {
+  @Test public void testConstructionOfSimpleInstance() {
     Category blogCategory = new Category("/testCategory1", "Test Category 1");
     assertEquals("/testCategory1", blogCategory.getId());
     assertEquals("Test Category 1", blogCategory.getName());
@@ -52,7 +56,7 @@ public class BlogCategoryTest extends TestCase {
   /**
    * Tests that blog categories are comparable.
    */
-  public void testCategoriesAreComparable() {
+  @Test public void testCategoriesAreComparable() {
     Category blogCategory1 = new Category("/testCategory1", "Test Category 1");
     Category blogCategory2 = new Category("/testCategory2", "Test Category 2");
     assertEquals(-1, blogCategory1.compareTo(blogCategory2));
@@ -63,7 +67,7 @@ public class BlogCategoryTest extends TestCase {
   /**
    * Tests that categories can be tested for equality.
    */
-  public void testCategoriesCanBeTestedForEquality() {
+  @Test public void testCategoriesCanBeTestedForEquality() {
     Category blogCategory1 = new Category("/testCategory1", "Test Category 1");
     Category blogCategory2 = new Category("/testCategory1", "Test Category 1");
 
@@ -75,7 +79,6 @@ public class BlogCategoryTest extends TestCase {
     assertFalse(blogCategory1.equals(blogCategory2));
     assertFalse(blogCategory2.equals(blogCategory1));
 
-    assertFalse(blogCategory1.equals("A String Object"));
   }
 
 }

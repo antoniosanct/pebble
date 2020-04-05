@@ -31,12 +31,17 @@
  */
 package net.sourceforge.pebble.event.response;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.event.comment.CommentEvent;
+import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 
 /**
  * Tests for the SpamScoreListener class.
@@ -54,7 +59,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     listener = new SpamScoreListener();
@@ -67,7 +72,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with a spam score of zero, threshold is one.
    */
-  public void testCommentWithSpamScoreOfZero() {
+  @Test public void testCommentWithSpamScoreOfZero() {
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
   }
@@ -75,7 +80,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with a spam score of one, threshold is one.
    */
-  public void testCommentWithSpamScoreOfOne() {
+  @Test public void testCommentWithSpamScoreOfOne() {
     comment.incrementSpamScore();
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -84,7 +89,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with a spam score of two, threshold is one.
    */
-  public void testCommentWithSpamScoreOfTwo() {
+  @Test public void testCommentWithSpamScoreOfTwo() {
     comment.incrementSpamScore();
     comment.incrementSpamScore();
     listener.commentAdded(commentEvent);
@@ -94,7 +99,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with a custom threshold.
    */
-  public void testCommentWithCustomThreshold() {
+  @Test public void testCommentWithCustomThreshold() {
     blog.getPluginProperties().setProperty(SpamScoreListener.COMMENT_THRESHOLD_KEY, "2");
     comment.incrementSpamScore();
     comment.incrementSpamScore();
@@ -109,7 +114,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with a spam score of zero, threshold is one.
    */
-  public void testTrackBackWithSpamScoreOfZero() {
+  @Test public void testTrackBackWithSpamScoreOfZero() {
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
   }
@@ -117,7 +122,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with a spam score of one, threshold is one.
    */
-  public void testTrackBackWithSpamScoreOfOne() {
+  @Test public void testTrackBackWithSpamScoreOfOne() {
     trackBack.incrementSpamScore();
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
@@ -126,7 +131,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with a spam score of two, threshold is one.
    */
-  public void testTrackBackWithSpamScoreOfTwo() {
+  @Test public void testTrackBackWithSpamScoreOfTwo() {
     trackBack.incrementSpamScore();
     trackBack.incrementSpamScore();
     listener.trackBackAdded(trackBackEvent);
@@ -136,7 +141,7 @@ public class SpamScoreListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with a custom threshold.
    */
-  public void testTrackBackWithCustomThreshold() {
+  @Test public void testTrackBackWithCustomThreshold() {
     blog.getPluginProperties().setProperty(SpamScoreListener.TRACKBACK_THRESHOLD_KEY, "2");
     trackBack.incrementSpamScore();
     trackBack.incrementSpamScore();

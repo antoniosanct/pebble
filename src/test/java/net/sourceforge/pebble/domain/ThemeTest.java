@@ -31,7 +31,12 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.File;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Theme class.
@@ -42,21 +47,21 @@ public class ThemeTest extends SingleBlogTestCase {
 
   private Theme theme;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     theme = new Theme(blog, "custom", "/tmp/themes");
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertEquals("custom", theme.getName());
   }
 
-  public void testBackupThemeDirectory() {
+  @Test public void testBackupThemeDirectory() {
     assertEquals(blog.getRoot() + File.separator + "theme", theme.getBackupThemeDirectory());
   }
 
-  public void testPathToLiveTheme() {
+  @Test public void testPathToLiveTheme() {
     assertEquals(new File("/tmp/themes/custom"), theme.getPathToLiveTheme());
   }
 

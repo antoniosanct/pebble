@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 /**
  * Tests for the Year class.
  *
@@ -40,7 +47,7 @@ public class YearTest extends SingleBlogTestCase {
 
   private Year year;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     year = new Year(blog, 2003);
   }
@@ -48,28 +55,28 @@ public class YearTest extends SingleBlogTestCase {
   /**
    * Tests that the root blog is setup correctly.
    */
-  public void testGetRootBlog() {
+  @Test public void testGetRootBlog() {
     assertEquals(blog, year.getBlog());
   }
 
   /**
    * Tests the getter for the year property.
    */
-  public void testGetYear() {
+  @Test public void testGetYear() {
     assertEquals(2003, year.getYear());
   }
 
   /**
    * Tests that we can get the first month containing blog entries.
    */
-  public void testFirstMonth() {
+  @Test public void testFirstMonth() {
     assertEquals(1, year.getBlogForFirstMonth().getMonth());
   }
 
   /**
    * Tests that we can get a specific month from a year.
    */
-  public void testGetMonth() {
+  @Test public void testGetMonth() {
     Month month = year.getBlogForMonth(1);
     assertEquals(year, month.getYear());
     assertEquals(1, month.getMonth());
@@ -100,14 +107,14 @@ public class YearTest extends SingleBlogTestCase {
   /**
    * Tests that toString() works.
    */
-  public void testToString() {
+  @Test public void testToString() {
     assertEquals("2003", year.toString());
   }
 
   /**
    * Tests the compareTo method.
    */
-  public void testCompareTo() {
+  @Test public void testCompareTo() {
     Year y1 = new Year(blog, 2004);
     Year y2 = new Year(blog, 2005);
     assertTrue(y1.compareTo(y1) == 0);

@@ -31,12 +31,17 @@
  */
 package net.sourceforge.pebble.web.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.mock.MockFilterChain;
 import net.sourceforge.pebble.mock.MockFilterConfig;
 import net.sourceforge.pebble.mock.MockHttpServletRequest;
 import net.sourceforge.pebble.mock.MockHttpServletResponse;
-import net.sourceforge.pebble.mock.MockFilterChain;
-import net.sourceforge.pebble.Constants;
 
 /**
  * Tests for the BlogLookupFilter class.
@@ -50,7 +55,7 @@ public class SingleBlogBlogLookupFilterTest extends SingleBlogTestCase {
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     filter = new BlogLookupFilter();
@@ -62,7 +67,7 @@ public class SingleBlogBlogLookupFilterTest extends SingleBlogTestCase {
     response = new MockHttpServletResponse();
   }
 
-  public void tearDown() throws Exception {
+  @Test public void tearDown() throws Exception {
     super.tearDown();
 
     filter.destroy();
@@ -73,7 +78,7 @@ public class SingleBlogBlogLookupFilterTest extends SingleBlogTestCase {
    *
    * @throws Exception
    */
-  public void testBlogInsertedIntoRequestScope() throws Exception {
+  @Test public void testBlogInsertedIntoRequestScope() throws Exception {
     request.setRequestUri("/somecontext");
     filter.doFilter(request, response, new MockFilterChain());
     assertEquals(blog, request.getAttribute(Constants.BLOG_KEY));

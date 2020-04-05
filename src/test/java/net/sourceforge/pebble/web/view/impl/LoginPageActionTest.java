@@ -31,6 +31,11 @@
  */
 package net.sourceforge.pebble.web.view.impl;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.web.action.LoginPageAction;
 import net.sourceforge.pebble.web.action.SingleBlogActionTestCase;
 import net.sourceforge.pebble.web.view.View;
@@ -42,7 +47,7 @@ import net.sourceforge.pebble.web.view.View;
  */
 public class LoginPageActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new LoginPageAction();
 
     super.setUp();
@@ -51,7 +56,7 @@ public class LoginPageActionTest extends SingleBlogActionTestCase {
   /**
    * Tests that the resulting view is decorated in the standard theme.
    */
-  public void testLoginPage() throws Exception {
+  @Test public void testLoginPage() throws Exception {
     View view = action.process(request, response);
     assertTrue(view instanceof LoginPageView);
   }

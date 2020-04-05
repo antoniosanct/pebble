@@ -31,6 +31,12 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.FileManager;
 import net.sourceforge.pebble.domain.FileMetaData;
 import net.sourceforge.pebble.web.view.ForbiddenView;
@@ -44,7 +50,7 @@ import net.sourceforge.pebble.web.view.View;
  */
 public class SaveFileActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new SaveFileAction();
 
     super.setUp();
@@ -53,7 +59,7 @@ public class SaveFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can be saved.
    */
-  public void testSaveFile() throws Exception {
+  @Test public void testSaveFile() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("name", "afile.txt");
     request.setParameter("type", FileMetaData.BLOG_FILE);
@@ -73,7 +79,7 @@ public class SaveFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can't be saved outside of the root.
    */
-  public void testSaveFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
+  @Test public void testSaveFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("name", "../afile.txt");
     request.setParameter("fileContent", "some content");

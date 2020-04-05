@@ -61,7 +61,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
   private PrintWriter writer = new PrintWriter(new StringWriter());
   private String sendRedirect;
 
-  public void addCookie(Cookie cookie) {
+   public void addCookie(Cookie cookie) {
   }
 
   public boolean containsHeader(String s) {
@@ -84,15 +84,15 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return null;
   }
 
-  public void sendError(int i, String s) throws IOException {
+   public void sendError(int i, String s) throws IOException {
     this.status = i;
   }
 
-  public void sendError(int i) throws IOException {
+   public void sendError(int i) throws IOException {
     this.status = i;
   }
 
-  public void sendRedirect(String s) throws IOException {
+   public void sendRedirect(String s) throws IOException {
     this.sendRedirect = s;
   }
 
@@ -100,20 +100,20 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return this.sendRedirect;
   }
 
-  public void setDateHeader(String name, long value) {
+   public void setDateHeader(String name, long value) {
     SimpleDateFormat httpFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
     httpFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
     setHeader(name, "" + httpFormat.format(new Date(value)));
   }
 
-  public void addDateHeader(String s, long l) {
+   public void addDateHeader(String s, long l) {
   }
 
-  public void setHeader(String name, String value) {
+   public void setHeader(String name, String value) {
     headers.put(name, value);
   }
 
-  public void addHeader(String name, String value) {
+   public void addHeader(String name, String value) {
     headers.put(name, value);
   }
 
@@ -121,17 +121,17 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return headers.getProperty(name);
   }
 
-  public void setIntHeader(String s, int i) {
+   public void setIntHeader(String s, int i) {
   }
 
-  public void addIntHeader(String s, int i) {
+   public void addIntHeader(String s, int i) {
   }
 
-  public void setStatus(int i) {
+   public void setStatus(int i) {
     this.status = i;
   }
 
-  public void setStatus(int i, String s) {
+   public void setStatus(int i, String s) {
     this.status = i;
   }
 
@@ -151,15 +151,15 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return this.writer;
   }
 
-  public void setWriter(PrintWriter writer)
+   public void setWriter(PrintWriter writer)
   {
     this.writer = writer;
   }
 
-  public void setContentLength(int i) {
+   public void setContentLength(int i) {
   }
 
-  public void setContentType(String s) {
+   public void setContentType(String s) {
     this.contentType = s;
   }
 
@@ -167,34 +167,34 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return this.contentType;
   }
 
-  public void setBufferSize(int i) {
+   public void setBufferSize(int i) {
   }
 
   public int getBufferSize() {
     return 0;
   }
 
-  public void flushBuffer() throws IOException {
+   public void flushBuffer() throws IOException {
   }
 
-  public void resetBuffer() {
+   public void resetBuffer() {
   }
 
   public boolean isCommitted() {
     return false;
   }
 
-  public void reset() {
+   public void reset() {
   }
 
-  public void setLocale(Locale locale) {
+   public void setLocale(Locale locale) {
   }
 
   public Locale getLocale() {
     return null;
   }
 
-  public void setCharacterEncoding(String s) {
+   public void setCharacterEncoding(String s) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 

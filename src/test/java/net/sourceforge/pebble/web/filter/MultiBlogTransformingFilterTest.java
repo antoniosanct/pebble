@@ -31,10 +31,14 @@
  */
 package net.sourceforge.pebble.web.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.MultiBlogTestCase;
-import net.sourceforge.pebble.domain.MultiBlog;
 import net.sourceforge.pebble.domain.BlogManager;
+import net.sourceforge.pebble.domain.MultiBlogTestCase;
 import net.sourceforge.pebble.mock.MockFilterChain;
 import net.sourceforge.pebble.mock.MockFilterConfig;
 import net.sourceforge.pebble.mock.MockHttpServletRequest;
@@ -52,7 +56,7 @@ public class MultiBlogTransformingFilterTest extends MultiBlogTestCase {
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     filter = new TransformingFilter();
@@ -64,7 +68,7 @@ public class MultiBlogTransformingFilterTest extends MultiBlogTestCase {
     response = new MockHttpServletResponse();
   }
 
-  public void tearDown() throws Exception {
+  @Test public void tearDown() throws Exception {
     super.tearDown();
 
     filter.destroy();
@@ -75,7 +79,7 @@ public class MultiBlogTransformingFilterTest extends MultiBlogTestCase {
    *
    * @throws Exception
    */
-  public void testUriInsertedIntoRequestScope() throws Exception {
+  @Test public void testUriInsertedIntoRequestScope() throws Exception {
     request.setAttribute(Constants.BLOG_KEY, BlogManager.getInstance().getMultiBlog());
     request.setRequestUri("/somecontext");
     filter.doFilter(request, response, new MockFilterChain());

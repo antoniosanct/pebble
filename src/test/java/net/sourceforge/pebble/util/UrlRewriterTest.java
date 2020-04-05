@@ -32,7 +32,9 @@
 
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * The HttpsUrlRewriter implementation is actually not tested, as it 
@@ -43,15 +45,15 @@ import junit.framework.TestCase;
  * @author Olaf Kock
  */
 
-public class UrlRewriterTest extends TestCase {
+public class UrlRewriterTest {
 	private static final String HTTP_URL = "http://pebble.sf.net";
 	private static final String HTTPS_URL = "https://sf.net/projects/pebble";
 
-	public void testDefaultDoesntRewrite() throws Exception {
+	@Test public void testDefaultDoesntRewrite() throws Exception {
 		assertEquals(HTTP_URL, UrlRewriter.doRewrite(HTTP_URL));
 	}
 
-	public void testMockRewriterIsUsed() {
+	@Test public void testMockRewriterIsUsed() {
 		MockRewriter mockRewriter = new MockRewriter(HTTP_URL, HTTPS_URL);
 		UrlRewriter.useThisRewriter(mockRewriter);
 		assertEquals(HTTPS_URL, UrlRewriter.doRewrite(HTTP_URL));
@@ -60,7 +62,7 @@ public class UrlRewriterTest extends TestCase {
 		assertEquals(1, mockRewriter.count);
 	}
 
-	public void testThreadedUsage() throws InterruptedException {
+	@Test public void testThreadedUsage() throws InterruptedException {
 		MockRewriter m1 = new MockRewriter("s1", "u1");
 		MockRewriter m2 = new MockRewriter("s2", "u2");
 		MockRewriter m3 = new MockRewriter("s3", "u3");

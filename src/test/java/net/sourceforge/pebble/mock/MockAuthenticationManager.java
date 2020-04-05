@@ -34,7 +34,7 @@ package net.sourceforge.pebble.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.security.authentication.AbstractAuthenticationManager;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,7 +46,7 @@ import org.springframework.security.core.GrantedAuthority;
  *
  * @author    Simon Brown
  */
-public class MockAuthenticationManager extends AbstractAuthenticationManager {
+public class MockAuthenticationManager implements AuthenticationManager {
     //~ Instance fields ========================================================
 
     private boolean grantAccess = true;
@@ -70,14 +70,14 @@ public class MockAuthenticationManager extends AbstractAuthenticationManager {
 
     //~ Methods ================================================================
 
-    public Authentication doAuthentication(Authentication authentication)
-        throws AuthenticationException {
-        if (grantAccess) {
-          return new TestingAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
-        } else {
-            throw new BadCredentialsException(
-                "MockAuthenticationManager instructed to deny access");
-        }
-    }
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		if (grantAccess) {
+	          return new TestingAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
+	        } else {
+	            throw new BadCredentialsException(
+	                "MockAuthenticationManager instructed to deny access");
+	        }
+	}
 
 }

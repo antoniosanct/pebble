@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.comparator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.MultiBlogTestCase;
 
 /**
@@ -40,7 +44,7 @@ import net.sourceforge.pebble.domain.MultiBlogTestCase;
  */
 public class BlogByIdComparatorTest extends MultiBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     BlogByIdComparator comp = new BlogByIdComparator();
 
     assertTrue(comp.compare(blog1, blog1) == 0);

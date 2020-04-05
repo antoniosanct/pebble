@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.logging;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
@@ -44,90 +51,90 @@ public class CombinedFormatLogEntryFormatTest extends SingleBlogTestCase {
   private LogEntry logEntry;
   private LogEntry parsedLogEntry;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     this.format = new CombinedFormatLogEntryFormat(blog);
     this.logEntry = new LogEntry();
   }
 
-  public void testFormatWhenHostNotSpecified() {
+  @Test public void testFormatWhenHostNotSpecified() {
     logEntry.setHost(null);
     assertEquals("- - - " + format.dateFormatter.format(logEntry.getDate()) + " \"\" 200 - - -", format.format(logEntry));
   }
 
-  public void testFormatWhenHostSpecified() {
+  @Test public void testFormatWhenHostSpecified() {
     logEntry.setHost("127.0.0.1");
     assertEquals("127.0.0.1 - - " + format.dateFormatter.format(logEntry.getDate()) + " \"\" 200 - - -", format.format(logEntry));
   }
 
-  public void testFormatWhenRequestSpecified() {
+  @Test public void testFormatWhenRequestSpecified() {
     logEntry.setRequest("GET /blog/index.jsp");
     assertEquals("- - - " + format.dateFormatter.format(logEntry.getDate()) + " \"GET /blog/index.jsp\" 200 - - -", format.format(logEntry));
   }
 
-  public void testFormatWhenRefererNotSpecified() {
+  @Test public void testFormatWhenRefererNotSpecified() {
     logEntry.setReferer(null);
     assertEquals("- - - " + format.dateFormatter.format(logEntry.getDate()) + " \"\" 200 - - -", format.format(logEntry));
   }
 
-  public void testFormatWhenRefererSpecified() {
+  @Test public void testFormatWhenRefererSpecified() {
     logEntry.setReferer("http://www.google.com");
     assertEquals("- - - " + format.dateFormatter.format(logEntry.getDate()) + " \"\" 200 - \"http://www.google.com\" -", format.format(logEntry));
   }
 
-  public void testFormatWhenAgentNotSpecified() {
+  @Test public void testFormatWhenAgentNotSpecified() {
     logEntry.setAgent(null);
     assertEquals("- - - " + format.dateFormatter.format(logEntry.getDate()) + " \"\" 200 - - -", format.format(logEntry));
   }
 
-  public void testFormatWhenAgentSpecified() {
+  @Test public void testFormatWhenAgentSpecified() {
     logEntry.setAgent("Some user agent");
     assertEquals("- - - " + format.dateFormatter.format(logEntry.getDate()) + " \"\" 200 - - \"Some user agent\"", format.format(logEntry));
   }
 
-  public void testParseWhenHostNotSpecified() {
+  @Test public void testParseWhenHostNotSpecified() {
     logEntry.setHost(null);
     parsedLogEntry = format.parse(format.format(logEntry));
     assertNull(parsedLogEntry.getHost());
   }
 
-  public void testParseWhenHostSpecified() {
+  @Test public void testParseWhenHostSpecified() {
     logEntry.setHost("127.0.0.1");
     parsedLogEntry = format.parse(format.format(logEntry));
     assertEquals("127.0.0.1", parsedLogEntry.getHost());
   }
 
-  public void testDateIsCorrectlyParsed() {
+  @Test public void testDateIsCorrectlyParsed() {
     parsedLogEntry = format.parse(format.format(logEntry));
     assertTrue(logEntry.getDate().getTime() - parsedLogEntry.getDate().getTime() <= 1000);
   }
 
-  public void testParseWhenRequestSpecified() {
+  @Test public void testParseWhenRequestSpecified() {
     logEntry.setRequest("GET /blog/index.jsp");
     parsedLogEntry = format.parse(format.format(logEntry));
     assertEquals("GET /blog/index.jsp", parsedLogEntry.getRequest());
   }
 
-  public void testParseWhenRefererNotSpecified() {
+  @Test public void testParseWhenRefererNotSpecified() {
     logEntry.setReferer(null);
     parsedLogEntry = format.parse(format.format(logEntry));
     assertNull(parsedLogEntry.getReferer());
   }
 
-  public void testParseWhenRefererSpecified() {
+  @Test public void testParseWhenRefererSpecified() {
     logEntry.setReferer("http://www.google.com");
     parsedLogEntry = format.parse(format.format(logEntry));
     assertEquals("http://www.google.com", parsedLogEntry.getReferer());
   }
 
-  public void testParseWhenAgentNotSpecified() {
+  @Test public void testParseWhenAgentNotSpecified() {
     logEntry.setAgent(null);
     parsedLogEntry = format.parse(format.format(logEntry));
     assertNull(parsedLogEntry.getAgent());
   }
 
-  public void testParseWhenAgentSpecified() {
+  @Test public void testParseWhenAgentSpecified() {
     logEntry.setAgent("Some user agent");
     parsedLogEntry = format.parse(format.format(logEntry));
     assertEquals("Some user agent", parsedLogEntry.getAgent());

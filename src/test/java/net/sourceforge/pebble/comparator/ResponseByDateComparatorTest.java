@@ -31,9 +31,16 @@
  */
 package net.sourceforge.pebble.comparator;
 
-import net.sourceforge.pebble.domain.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.domain.State;
 
 /**
  * Tests for the ResponseByDateComparator class.
@@ -42,7 +49,7 @@ import java.util.Date;
  */
 public class ResponseByDateComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     ResponseByDateComparator comp = new ResponseByDateComparator();
     BlogEntry b1 = new BlogEntry(blog);
 

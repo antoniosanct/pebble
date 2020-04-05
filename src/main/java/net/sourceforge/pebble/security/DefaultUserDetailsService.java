@@ -53,7 +53,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
    * @return  a PebbleUserDetails instance
    * @throws org.springframework.security.core.userdetails.UsernameNotFoundException
    */
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String username) {
     try {
       PebbleUserDetails user = securityRealm.getUser(username);
       if (user == null) {

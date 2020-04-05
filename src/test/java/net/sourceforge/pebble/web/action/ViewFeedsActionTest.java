@@ -31,10 +31,16 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.impl.FeedsView;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.FeedsView;
 
 /**
  * Tests for the ViewFeedsAction class.
@@ -43,7 +49,7 @@ import java.util.Collection;
  */
 public class ViewFeedsActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewFeedsAction();
 
     super.setUp();
@@ -52,7 +58,7 @@ public class ViewFeedsActionTest extends SingleBlogActionTestCase {
   /**
    * Tests that the action works.
    */
-  public void testViewFeeds() throws Exception {
+  @Test public void testViewFeeds() throws Exception {
     View view = action.process(request, response);
 
     assertTrue(view instanceof FeedsView);

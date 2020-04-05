@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 /**
  * Tests for the BlogServiceException class.
  *
@@ -41,7 +45,7 @@ public class BlogExceptionTest extends SingleBlogTestCase {
   /**
    * Tests that a BlogServiceException can be correctly instantiated.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertEquals(0, blog.getMessages().size());
     BlogServiceException exception = new BlogServiceException(blog, "A nasty error message");
     assertEquals("A nasty error message", exception.getMessage());

@@ -33,8 +33,7 @@ package net.sourceforge.pebble.domain;
 
 import java.io.File;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,8 +59,7 @@ public abstract class PebbleTestCase {
 
   protected StaticApplicationContext testApplicationContext;
 
-  @BeforeAll
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
 
     // Make sure we aren't logged in
     SecurityContextHolder.getContext().setAuthentication(null);
@@ -70,7 +68,9 @@ public abstract class PebbleTestCase {
     new File(TEST_BLOG_LOCATION, "blogs").mkdir();
 
     testApplicationContext = new StaticApplicationContext();
-
+    testApplicationContext.registerBean("passwordEncoder", 
+    		org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.class);
+    
     Configuration config = new Configuration();
     config.setUrl("http://www.yourdomain.com/blog/");
     config.setDataDirectory(TEST_BLOG_LOCATION.getAbsolutePath());
@@ -78,7 +78,6 @@ public abstract class PebbleTestCase {
     PebbleContext.getInstance().setApplicationContext(testApplicationContext);
   }
 
-  @AfterAll
   protected void tearDown() throws Exception {
     FileUtils.deleteFile(TEST_BLOG_LOCATION);
   }

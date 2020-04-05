@@ -31,11 +31,17 @@
  */
 package net.sourceforge.pebble.permalink;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.api.permalink.PermalinkProvider;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.permalink.PermalinkProvider;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
 
 /**
  * Tests for the TitlePermalinkProvider class.
@@ -56,7 +62,7 @@ public class TitlePermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that a permalink can be generated for a blog entry.
    */
-  public void testBlogEntryPermalink() throws Exception {
+  @Test public void testBlogEntryPermalink() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -126,7 +132,7 @@ public class TitlePermalinkProviderTest extends PermalinkProviderSupportTestCase
    * Tests that a permalink can be generated for a blog entry when there are
    * duplicate titles for the same day.
    */
-  public void testBlogEntryPermalinkForEntriesWithSameTitle() throws Exception {
+  @Test public void testBlogEntryPermalinkForEntriesWithSameTitle() throws Exception {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry1 = new BlogEntry(blog);
@@ -152,7 +158,7 @@ public class TitlePermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that a blog entry permalink is recognised.
    */
-  public void testIsBlogEntryPermalink() {
+  @Test public void testIsBlogEntryPermalink() {
     assertTrue(permalinkProvider.isBlogEntryPermalink("/2004/01/01/blog_entry_title.html"));
     assertFalse(permalinkProvider.isBlogEntryPermalink("/someotherpage.html"));
     assertFalse(permalinkProvider.isBlogEntryPermalink(""));
@@ -162,7 +168,7 @@ public class TitlePermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that the correct blog entry can be found from a permalink.
    */
-  public void testGetBlogEntry() throws Exception {
+  @Test public void testGetBlogEntry() throws Exception {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry1 = new BlogEntry(blog);
@@ -188,7 +194,7 @@ public class TitlePermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that the correct aggregated blog entry can be found from a permalink.
    */
-  public void testGetAggregatedBlogEntry() throws Exception {
+  @Test public void testGetAggregatedBlogEntry() throws Exception {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry = new BlogEntry(blog);
@@ -203,7 +209,7 @@ public class TitlePermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that a permalink is changed when the blog entry title changes.
    */
-  public void testBlogEntryPermalinkChangesWithTitle() throws Exception {
+  @Test public void testBlogEntryPermalinkChangesWithTitle() throws Exception {
     blog.setPermalinkProvider(new TitlePermalinkProvider());
 
     BlogService service = new BlogService();

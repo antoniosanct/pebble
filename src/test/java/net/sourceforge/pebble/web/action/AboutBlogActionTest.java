@@ -32,6 +32,12 @@
 
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.BlogDetailsView;
@@ -43,13 +49,13 @@ import net.sourceforge.pebble.web.view.impl.BlogDetailsView;
  */
 public class AboutBlogActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new AboutBlogAction();
 
     super.setUp();
   }
 
-  public void testProcess() throws Exception {
+  @Test public void testProcess() throws Exception {
     View view = action.process(request, response);
     assertTrue(view instanceof BlogDetailsView);
   }
@@ -57,7 +63,7 @@ public class AboutBlogActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors have access to add a blog entry.
    */
-  public void testOnlyBlogContributorsHaveAccess() {
+  @Test public void testOnlyBlogContributorsHaveAccess() {
     String roles[] = action.getRoles(request);
     assertEquals(2, roles.length);
     assertEquals(Constants.BLOG_ADMIN_ROLE, roles[0]);

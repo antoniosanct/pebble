@@ -31,6 +31,8 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.mock.MockHttpServletRequest;
@@ -49,7 +51,7 @@ public abstract class SingleBlogActionTestCase extends SingleBlogTestCase {
   protected MockHttpServletResponse response;
   protected Model model;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     request = new MockHttpServletRequest();

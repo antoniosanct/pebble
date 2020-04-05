@@ -31,7 +31,16 @@
  */
 package net.sourceforge.pebble.index;
 
-import net.sourceforge.pebble.domain.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.search.SearchResults;
 
 /**
@@ -43,7 +52,7 @@ public class SearchIndexTest extends SingleBlogTestCase {
 
   private SearchIndex index;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     index = new SearchIndex(blog);
@@ -53,7 +62,7 @@ public class SearchIndexTest extends SingleBlogTestCase {
   /**
    * Tests that a search can be performed on a blog entry title.
    */
-   public void testSearchOnTitle() {
+   @Test public void testSearchOnTitle() {
      try {
        SearchResults results = index.search("jsp");
        assertEquals(0, results.getNumberOfHits());
@@ -74,7 +83,7 @@ public class SearchIndexTest extends SingleBlogTestCase {
    /**
     * Tests that a search can be performed on a blog entry body.
     */
-   public void testSearchOnBody() {
+   @Test public void testSearchOnBody() {
      try {
        SearchResults results = index.search("jsp");
        assertEquals(0, results.getNumberOfHits());
@@ -95,12 +104,12 @@ public class SearchIndexTest extends SingleBlogTestCase {
    /**
     * Tests that a search can be performed on a category.
     */
-   public void testSearchOnCategory() {
+   @Test public void testSearchOnCategory() {
      try {
        blog.addCategory(new Category("/category1", "Category 1"));
        blog.addCategory(new Category("/category2", "Category 2"));
 
-       SearchResults results = index.search("category:/category1");
+       SearchResults results = index.search("category:\\/category1");
        assertEquals(0, results.getNumberOfHits());
 
        BlogEntry blogEntry = new BlogEntry(blog);
@@ -108,16 +117,16 @@ public class SearchIndexTest extends SingleBlogTestCase {
        blogEntry.setPublished(true);
        index.index(blogEntry);
 
-       results = index.search("category:/category1");
+       results = index.search("category:\\/category1");
        assertEquals(1, results.getNumberOfHits());
 
        // and add another category
        blogEntry.addCategory(blog.getCategory("/category2"));
        index.index(blogEntry);
 
-       results = index.search("category:/category1");
+       results = index.search("category:\\/category1");
        assertEquals(1, results.getNumberOfHits());
-       results = index.search("category:/category2");
+       results = index.search("category:\\/category2");
        assertEquals(1, results.getNumberOfHits());
      } catch (Exception e) {
        e.printStackTrace();
@@ -128,7 +137,7 @@ public class SearchIndexTest extends SingleBlogTestCase {
    /**
     * Tests that searches work across comments.
     */
-   public void testSearchOnComments() {
+   @Test public void testSearchOnComments() {
      try {
        SearchResults results = index.search("swing");
        assertEquals(0, results.getNumberOfHits());
@@ -163,7 +172,7 @@ public class SearchIndexTest extends SingleBlogTestCase {
    /**
     * Tests that blog entries can be removed from the index.
     */
-   public void testSearchOnRemovedBlogEntry() {
+   @Test public void testSearchOnRemovedBlogEntry() {
      try {
        BlogEntry blogEntry = new BlogEntry(blog);
        blogEntry.setTitle("Some JSP topic");

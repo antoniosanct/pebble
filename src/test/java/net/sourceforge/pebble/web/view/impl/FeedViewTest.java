@@ -32,11 +32,21 @@
 
 package net.sourceforge.pebble.web.view.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.Date;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.functors.InstanceofPredicate;
+import org.junit.jupiter.api.Test;
+
 import com.rometools.modules.content.ContentModuleImpl;
 import com.rometools.rome.feed.synd.SyndCategory;
-import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Category;
@@ -44,19 +54,13 @@ import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.mock.MockHttpServletRequest;
 import net.sourceforge.pebble.mock.MockHttpServletResponse;
 import net.sourceforge.pebble.web.model.Model;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.functors.InstanceofPredicate;
-
-import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.Date;
 
 /**
  * @author James Roper
  */
 public class FeedViewTest extends SingleBlogTestCase {
 
-  public void testGetFeed() throws Exception {
+  @Test public void testGetFeed() throws Exception {
     FeedView feedView = new FeedView(AbstractRomeFeedView.FeedType.ATOM);
     Model model = new Model();
     feedView.setModel(model);

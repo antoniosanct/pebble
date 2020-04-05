@@ -50,24 +50,21 @@ public class FileDAOFactoryTest extends SingleBlogTestCase {
   /**
    * Tests that the correct implementation of a BlogEntryDAO is created.
    */
-  @Test
-  public void testGetBlogEntryDAO() {
+  @Test public void testGetBlogEntryDAO() {
     assertTrue(daoFactory.getBlogEntryDAO() instanceof FileBlogEntryDAO);
   }
 
   /**
    * Tests that the correct implementation of a CategoryDAO is created.
    */
-  @Test
-  public void testGetCategoryDAO() {
+  @Test public void testGetCategoryDAO() {
     assertTrue(daoFactory.getCategoryDAO() instanceof FileCategoryDAO);
   }
 
   /**
    * Tests that the correct implementation of a RefererFilterDAO is created.
    */
-  @Test
-  public void testGetRefererFilterDAO() {
+  @Test public void testGetRefererFilterDAO() {
     assertTrue(daoFactory.getRefererFilterDAO() instanceof FileRefererFilterDAO);
   }
 

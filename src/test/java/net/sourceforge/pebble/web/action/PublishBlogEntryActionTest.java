@@ -31,15 +31,22 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.event.response.IpAddressListener;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.RedirectView;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.BlogService;
 import net.sourceforge.pebble.domain.Comment;
-
-import java.util.Date;
+import net.sourceforge.pebble.event.response.IpAddressListener;
+import net.sourceforge.pebble.web.view.RedirectView;
+import net.sourceforge.pebble.web.view.View;
 
 /**
  * Tests for the PublishBlogEntryAction class.
@@ -48,13 +55,13 @@ import java.util.Date;
  */
 public class PublishBlogEntryActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new PublishBlogEntryAction();
 
     super.setUp();
   }
 
-  public void testPublishBlogEntryNow() throws Exception {
+  @Test public void testPublishBlogEntryNow() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setDate(new Date(100000));
@@ -73,7 +80,7 @@ public class PublishBlogEntryActionTest extends SecureActionTestCase {
     assertTrue(view instanceof RedirectView);
   }
 
-  public void testPublishBlogEntryAsIsAndCheckCommentsStaysIndexed() throws Exception {
+  @Test public void testPublishBlogEntryAsIsAndCheckCommentsStaysIndexed() throws Exception {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "127.0.0.1");
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
@@ -92,7 +99,7 @@ public class PublishBlogEntryActionTest extends SecureActionTestCase {
     request.setParameter("entry", blogEntry.getId());
     request.setParameter("publishDate", "as-is");
     request.setParameter("submit", "Publish");
-    View view = action.process(request, response);
+    action.process(request, response);
 
     blogEntry = service.getBlogEntry(blog, blogEntry.getId());
     assertTrue(blogEntry.isPublished());
@@ -102,7 +109,7 @@ public class PublishBlogEntryActionTest extends SecureActionTestCase {
     assertTrue(blog.getResponseIndex().getApprovedResponses().contains(commentId));
   }
 
-  public void testPublishBlogEntryNowAndCheckCommentsReindexed() throws Exception {
+  @Test public void testPublishBlogEntryNowAndCheckCommentsReindexed() throws Exception {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "127.0.0.1");
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
@@ -121,7 +128,7 @@ public class PublishBlogEntryActionTest extends SecureActionTestCase {
     request.setParameter("entry", blogEntry.getId());
     request.setParameter("publishDate", "now");
     request.setParameter("submit", "Publish");
-    View view = action.process(request, response);
+    action.process(request, response);
 
     blogEntry = (BlogEntry)blog.getRecentBlogEntries(1).get(0);
     assertTrue(blogEntry.isPublished());
@@ -132,7 +139,7 @@ public class PublishBlogEntryActionTest extends SecureActionTestCase {
     assertTrue(blog.getResponseIndex().getApprovedResponses().contains(blogEntry.getComments().get(0).getGuid()));
   }
 
-  public void testUnpublishBlogEntry() throws Exception {
+  @Test public void testUnpublishBlogEntry() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setPublished(true);
@@ -151,7 +158,7 @@ public class PublishBlogEntryActionTest extends SecureActionTestCase {
   /**
    * Test that only blog owners can approve comments.
    */
-  public void testDefaultRoleIsBlogPublisher() {
+  @Test public void testDefaultRoleIsBlogPublisher() {
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
     assertEquals(Constants.BLOG_PUBLISHER_ROLE, roles[0]);

@@ -31,19 +31,33 @@
  */
 package net.sourceforge.pebble.webservice;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.*;
-import net.sourceforge.pebble.mock.MockAuthenticationManager;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.apache.xmlrpc.XmlRpcException;
-import org.springframework.security.core.GrantedAuthority;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.mock.MockAuthenticationManager;
 
 /**
  * Tests for the MetaWeblogAPIHandler class, when using a simple blog.
@@ -55,22 +69,23 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
   private MetaWeblogAPIHandler handler = new MetaWeblogAPIHandler();
   private AuthenticationManager authenticationManager;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
-    authenticationManager = new MockAuthenticationManager(true, new GrantedAuthority[] {new GrantedAuthorityImpl(Constants.BLOG_CONTRIBUTOR_ROLE)});
+    authenticationManager = new MockAuthenticationManager(true,
+    		Arrays.asList(new GrantedAuthority[] {new SimpleGrantedAuthority(Constants.BLOG_CONTRIBUTOR_ROLE)}));
     handler.setAuthenticationManager(authenticationManager);
     blog.setProperty(Blog.BLOG_CONTRIBUTORS_KEY, "username");
   }
 
-  public void testConfigured() {
+  @Test public void testConfigured() {
     assertSame(authenticationManager, handler.getAuthenticationManager());
   }
 
   /**
    * Tests that authentication fails properly.
    */
-  public void testAuthenticationFailure() {
+  @Test public void testAuthenticationFailure() {
     handler.setAuthenticationManager(new MockAuthenticationManager(false));
     try {
       handler.getCategories("default", "username", "password");
@@ -112,7 +127,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
   /**
    * Tests that authentication works properly.
    */
-  public void testAuthenticationSuccess() {
+  @Test public void testAuthenticationSuccess() {
     try {
       handler.getCategories("123", "username", "password");
     } catch (XmlRpcAuthenticationException xmlrpcae) {
@@ -145,7 +160,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testGetRecentPostsFromEmptyBlog() {
+  @Test public void testGetRecentPostsFromEmptyBlog() {
     try {
       Vector posts = handler.getRecentPosts("default", "username", "password", 3);
       assertTrue(posts.isEmpty());
@@ -154,7 +169,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testGetRecentPosts() {
+  @Test public void testGetRecentPosts() {
     try {
       BlogService service = new BlogService();
 
@@ -200,7 +215,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testGetPost() {
+  @Test public void testGetPost() {
     try {
       Category category = new Category("/acategory", "A category");
       blog.addCategory(category);
@@ -228,7 +243,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testGetPostWithIdThatDoesntExist() {
+  @Test public void testGetPostWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.getPost("default/" + postid, "username", "password");
@@ -238,7 +253,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testGetPostWithNullId() {
+  @Test public void testGetPostWithNullId() {
     String postid = null;
     try {
       handler.getPost(postid, "username", "password");
@@ -248,7 +263,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testNewPost() {
+  @Test public void testNewPost() {
     try {
       Category category = new Category("/acategory", "A category");
       blog.addCategory(category);
@@ -279,7 +294,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
    * Tests that non-existent categories are just ignored and no error
    * is produced.
    */
-  public void testNewPostWithCategoryThatDoesntExist() {
+  @Test public void testNewPostWithCategoryThatDoesntExist() {
     try {
       Hashtable struct = new Hashtable();
       struct.put(MetaWeblogAPIHandler.TITLE, "Title");
@@ -304,7 +319,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testEditPost() {
+  @Test public void testEditPost() {
     try {
       BlogService service = new BlogService();
       BlogEntry entry = new BlogEntry(blog);
@@ -329,7 +344,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testEditPostWithNullId() {
+  @Test public void testEditPostWithNullId() {
     String postid = null;
     try {
       handler.editPost(postid, "username", "password", new Hashtable(), true);
@@ -339,7 +354,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testEditPostWithIdThatDoesntExist() {
+  @Test public void testEditPostWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.editPost("default/" + postid, "username", "password", new Hashtable(), true);
@@ -349,7 +364,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     }
   }
 
-  public void testGetCategories() throws Exception {
+  @Test public void testGetCategories() throws Exception {
     Hashtable categories = handler.getCategories("default", "username", "password");
     assertEquals(0, categories.size());
 
@@ -367,7 +382,7 @@ public class SingleBlogMetaWeblogAPIHandlerTest extends SingleBlogTestCase {
     assertEquals(blog.getUrl() + "rss.xml?category=/category2", struct.get(MetaWeblogAPIHandler.RSS_URL));
   }
 
-  public void testNewPostWithAPubDate() {
+  @Test public void testNewPostWithAPubDate() {
     Calendar cal = blog.getCalendar();
     cal.set(Calendar.DAY_OF_MONTH, 14);
     cal.set(Calendar.MONTH, 6);

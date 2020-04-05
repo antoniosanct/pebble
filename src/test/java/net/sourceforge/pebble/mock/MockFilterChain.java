@@ -31,11 +31,12 @@
  */
 package net.sourceforge.pebble.mock;
 
+import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.IOException;
 
 /**
  * A mock FilterChain implementation.

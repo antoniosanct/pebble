@@ -256,7 +256,7 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener<
 
     Map<String,String> preferences = pud.getPreferences();
     for (Map.Entry<String, String> preference : preferences.entrySet()) {
-      props.setProperty(DefaultSecurityRealm.PREFERENCE + preference, preferences.get(preference.getKey()));
+      props.setProperty(DefaultSecurityRealm.PREFERENCE + preference.getKey(), preferences.get(preference.getKey()));
     }
 
     try (FileOutputStream out = new FileOutputStream(user)) {

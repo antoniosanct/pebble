@@ -31,10 +31,15 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Calendar;
 import java.util.Iterator;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the CombinedLogFormatLogger class.
@@ -45,13 +50,13 @@ public class CombinedLogFormatLoggerTest extends SingleBlogTestCase {
 
   private CombinedLogFormatLogger logger;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     this.logger = new CombinedLogFormatLogger(blog);
   }
 
-  public void testAllMonthsReturnedInYearlySummary() {
+  @Test public void testAllMonthsReturnedInYearlySummary() {
     LogSummaryContainer summary = (LogSummaryContainer)logger.getLogSummary(2005);
     assertEquals(12, summary.getLogSummaries().size());
 

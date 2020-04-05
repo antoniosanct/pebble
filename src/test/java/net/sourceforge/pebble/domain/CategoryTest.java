@@ -31,7 +31,14 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +50,7 @@ public class CategoryTest extends SingleBlogTestCase {
 
   private Category category;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     category = new Category("id", "name");
@@ -52,14 +59,14 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests that toString() works.
    */
-  public void testToString() {
+  @Test public void testToString() {
     assertEquals("name", category.toString());
   }
 
   /**
    * Tests for the hasParent() method.
    */
-  public void testHasParent() {
+  @Test public void testHasParent() {
     Category java = new Category("/java", "Java");
     Category junit = new Category("/java/junit", "JUnit");
     java.addSubCategory(junit);
@@ -69,7 +76,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the getParent() method.
    */
-  public void testGetParent() {
+  @Test public void testGetParent() {
     Category java = new Category("/java", "Java");
     Category junit = new Category("/java/junit", "JUnit");
     java.addSubCategory(junit);
@@ -79,7 +86,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the addSubCategories() method.
    */
-  public void testAddSubCategories() {
+  @Test public void testAddSubCategories() {
     Category java = new Category("/java", "Java");
     Category junit = new Category("/java/junit", "JUnit");
     java.addSubCategory(junit);
@@ -102,7 +109,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the removeSubCategories() method.
    */
-  public void testRemoveSubCategories() {
+  @Test public void testRemoveSubCategories() {
     Category java = new Category("/java", "Java");
     Category junit = new Category("/java/junit", "JUnit");
     Category jdbc = new Category("/java/jdbc", "JDBC");
@@ -125,7 +132,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests the getPermalink() method.
    */
-  public void testGetPermalink() {
+  @Test public void testGetPermalink() {
     Category root = new Category("/", "All");
     root.setBlog(blog);
     Category java = new Category("/java", "Java");
@@ -141,7 +148,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the tags.
    */
-  public void testTagsSeparatedByCommas() {
+  @Test public void testTagsSeparatedByCommas() {
     Category root = new Category("/", "All");
     root.setBlog(blog);
     root.setTags("blog");
@@ -179,7 +186,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the tags.
    */
-  public void testTagsSeparatedByWhitespace() {
+  @Test public void testTagsSeparatedByWhitespace() {
     Category root = new Category("/", "All");
     root.setBlog(blog);
     root.setTags("blog");
@@ -217,7 +224,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the isRootCategory() method.
    */
-  public void testIsRootCategory() {
+  @Test public void testIsRootCategory() {
     Category root = new Category("/", "All");
     Category java = new Category("/java", "Java");
 
@@ -228,7 +235,7 @@ public class CategoryTest extends SingleBlogTestCase {
   /**
    * Tests for the getNumberOfParents() method.
    */
-  public void testGetNumberOfParents() {
+  @Test public void testGetNumberOfParents() {
     Category root = new Category("/", "All");
     Category java = new Category("/java", "Java");
     Category junit = new Category("/java/junit", "JUnit");

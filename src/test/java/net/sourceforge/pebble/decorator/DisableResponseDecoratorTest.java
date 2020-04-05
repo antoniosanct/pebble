@@ -31,10 +31,15 @@
  */
 package net.sourceforge.pebble.decorator;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.decorator.ContentDecorator;
 import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the DisableResponseDecorator class.
@@ -46,7 +51,7 @@ public class DisableResponseDecoratorTest extends SingleBlogTestCase {
   private ContentDecorator decorator;
   private BlogEntry blogEntry;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     decorator = new DisableResponseDecorator();
@@ -56,7 +61,7 @@ public class DisableResponseDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that comments and TrackBacks are disabled.
    */
-  public void testImageUriInBody() throws Exception {
+  @Test public void testImageUriInBody() throws Exception {
     blogEntry.setCommentsEnabled(true);
     blogEntry.setTrackBacksEnabled(true);
     ContentDecoratorContext context = new ContentDecoratorContext();

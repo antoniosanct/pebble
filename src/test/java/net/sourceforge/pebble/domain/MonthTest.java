@@ -31,8 +31,17 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.Calendar;
 import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Month class.
@@ -43,7 +52,7 @@ public class MonthTest extends SingleBlogTestCase {
 
   private Month month;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     month = new Month(blog.getBlogForThisYear(), 7);
   }
@@ -51,28 +60,28 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests that the root blog is setup correctly.
    */
-  public void testGetRootBlog() {
+  @Test public void testGetRootBlog() {
     assertEquals(blog, month.getBlog());
   }
 
   /**
    * Tests the getter for the month property.
    */
-  public void testGetMonth() {
+  @Test public void testGetMonth() {
     assertEquals(7, month.getMonth());
   }
 
   /**
    * Tests the getter for the yearly blog.
    */
-  public void testGetYear() {
+  @Test public void testGetYear() {
     assertEquals(blog.getBlogForThisYear(), month.getYear());
   }
 
   /**
    * Tests that we can access the previous month.
    */
-  public void testGetPreviousMonth() {
+  @Test public void testGetPreviousMonth() {
     month = blog.getBlogForMonth(2003, 7);
     Month previousMonth = month.getPreviousMonth();
     assertEquals(2003, previousMonth.getYear().getYear());
@@ -87,7 +96,7 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests that we can access the next month.
    */
-  public void testGetNextMonth() {
+  @Test public void testGetNextMonth() {
     month = blog.getBlogForMonth(2003, 7);
     Month nextMonth = month.getNextMonth();
     assertEquals(2003, nextMonth.getYear().getYear());
@@ -102,7 +111,7 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests that we can compare monthly blogs.
    */
-  public void testBefore() {
+  @Test public void testBefore() {
     Year year2002 = new Year(blog, 2002);
     Year year2003 = new Year(blog, 2003);
     Month month1 = new Month(year2003, 6);
@@ -119,7 +128,7 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests that we can get all days for a month.
    */
-  public void testGetAllDays() {
+  @Test public void testGetAllDays() {
     month = new Month(blog.getBlogForThisYear(), 1);
     assertEquals(31, month.getAllDays().length);
   }
@@ -127,7 +136,7 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests that we can get the day for a specific day.
    */
-  public void testGetBlogForDay() {
+  @Test public void testGetBlogForDay() {
     Day day = month.getBlogForDay(1);
     assertNotNull(day);
     assertEquals(1, day.getDay());
@@ -160,7 +169,7 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests the getter for the date property.
    */
-  public void testGetDate() {
+  @Test public void testGetDate() {
     month = blog.getBlogForMonth(2003, 4);
     Date date = month.getDate();
     Calendar cal = blog.getCalendar();
@@ -177,7 +186,7 @@ public class MonthTest extends SingleBlogTestCase {
   /**
    * Tests the permalink.
    */
-  public void testGetPermalink() {
+  @Test public void testGetPermalink() {
     String permalink = blog.getUrl() + "2003/07.html";
     month = blog.getBlogForMonth(2003, 7);
     assertEquals(permalink, month.getPermalink());
@@ -190,7 +199,7 @@ public class MonthTest extends SingleBlogTestCase {
 //  /**
 //   * Tests that all blog entries for a month can be accessed.
 //   */
-//  public void testGetAllBlogEntries() {
+//  @Test public void testGetAllBlogEntries() {
 //    assertTrue(month.getBlogEntries().isEmpty());
 //
 //    // now add an entry
@@ -210,7 +219,7 @@ public class MonthTest extends SingleBlogTestCase {
 //    assertTrue(month.getBlogEntries().get(1) == blogEntry1);
 //  }
 
-  public void testLastDayInMonth() {
+  @Test public void testLastDayInMonth() {
     month = new Month(blog.getBlogForYear(2005), 1);
     assertEquals(31, month.getLastDayInMonth());
     month = new Month(blog.getBlogForYear(2005), 2);

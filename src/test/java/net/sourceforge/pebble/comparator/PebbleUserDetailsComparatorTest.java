@@ -31,10 +31,14 @@
  */
 package net.sourceforge.pebble.comparator;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.security.PebbleUserDetails;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.security.PebbleUserDetails;
 
 /**
  * Tests for the PebbleUserDetailsComparator class.
@@ -43,7 +47,7 @@ import java.util.HashMap;
  */
 public class PebbleUserDetailsComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     PebbleUserDetailsComparator comp = new PebbleUserDetailsComparator();
     PebbleUserDetails pud1 = new PebbleUserDetails("username1", "", "User1", "", "", "", new String[]{}, new HashMap<String,String>(), true);
     PebbleUserDetails pud2 = new PebbleUserDetails("username2", "", "User2", "", "", "", new String[]{}, new HashMap<String,String>(), true);

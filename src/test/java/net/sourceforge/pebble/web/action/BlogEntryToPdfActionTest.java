@@ -31,13 +31,17 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.domain.Blog;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.PdfView;
-import net.sourceforge.pebble.web.view.BinaryView;
 import net.sourceforge.pebble.web.view.NotFoundView;
+import net.sourceforge.pebble.web.view.PdfView;
+import net.sourceforge.pebble.web.view.View;
 
 
 /**
@@ -51,7 +55,7 @@ public class BlogEntryToPdfActionTest extends SingleBlogActionTestCase {
 	private BlogEntry publishedEntry;
 	private BlogService service;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
 
     action = new BlogEntryToPdfAction();
 
@@ -69,25 +73,25 @@ public class BlogEntryToPdfActionTest extends SingleBlogActionTestCase {
 	service.putBlogEntry(unpublishedEntry);
   }
 
-  public void testPdfViewForNonExistingBlogEntryId() throws Exception {
+  @Test public void testPdfViewForNonExistingBlogEntryId() throws Exception {
 	request.setParameter("entry", "88888888888");
     View view = action.process(request, response);
     assertTrue(view instanceof NotFoundView);
   }
 
-   public void testPdfViewForPublishedBlogEntryInvalidParameterName() throws Exception {
+   @Test public void testPdfViewForPublishedBlogEntryInvalidParameterName() throws Exception {
 	request.setParameter("momo", publishedEntry.getId());
     View view = action.process(request, response);
     assertTrue(view instanceof NotFoundView);
   }
 
-  public void testPdfViewForNullBlogEntryId() throws Exception {
+  @Test public void testPdfViewForNullBlogEntryId() throws Exception {
 	request.setParameter("entry", "");
     View view = action.process(request, response);
     assertTrue(view instanceof NotFoundView);
   }
 
-   public void testPdfViewForUnpublishedBlogEntry() throws Exception {
+   @Test public void testPdfViewForUnpublishedBlogEntry() throws Exception {
 	request.setParameter("entry", unpublishedEntry.getId());
     View view = action.process(request, response);
     assertTrue(view instanceof PdfView);
@@ -96,7 +100,7 @@ public class BlogEntryToPdfActionTest extends SingleBlogActionTestCase {
 	assertEquals("application/pdf", pdfView.getContentType());
   }
 
-  public void testPdfViewForPublishedBlogEntry() throws Exception {
+  @Test public void testPdfViewForPublishedBlogEntry() throws Exception {
 	request.setParameter("entry", publishedEntry.getId());
     View view = action.process(request, response);
     assertTrue(view instanceof PdfView);

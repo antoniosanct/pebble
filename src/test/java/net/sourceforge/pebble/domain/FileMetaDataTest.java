@@ -31,20 +31,24 @@
  */
 package net.sourceforge.pebble.domain;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the FileMetaData class.
  *
  * @author    Simon Brown
  */
-public class FileMetaDataTest extends TestCase {
+public class FileMetaDataTest {
 
   private FileMetaData file;
 
-  public void testConstructionOfRootFile() {
+  @Test public void testConstructionOfRootFile() {
     file = new FileMetaData(null, null);
     assertEquals("/", file.getPath());
     assertEquals("", file.getName());
@@ -58,7 +62,7 @@ public class FileMetaDataTest extends TestCase {
     assertEquals("", file.getName());
   }
 
-  public void testConstructionOfDirectory() {
+  @Test public void testConstructionOfDirectory() {
     file = new FileMetaData(null, "/directory");
     assertEquals("/", file.getPath());
     assertEquals("directory", file.getName());
@@ -68,7 +72,7 @@ public class FileMetaDataTest extends TestCase {
     assertEquals("directory", file.getName());
   }
 
-  public void testConstructionOfSubDirectory() {
+  @Test public void testConstructionOfSubDirectory() {
     file = new FileMetaData(null, "/directory/subdirectory");
     assertEquals("/directory", file.getPath());
     assertEquals("subdirectory", file.getName());
@@ -78,12 +82,12 @@ public class FileMetaDataTest extends TestCase {
     assertEquals("subdirectory", file.getName());
   }
 
-  public void testDirectoriesAreNotEditable() {
+  @Test public void testDirectoriesAreNotEditable() {
     file = new FileMetaData(null, "/directory");
     assertFalse(file.isEditable());
   }
 
-  public void testTextFilesAreEditable() {
+  @Test public void testTextFilesAreEditable() {
     file = new FileMetaData(null, "/somefile.txt");
     assertTrue(file.isEditable());
     file = new FileMetaData(null, "/somefile.jsp");
@@ -100,7 +104,7 @@ public class FileMetaDataTest extends TestCase {
     assertTrue(file.isEditable());
   }
 
-  public void testBinaryFilesAreNotEditable() {
+  @Test public void testBinaryFilesAreNotEditable() {
     file = new FileMetaData(null, "/somefile.gif");
     assertFalse(file.isEditable());
     file = new FileMetaData(null, "/somefile.jpg");
@@ -111,26 +115,26 @@ public class FileMetaDataTest extends TestCase {
     assertFalse(file.isEditable());
   }
 
-  public void testAllDirectoriesAreNotEditable() {
+  @Test public void testAllDirectoriesAreNotEditable() {
     file = new FileMetaData(null, "/somedirectory");
     file.setDirectory(true);
     assertFalse(file.isEditable());
   }
 
-  public void testName() {
+  @Test public void testName() {
     file = new FileMetaData(null, "/");
     file.setName("somename");
     assertEquals("somename", file.getName());
   }
 
-  public void testLastModifiedDate() {
+  @Test public void testLastModifiedDate() {
     Date date = new Date();
     file = new FileMetaData(null, "/");
     file.setLastModified(date);
     assertEquals(date, file.getLastModified());
   }
 
-  public void testDirectory() {
+  @Test public void testDirectory() {
     file = new FileMetaData(null, "/");
     file.setDirectory(true);
     assertTrue(file.isDirectory());
@@ -139,12 +143,12 @@ public class FileMetaDataTest extends TestCase {
     assertFalse(file.isDirectory());
   }
 
-  public void testAbsolutePath() {
+  @Test public void testAbsolutePath() {
     file = new FileMetaData(null, "/somedirectory/somefile.gif");
     assertEquals("/somedirectory/somefile.gif", file.getAbsolutePath());
   }
 
-  public void testUrl() {
+  @Test public void testUrl() {
     file = new FileMetaData(null, "/somefile.txt");
     file.setType(FileMetaData.BLOG_IMAGE);
     assertEquals("images/somefile.txt", file.getUrl());
@@ -156,7 +160,7 @@ public class FileMetaDataTest extends TestCase {
     assertEquals("theme/somefile.txt", file.getUrl());
   }
 
-  public void testSize() {
+  @Test public void testSize() {
     file = new FileMetaData(null, "/");
     file.setSize(123456789);
     assertEquals(123456789, file.getSize());

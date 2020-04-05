@@ -44,7 +44,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ImageCaptchaConfirmationStrategy extends AbstractConfirmationStrategy {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -283520646024483160L;
+	
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(ImageCaptchaConfirmationStrategy.class);
 
   /**

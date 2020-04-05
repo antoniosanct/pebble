@@ -42,6 +42,11 @@ import net.sourceforge.pebble.domain.Response;
 public class MarkApprovedListener extends BlogEntryResponseListenerSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5420052218106104150L;
+
+/**
    * Called when a comment or TrackBack has been added.
    *
    * @param response a Response

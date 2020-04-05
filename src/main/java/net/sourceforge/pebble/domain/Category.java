@@ -31,384 +31,386 @@
  */
 package net.sourceforge.pebble.domain;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import net.sourceforge.pebble.comparator.ReverseBlogEntryIdComparator;
 
 /**
  * Represents a blog category.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class Category implements Permalinkable, Comparable, Serializable {
 
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(Category.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5088743243913814333L;
 
-  /** the root category identifier */
-  private static final String ROOT_CATEGORY_IDENTIFIER = "/";
+	/** the root category identifier */
+	private static final String ROOT_CATEGORY_IDENTIFIER = "/";
 
-  /** the owning blog */
-  private transient Blog blog;
+	/** the owning blog */
+	private transient Blog blog;
 
-  /** the id of the category */
-  private String id = "";
+	/** the id of the category */
+	private String id = "";
 
-  /** the name of the category */
-  private String name = "";
+	/** the name of the category */
+	private String name = "";
 
-  /** the parent category, if applicable */
-  private Category parent = null;
+	/** the parent category, if applicable */
+	private Category parent = null;
 
-  /** the set of tags for this category */
-  private String tags = "";
+	/** the set of tags for this category */
+	private String tags = "";
 
-  /** the list of tags for this category */
-  private List tagsAsList = new ArrayList();
+	/** the list of tags for this category */
+	private List tagsAsList = new ArrayList();
 
-  /** the sub-categories */
-  private List subCategories = new ArrayList();
+	/** the sub-categories */
+	private List subCategories = new ArrayList();
 
-  /** the blog entries associated with this category */
-  private List<String> blogEntries = new ArrayList<String>();
+	/** the blog entries associated with this category */
+	private List<String> blogEntries = new ArrayList<String>();
 
-  /**
-   * Default, no args constructor.
-   */
-  public Category() {
-  }
+	/**
+	 * Default, no args constructor.
+	 */
+	public Category() {
+	}
 
-  /**
-   * Creates a new category with the specified properties.
-   *
-   * @param id          the id
-   * @param name          the name
-   */
-  public Category(String id, String name) {
-    setId(id);
+	/**
+	 * Creates a new category with the specified properties.
+	 *
+	 * @param id   the id
+	 * @param name the name
+	 */
+	public Category(String id, String name) {
+		setId(id);
 
-    this.name = name;
-  }
+		this.name = name;
+	}
 
-  /**
-   * Gets the id of this category.
-   *
-   * @return    the id as a String
-   */
-  public String getId() {
-    return id;
-  }
+	/**
+	 * Gets the id of this category.
+	 *
+	 * @return the id as a String
+	 */
+	public String getId() {
+		return id;
+	}
 
-  /**
-   * Sets the id of this category.
-   *
-   * @param id    the id as a String
-   */
-  public void setId(String id) {
-    this.id = id;
-    if (this.id == null || !this.id.startsWith("/")) {
-      this.id = "/" + this.id;
-    }
-  }
+	/**
+	 * Sets the id of this category.
+	 *
+	 * @param id the id as a String
+	 */
+	public void setId(String id) {
+		this.id = id;
+		if (this.id == null || !this.id.startsWith("/")) {
+			this.id = "/" + this.id;
+		}
+	}
 
-  /**
-   * Gets the name of this category.
-   *
-   * @return    the name as a String
-   */
-  public String getName() {
-    return name;
-  }
+	/**
+	 * Gets the name of this category.
+	 *
+	 * @return the name as a String
+	 */
+	public String getName() {
+		return name;
+	}
 
-  /**
-   * Sets the name of this category.
-   *
-   * @param name    the new category name
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
+	/**
+	 * Sets the name of this category.
+	 *
+	 * @param name the new category name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  /**
-   * Determines whether this category is a root category.
-   *
-   * @return  true if the ID is "/", false otherwise
-   */
-  public boolean isRootCategory() {
-    return id.equals(ROOT_CATEGORY_IDENTIFIER);
-  }
+	/**
+	 * Determines whether this category is a root category.
+	 *
+	 * @return true if the ID is "/", false otherwise
+	 */
+	public boolean isRootCategory() {
+		return id.equals(ROOT_CATEGORY_IDENTIFIER);
+	}
 
-  /**
-   * Gets the parent of thie category.
-   *
-   * @return  a Category instance, or null if this category has no parent
-   */
-  public Category getParent() {
-    return this.parent;
-  }
+	/**
+	 * Gets the parent of thie category.
+	 *
+	 * @return a Category instance, or null if this category has no parent
+	 */
+	public Category getParent() {
+		return this.parent;
+	}
 
-  /**
-   * Determines whether this category has the specified parent.
-   *
-   * @param category    a Category to test for
-   * @return  true if this category has the specified category as one of its
-   *          parents, false otherwise
-   */
-  public boolean hasParent(Category category) {
-    Category parent = getParent();
-    while (parent != null) {
-      if (parent.equals(category)) {
-        return true;
-      } else {
-        parent = parent.getParent();
-      }
-    }
+	/**
+	 * Determines whether this category has the specified parent.
+	 *
+	 * @param category a Category to test for
+	 * @return true if this category has the specified category as one of its
+	 *         parents, false otherwise
+	 */
+	public boolean hasParent(Category category) {
+		Category parent = getParent();
+		while (parent != null) {
+			if (parent.equals(category)) {
+				return true;
+			} else {
+				parent = parent.getParent();
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  /**
-   * Sets the parent of this category.
-   *
-   * @param parent  a Category instance
-   */
-  public void setParent(Category parent) {
-    this.parent = parent;
-  }
+	/**
+	 * Sets the parent of this category.
+	 *
+	 * @param parent a Category instance
+	 */
+	public void setParent(Category parent) {
+		this.parent = parent;
+	}
 
-  /**
-   * Gets the number of parents that this category has.
-   *
-   * @return  the number of parents this category has, or 0 if it is
-   *          the root category
-   */
-  public int getNumberOfParents() {
-    int parents = 0;
-    Category parent = getParent();
-    while (parent != null) {
-      parents++;
-      parent = parent.getParent();
-    }
+	/**
+	 * Gets the number of parents that this category has.
+	 *
+	 * @return the number of parents this category has, or 0 if it is the root
+	 *         category
+	 */
+	public int getNumberOfParents() {
+		int parents = 0;
+		Category parent = getParent();
+		while (parent != null) {
+			parents++;
+			parent = parent.getParent();
+		}
 
-    return parents;
-  }
+		return parents;
+	}
 
-  /**
-   * Adds a sub-category.
-   *
-   * @param category    a Category instance
-   */
-  public synchronized void addSubCategory(Category category) {
-    if (subCategories != null && !subCategories.contains(category)) {
-      subCategories.add(category);
-      category.setParent(this);
-    }
-  }
+	/**
+	 * Adds a sub-category.
+	 *
+	 * @param category a Category instance
+	 */
+	public synchronized void addSubCategory(Category category) {
+		if (subCategories != null && !subCategories.contains(category)) {
+			subCategories.add(category);
+			category.setParent(this);
+		}
+	}
 
-  /**
-   * Removes a sub-category.
-   *
-   * @param category    a Category instance
-   */
-  public synchronized void removeSubCategory(Category category) {
-    if (subCategories != null && subCategories.contains(category)) {
-      subCategories.remove(category);
-      category.setParent(null);
-    }
-  }
+	/**
+	 * Removes a sub-category.
+	 *
+	 * @param category a Category instance
+	 */
+	public synchronized void removeSubCategory(Category category) {
+		if (subCategories != null && subCategories.contains(category)) {
+			subCategories.remove(category);
+			category.setParent(null);
+		}
+	}
 
-  /**
-   * Gets the list of sub-categories.
-   *
-   * @return  a List of Category instances
-   */
-  public List getSubCategories() {
-    return Collections.unmodifiableList(subCategories);
-  }
+	/**
+	 * Gets the list of sub-categories.
+	 *
+	 * @return a List of Category instances
+	 */
+	public List getSubCategories() {
+		return Collections.unmodifiableList(subCategories);
+	}
 
-  /**
-   * Gets the tags associated with this category.
-   *
-   * @return  a list of tags
-   */
-  public String getTags() {
-    return this.tags;
-  }
+	/**
+	 * Gets the tags associated with this category.
+	 *
+	 * @return a list of tags
+	 */
+	public String getTags() {
+		return this.tags;
+	}
 
-  /**
-   * Gets the tags associated with this category, as a List.
-   *
-   * @return  a List of tags
-   */
-  public List getTagsAsList() {
-    return this.tagsAsList;
-  }
+	/**
+	 * Gets the tags associated with this category, as a List.
+	 *
+	 * @return a List of tags
+	 */
+	public List getTagsAsList() {
+		return this.tagsAsList;
+	}
 
-  /**
-   * Gets the tags associated with this category and its parents.
-   *
-   * @return  a list of tags
-   */
-  public List getAllTags() {
-    List l = new ArrayList();
+	/**
+	 * Gets the tags associated with this category and its parents.
+	 *
+	 * @return a list of tags
+	 */
+	public List getAllTags() {
+		List l = new ArrayList();
 
-    l.addAll(getTagsAsList());
-    Category parent = getParent();
-    while (parent != null) {
-      l.addAll(parent.getTagsAsList());
-      parent = parent.getParent();
-    }
+		l.addAll(getTagsAsList());
+		Category parent = getParent();
+		while (parent != null) {
+			l.addAll(parent.getTagsAsList());
+			parent = parent.getParent();
+		}
 
-    return l;
-  }
+		return l;
+	}
 
-  /**
-   * Sets the set of tags associated with this category.
-   *
-   * @param newTags    a set of tags
-   */
-  public void setTags(String newTags) {
-    if (newTags != null && newTags.indexOf(",") > -1) {
-      // if the tags have been comma separated, convert them to
-      // whitespace separated by
-      // - remove whitespace
-      // - convert commas to whitespace
-      newTags = newTags.replaceAll(" ", "").replaceAll(",", " ");
-    }
-    this.tags = newTags;
-    this.tagsAsList = Tag.parse(blog, tags);
-  }
+	/**
+	 * Sets the set of tags associated with this category.
+	 *
+	 * @param newTags a set of tags
+	 */
+	public void setTags(String newTags) {
+		if (newTags != null && newTags.indexOf(",") > -1) {
+			// if the tags have been comma separated, convert them to
+			// whitespace separated by
+			// - remove whitespace
+			// - convert commas to whitespace
+			newTags = newTags.replaceAll(" ", "").replaceAll(",", " ");
+		}
+		this.tags = newTags;
+		this.tagsAsList = Tag.parse(blog, tags);
+	}
 
-  /**
-   * Sets the owning blog.
-   *
-   * @param blog    a Blog instance
-   */
-  public void setBlog(Blog blog) {
-    this.blog = blog;
-  }
+	/**
+	 * Sets the owning blog.
+	 *
+	 * @param blog a Blog instance
+	 */
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
 
-  /**
-   * Gets the permalink for this object.
-   *
-   * @return  a URL as a String
-   */
-  public String getPermalink() {
-    if (isRootCategory()) {
-      return blog.getUrl() + "categories/";
-    } else {
-      return blog.getUrl() + "categories" + id + "/";
-    }
-  }
+	/**
+	 * Gets the permalink for this object.
+	 *
+	 * @return a URL as a String
+	 */
+	public String getPermalink() {
+		if (isRootCategory()) {
+			return blog.getUrl() + "categories/";
+		} else {
+			return blog.getUrl() + "categories" + id + "/";
+		}
+	}
 
-  /**
-   * Gets the hashcode of this object.
-   *
-   * @return  the hashcode as an int
-   */
-  public int hashCode() {
-    return id.hashCode();
-  }
+	/**
+	 * Gets the hashcode of this object.
+	 *
+	 * @return the hashcode as an int
+	 */
+	public int hashCode() {
+		return id.hashCode();
+	}
 
-  /**
-   * Determines whether the specified object is equal to this one.
-   *
-   * @param o   the object to compare against
-   * @return    true if Object o represents the same category, false otherwise
-   */
-  public boolean equals(Object o) {
-    if (!(o instanceof Category)) {
-      return false;
-    }
+	/**
+	 * Determines whether the specified object is equal to this one.
+	 *
+	 * @param o the object to compare against
+	 * @return true if Object o represents the same category, false otherwise
+	 */
+	public boolean equals(Object o) {
+		if (!(o instanceof Category)) {
+			return false;
+		}
 
-    Category cat = (Category)o;
-    return (cat.getId().equals(id));
-  }
+		Category cat = (Category) o;
+		return (cat.getId().equals(id));
+	}
 
-  /**
-   * Compares this object with the specified object for order.  Returns a
-   * negative integer, zero, or a positive integer as this object is less
-   * than, equal to, or greater than the specified object.<p>
-   *
-   * @param   o the Object to be compared.
-   * @return  a negative integer, zero, or a positive integer as this object
-   *		is less than, equal to, or greater than the specified object.
-   *
-   * @throws ClassCastException if the specified object's type prevents it
-   *         from being compared to this Object.
-   */
-  public int compareTo(Object o) {
-    Category category = (Category)o;
-    return getId().compareTo(category.getId());
-  }
+	/**
+	 * Compares this object with the specified object for order. Returns a negative
+	 * integer, zero, or a positive integer as this object is less than, equal to,
+	 * or greater than the specified object.
+	 * <p>
+	 *
+	 * @param o the Object to be compared.
+	 * @return a negative integer, zero, or a positive integer as this object is
+	 *         less than, equal to, or greater than the specified object.
+	 *
+	 * @throws ClassCastException if the specified object's type prevents it from
+	 *                            being compared to this Object.
+	 */
+	public int compareTo(Object o) {
+		Category category = (Category) o;
+		return getId().compareTo(category.getId());
+	}
 
-  /**
-   * Returns a String representation of this object.
-   *
-   * @return  a String
-   */
-  public String toString() {
-    return this.name;
-  }
+	/**
+	 * Returns a String representation of this object.
+	 *
+	 * @return a String
+	 */
+	public String toString() {
+		return this.name;
+	}
 
-  /**
-   * Gets the blog entries associated with this category.
-   *
-   * @return  a Collection of BlogEntry instances
-   */
-  public List<String> getBlogEntries() {
-    return new ArrayList<String>(blogEntries);
-  }
+	/**
+	 * Gets the blog entries associated with this category.
+	 *
+	 * @return a Collection of BlogEntry instances
+	 */
+	public List<String> getBlogEntries() {
+		return new ArrayList<String>(blogEntries);
+	}
 
-  /**
-   * Adds a blog entry to this category.
-   *
-   * @param blogEntry   a blog entry id
-   */
-  public synchronized void addBlogEntry(String blogEntry) {
-    if (blogEntry != null && !blogEntries.contains(blogEntry)) {
-      blogEntries.add(blogEntry);
-      Collections.sort(blogEntries, new ReverseBlogEntryIdComparator());
+	/**
+	 * Adds a blog entry to this category.
+	 *
+	 * @param blogEntry a blog entry id
+	 */
+	public synchronized void addBlogEntry(String blogEntry) {
+		if (blogEntry != null && !blogEntries.contains(blogEntry)) {
+			blogEntries.add(blogEntry);
+			Collections.sort(blogEntries, new ReverseBlogEntryIdComparator());
 
-      if (getParent() != null) {
-        getParent().addBlogEntry(blogEntry);
-      }
-    }
-  }
+			if (getParent() != null) {
+				getParent().addBlogEntry(blogEntry);
+			}
+		}
+	}
 
-  /**
-   * Removes a blog entry from this category.
-   *
-   * @param blogEntry   a blog entry id
-   */
-  public synchronized void removeBlogEntry(String blogEntry) {
-    if (blogEntry != null) {
-      blogEntries.remove(blogEntry);
+	/**
+	 * Removes a blog entry from this category.
+	 *
+	 * @param blogEntry a blog entry id
+	 */
+	public synchronized void removeBlogEntry(String blogEntry) {
+		if (blogEntry != null) {
+			blogEntries.remove(blogEntry);
 
-      if (getParent() != null) {
-        getParent().removeBlogEntry(blogEntry);
-      }
-    }
-  }
+			if (getParent() != null) {
+				getParent().removeBlogEntry(blogEntry);
+			}
+		}
+	}
 
-  /**
-   * Removes all blog entries from this category.
-   */
-  public synchronized void removeAllBlogEntries() {
-    blogEntries = new ArrayList<String>();
-  }
+	/**
+	 * Removes all blog entries from this category.
+	 */
+	public synchronized void removeAllBlogEntries() {
+		blogEntries = new ArrayList<String>();
+	}
 
-  /**
-   * Gets the number of blog entries associated with this category.
-   *
-   * @return  an int
-   */
-  public int getNumberOfBlogEntries() {
-    return this.blogEntries.size();
-  }
+	/**
+	 * Gets the number of blog entries associated with this category.
+	 *
+	 * @return an int
+	 */
+	public int getNumberOfBlogEntries() {
+		return this.blogEntries.size();
+	}
 
 }

@@ -31,15 +31,13 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.dao.DAOFactory;
-import net.sourceforge.pebble.dao.mock.MockDAOFactory;
+import java.io.File;
+
 import net.sourceforge.pebble.Configuration;
 import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.dao.DAOFactory;
+import net.sourceforge.pebble.dao.mock.MockDAOFactory;
 import net.sourceforge.pebble.security.MockSecurityRealm;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.StaticApplicationContext;
-
-import java.io.File;
 
 /**
  * Superclass for test cases that make uses of simple blogs.

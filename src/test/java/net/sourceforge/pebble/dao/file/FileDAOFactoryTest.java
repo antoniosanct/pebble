@@ -31,21 +31,26 @@
  */
 package net.sourceforge.pebble.dao.file;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.dao.DAOFactory;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the FileDAOFactory class.
  *
  * @author    Simon Brown
  */
-public class FileDAOFactoryTest extends TestCase {
+public class FileDAOFactoryTest extends SingleBlogTestCase {
 
   private DAOFactory daoFactory = new FileDAOFactory();
 
   /**
    * Tests that the correct implementation of a BlogEntryDAO is created.
    */
+  @Test
   public void testGetBlogEntryDAO() {
     assertTrue(daoFactory.getBlogEntryDAO() instanceof FileBlogEntryDAO);
   }
@@ -53,6 +58,7 @@ public class FileDAOFactoryTest extends TestCase {
   /**
    * Tests that the correct implementation of a CategoryDAO is created.
    */
+  @Test
   public void testGetCategoryDAO() {
     assertTrue(daoFactory.getCategoryDAO() instanceof FileCategoryDAO);
   }
@@ -60,6 +66,7 @@ public class FileDAOFactoryTest extends TestCase {
   /**
    * Tests that the correct implementation of a RefererFilterDAO is created.
    */
+  @Test
   public void testGetRefererFilterDAO() {
     assertTrue(daoFactory.getRefererFilterDAO() instanceof FileRefererFilterDAO);
   }

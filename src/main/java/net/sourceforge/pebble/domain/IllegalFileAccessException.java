@@ -32,26 +32,30 @@
 package net.sourceforge.pebble.domain;
 
 /**
- * Thrown to indicate that access to a requested file/directory
- * is denied.
+ * Thrown to indicate that access to a requested file/directory is denied.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class IllegalFileAccessException extends Exception {
 
-  /**
-   * Default, no args constructor.
-   */
-  public IllegalFileAccessException() {
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8202247491152483939L;
 
-  /**
-   * Creates a new instance with the specified message.
-   *
-   * @param message   the message describing the exception
-   */
-  public IllegalFileAccessException(String message) {
-    super(message);
-  }
+	/**
+	 * Default, no args constructor.
+	 */
+	public IllegalFileAccessException() {
+	}
+
+	/**
+	 * Creates a new instance with the specified message.
+	 *
+	 * @param message the message describing the exception
+	 */
+	public IllegalFileAccessException(String message) {
+		super(message);
+	}
 
 }

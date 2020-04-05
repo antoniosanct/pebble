@@ -44,7 +44,12 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
  * @author Simon Brown
  */
 public class TechnoratiTagsDecorator extends AbstractTagsDecorator {
-  public TechnoratiTagsDecorator() {
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5167445257770150223L;
+
+public TechnoratiTagsDecorator() {
 	super("tag.technoratiTags", true);
   }
 	

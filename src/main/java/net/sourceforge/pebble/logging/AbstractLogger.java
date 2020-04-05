@@ -31,19 +31,30 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.Blog;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+
+import net.sourceforge.pebble.domain.Blog;
 
 /**
  * Interface that all loggers implement.
  *
  * @author    Simon Brown
  */
-public abstract class AbstractLogger {
+public abstract class AbstractLogger implements Serializable {
 
-  /** the blog that this instance is associated with, and logging for */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5858683041409798211L;
+	
+/** the blog that this instance is associated with, and logging for */
   protected Blog blog;
 
   /**
@@ -188,7 +199,7 @@ public abstract class AbstractLogger {
       logSummaries.add(getLogSummary(year, month, day));
     }
 
-    return new LogSummaryContainer(blog, cal.getTime(), logSummaries);
+    return new LogSummaryContainer(cal.getTime(), logSummaries);
   }
 
   /**
@@ -206,7 +217,7 @@ public abstract class AbstractLogger {
       logSummaries.add(getLogSummary(year, month));
     }
 
-    return new LogSummaryContainer(blog, cal.getTime(), logSummaries);
+    return new LogSummaryContainer(cal.getTime(), logSummaries);
   }
 
 }

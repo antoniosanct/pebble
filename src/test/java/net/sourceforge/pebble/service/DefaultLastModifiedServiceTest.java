@@ -31,16 +31,19 @@
  */
 package net.sourceforge.pebble.service;
 
-import net.sourceforge.pebble.mock.MockHttpServletRequest;
-import net.sourceforge.pebble.mock.MockHttpServletResponse;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.mock.MockHttpServletRequest;
+import net.sourceforge.pebble.mock.MockHttpServletResponse;
 
 /**
  * @author James Roper
@@ -52,7 +55,7 @@ public class DefaultLastModifiedServiceTest {
   private MockHttpServletResponse response;
   private SimpleDateFormat httpFormat;
 
-  @Before
+  @BeforeAll
   public void setUp() {
     service = new DefaultLastModifiedService();
     request = new MockHttpServletRequest();

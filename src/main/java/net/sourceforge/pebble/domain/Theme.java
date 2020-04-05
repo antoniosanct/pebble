@@ -31,25 +31,31 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.util.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.channels.FileChannel;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sourceforge.pebble.util.FileUtils;
 
 /**
  * Represents the user's editable theme.
  *
  * @author Simon Brown
  */
-public class Theme {
+public class Theme implements Serializable {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8657790608667747931L;
+
+/**
    * the log used by this class
    */
   private static Log log = LogFactory.getLog(Theme.class);
@@ -191,13 +197,9 @@ public class Theme {
         if (files[i].isDirectory()) {
           copy(files[i], new File(destination, files[i].getName()));
         } else {
-          FileInputStream is = null;
-          FileOutputStream os = null;
-          try {
-            is = new FileInputStream(files[i]);
+          try (FileInputStream is = new FileInputStream(files[i]); FileOutputStream os = new FileOutputStream(new File(destination, files[i].getName()));) {
             FileChannel srcChannel = is.getChannel();
             long size = srcChannel.size();
-            os = new FileOutputStream(new File(destination, files[i].getName()));
             FileChannel dstChannel = os.getChannel();
             dstChannel.transferFrom(srcChannel, 0, size);
           } catch (IOException ioe) {
@@ -213,9 +215,6 @@ public class Theme {
             // so backup successfully writes all our blank files back to the blog directory, and all your themes are
             // lost.  I speak from experience.  Thankfully I had backups.
             throw new RuntimeException("Error copying files", ioe);
-          } finally {
-            IOUtils.closeQuietly(is);
-            IOUtils.closeQuietly(os);
           }
         }
       }

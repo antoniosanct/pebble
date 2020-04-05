@@ -32,30 +32,34 @@
 package net.sourceforge.pebble.web.action;
 
 /**
- * Thrown by the ActionFactory to signal that a named action
- * could not be found.
+ * Thrown by the ActionFactory to signal that a named action could not be found.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class ActionNotFoundException extends Exception {
 
-  /**
-   * Creates an instance with the specified message.
-   *
-   * @param message   the message
-   */
-  public ActionNotFoundException(String message) {
-    super(message);
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5249948159689693268L;
 
-  /**
-   * Creates an instance with the specified message.
-   *
-   * @param message   the message
-   * @param cause     the cause
-   */
-  public ActionNotFoundException(String message, Throwable cause) {
-    super(message, cause);
-  }
+	/**
+	 * Creates an instance with the specified message.
+	 *
+	 * @param message the message
+	 */
+	public ActionNotFoundException(String message) {
+		super(message);
+	}
+
+	/**
+	 * Creates an instance with the specified message.
+	 *
+	 * @param message the message
+	 * @param cause   the cause
+	 */
+	public ActionNotFoundException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
 }

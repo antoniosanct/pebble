@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.ltd.uk/dwr/dwr20.dtd">
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr//dwr30.dtd">
 
 <dwr>
+	<allow>
+		<create creator="new" javascript="Pebble">
+			<param name="class"
+				value="net.sourceforge.pebble.web.dwr.Comments" />
+		</create>
 
-  <allow>
-
-    <create creator="new" javascript="Pebble">
-      <param name="class" value="net.sourceforge.pebble.web.dwr.Comments"/>
-      
-    </create>
-
-    <convert converter="bean" match="net.sourceforge.pebble.domain.Comment">
-      <param name="include" value="author,email,website,title,body"/>
-    </convert>
-
-  </allow>
-
+		<convert converter="bean"
+			match="net.sourceforge.pebble.domain.Comment">
+			<param name="include" value="author,email,website,title,body" />
+		</convert>
+	</allow>
 </dwr>

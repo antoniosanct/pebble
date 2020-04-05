@@ -48,6 +48,11 @@ import net.sourceforge.pebble.domain.TrackBack;
 public class AuditListener implements BlogEntryListener, CommentListener, TrackBackListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5067737458016754891L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event a BlogEntryEvent instance

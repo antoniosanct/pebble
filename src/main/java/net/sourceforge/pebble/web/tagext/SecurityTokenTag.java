@@ -40,33 +40,40 @@ import java.io.IOException;
 
 /**
  * Tag that writes the security token as a hidden input parameter to the request
+ * 
  * @author James Roper
  */
 public class SecurityTokenTag extends TagSupport {
 
-  /** true if we're rendering for a query */
-  private boolean query;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8975437282144471555L;
+	/** true if we're rendering for a query */
+	private boolean query;
 
-  @Override
-  public int doStartTag() throws JspException {
-    JspWriter out = pageContext.getOut();
-    String token = (String) pageContext.getRequest().getAttribute(SecurityTokenValidatorImpl.PEBBLE_SECURITY_TOKEN_PARAMETER);
-    if (token != null) {
-      try {
-        if (query) {
-          out.append(SecurityTokenValidatorImpl.PEBBLE_SECURITY_TOKEN_PARAMETER).append("=").append(token);
-        } else {
-          out.append("<input type=\"hidden\" name=\"").append(SecurityTokenValidatorImpl.PEBBLE_SECURITY_TOKEN_PARAMETER);
-          out.append("\" value=\"").append(token).append("\"/>");
-        }
-      } catch (IOException ioe) {
-        throw new JspException(ioe);
-      }
-    }
-    return SKIP_BODY;
-  }
+	@Override
+	public int doStartTag() throws JspException {
+		JspWriter out = pageContext.getOut();
+		String token = (String) pageContext.getRequest()
+				.getAttribute(SecurityTokenValidatorImpl.PEBBLE_SECURITY_TOKEN_PARAMETER);
+		if (token != null) {
+			try {
+				if (query) {
+					out.append(SecurityTokenValidatorImpl.PEBBLE_SECURITY_TOKEN_PARAMETER).append("=").append(token);
+				} else {
+					out.append("<input type=\"hidden\" name=\"")
+							.append(SecurityTokenValidatorImpl.PEBBLE_SECURITY_TOKEN_PARAMETER);
+					out.append("\" value=\"").append(token).append("\"/>");
+				}
+			} catch (IOException ioe) {
+				throw new JspException(ioe);
+			}
+		}
+		return SKIP_BODY;
+	}
 
-  public void setQuery(boolean query) {
-    this.query = query;
-  }
+	public void setQuery(boolean query) {
+		this.query = query;
+	}
 }

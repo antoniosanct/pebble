@@ -46,7 +46,12 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractBlog extends TimePeriod {
 
-  /** the name of the file containing blog properties */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -489526546649578210L;
+
+/** the name of the file containing blog properties */
   public static final String BLOG_PROPERTIES_FILE = "blog.properties";
 
   private static final int MAXIMUM_MESSAGES = 20;

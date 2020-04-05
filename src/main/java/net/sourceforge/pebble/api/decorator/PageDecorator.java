@@ -32,9 +32,9 @@
 
 package net.sourceforge.pebble.api.decorator;
 
-import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
-import java.io.Writer;
+
+import javax.servlet.jsp.JspWriter;
 
 /**
  * Interface implemented by page decorators.  Can be used for plugins to add custom HTML to the head, top of the page,

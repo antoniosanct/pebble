@@ -31,11 +31,10 @@
  */
 package net.sourceforge.pebble.web.tagext;
 
-import net.sourceforge.pebble.util.SecurityUtils;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+
+import net.sourceforge.pebble.util.SecurityUtils;
 
 /**
  * A custom tag that includes its body content if the current user belongs to
@@ -46,6 +45,11 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class IsBlogAdminTag extends TagSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+/**
    * Implementation from the Tag interface - this is called when the opening tag
    * is encountered.
    *
@@ -53,8 +57,6 @@ public class IsBlogAdminTag extends TagSupport {
    * @throws  javax.servlet.jsp.JspException    if something goes wrong
    */
   public int doStartTag() throws JspException {
-    HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-
     if (SecurityUtils.isBlogAdmin()) {
       return EVAL_BODY_INCLUDE;
     } else {

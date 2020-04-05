@@ -42,7 +42,12 @@ import java.util.LinkedList;
  */
 public class Year extends TimePeriod implements Comparable {
 
-  /** the year that this blog is for */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8909417792064891891L;
+
+/** the year that this blog is for */
   private int year;
 
   /** a collection of the monthly blogs that this instance is managing */

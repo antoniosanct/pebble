@@ -123,8 +123,6 @@ public class MovableTypeImporter {
 //    System.out.println("Status:" + status);
     String allowComments = reader.readLine().substring("ALLOW COMMENTS: ".length());
 //    System.out.println("Allow comments:" + allowComments);
-    String convertBreaks = reader.readLine().substring("CONVERT BREAKS: ".length());
-//    System.out.println("Convert breaks:" + convertBreaks);
     String allowPings = reader.readLine().substring("ALLOW PINGS: ".length());
 //    System.out.println("Allow pings:" + allowPings);
 //    String primaryCategory = "";

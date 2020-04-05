@@ -196,7 +196,6 @@ public class BlogService {
    * Removes this blog entry.
    */
   public void removeBlogEntry(BlogEntry blogEntry) throws BlogServiceException {
-    Blog blog = blogEntry.getBlog();
     ContentCache cache = ContentCache.getInstance();
 
     try {

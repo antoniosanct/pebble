@@ -31,13 +31,14 @@
  */
 package net.sourceforge.pebble.web.controller;
 
-import net.sourceforge.pebble.PebbleContext;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import net.sourceforge.pebble.PebbleContext;
 
 /**
  * Servlet for handling HTTP requests
@@ -46,22 +47,26 @@ import java.io.IOException;
  */
 public class HttpControllerServlet extends HttpServlet {
 
-  private HttpController httpController;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1484500025347310780L;
+	private HttpController httpController;
 
-  @Override
-  public void init() throws ServletException {
-    super.init();
-    String beanName = getServletConfig().getInitParameter("httpControllerBeanName");
-    httpController = (HttpController) PebbleContext.getInstance().getApplicationContext().getBean(beanName);
-  }
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		String beanName = getServletConfig().getInitParameter("httpControllerBeanName");
+		httpController = (HttpController) PebbleContext.getInstance().getApplicationContext().getBean(beanName);
+	}
 
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    httpController.processRequest(req, resp, getServletContext());
-  }
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		httpController.processRequest(req, resp, getServletContext());
+	}
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    httpController.processRequest(req, resp, getServletContext());
-  }
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		httpController.processRequest(req, resp, getServletContext());
+	}
 }

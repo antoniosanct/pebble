@@ -42,7 +42,12 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
  */
 public abstract class ContentDecoratorSupport implements ContentDecorator {
 
-  /** the blog to which this decorator is associated */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9186425957450941329L;
+	
+/** the blog to which this decorator is associated */
   private Blog blog;
 
   /**

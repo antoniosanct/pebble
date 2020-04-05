@@ -13,6 +13,11 @@ import net.sourceforge.pebble.domain.StaticPage;
 public class EncloseEntryInDivDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -654014527043409729L;
+
+/**
    * Decorates the specified blog entry by putting the existing body and excerpt in a DIV.
    *
    * @param context   the context in which the decoration is running

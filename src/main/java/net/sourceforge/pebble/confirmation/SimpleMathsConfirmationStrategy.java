@@ -42,7 +42,12 @@ import java.util.Random;
  */
 public class SimpleMathsConfirmationStrategy extends AbstractConfirmationStrategy {
 
-  private static final String ARGUMENT1 = "SimpleMathsConfirmationStrategyArg1";
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2659952191742624588L;
+	
+private static final String ARGUMENT1 = "SimpleMathsConfirmationStrategyArg1";
   private static final String ARGUMENT2 = "SimpleMathsConfirmationStrategyArg2";
   private static final String OPERATOR = "SimpleMathsConfirmationStrategyOperator";
   private static final String ANSWER = "SimpleMathsConfirmationStrategyAnswer";

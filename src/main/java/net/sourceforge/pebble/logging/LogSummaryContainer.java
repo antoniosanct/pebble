@@ -31,8 +31,6 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.Blog;
-
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -52,8 +50,8 @@ public class LogSummaryContainer extends LogSummary {
    *
    * @param blog          a Blog instance
    */
-  LogSummaryContainer(Blog blog, Date date, List logSummaries) {
-    super(blog, date);
+  LogSummaryContainer(Date date, List logSummaries) {
+    super(date);
     this.logSummaries = logSummaries;
   }
 

@@ -46,7 +46,12 @@ import net.sourceforge.pebble.util.I18n;
  * @author Simon Brown
  */
 public abstract class AbstractTagsDecorator extends ContentDecoratorSupport {
-  private final String resourceKey;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4870575028541713229L;
+	
+private final String resourceKey;
   private final String target;
 
   /**

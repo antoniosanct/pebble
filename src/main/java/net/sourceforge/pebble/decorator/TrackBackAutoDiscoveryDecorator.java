@@ -43,6 +43,11 @@ import net.sourceforge.pebble.domain.BlogEntry;
 public class TrackBackAutoDiscoveryDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3372736357479928099L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

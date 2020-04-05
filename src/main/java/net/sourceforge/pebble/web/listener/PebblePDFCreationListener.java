@@ -31,25 +31,22 @@
  */
 package net.sourceforge.pebble.web.listener;
 
-import org.xhtmlrenderer.pdf.ITextRenderer;
-import org.xhtmlrenderer.pdf.PDFCreationListener;
-
-import java.util.Properties;
 import java.util.Enumeration;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfString;
-import com.lowagie.text.pdf.PdfObject;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfDictionary;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+import org.xhtmlrenderer.pdf.PDFCreationListener;
+
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfObject;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Add ability to manipulate PDF output document before it's closed and opened.

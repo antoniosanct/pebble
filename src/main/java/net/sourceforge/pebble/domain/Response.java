@@ -39,239 +39,244 @@ import net.sourceforge.pebble.util.StringUtils;
 /**
  * Represents a response to a blog entry - either a comment or a TrackBack.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public abstract class Response extends Content {
 
-  /** the title */
-  protected String title;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8759699459117070774L;
 
-  /** the ip address of the author */
-  protected String ipAddress;
+	/** the title */
+	protected String title;
 
-  /** the date that the trackback was received */
-  protected Date date;
+	/** the ip address of the author */
+	protected String ipAddress;
 
-  /** the parent blog entry */
-  protected BlogEntry blogEntry;
+	/** the date that the trackback was received */
+	protected Date date;
 
-  /** a score used to help identify spam when repsonses are added */
-  private int spamScore = 0;
+	/** the parent blog entry */
+	protected BlogEntry blogEntry;
 
-  /**
-   * Default, no args constructor.
-   */
-  public Response() {
-  }
+	/** a score used to help identify spam when repsonses are added */
+	private int spamScore = 0;
 
-  /**
-   * Creates a new instance with the specified properties.
-   *
-   * @param title       the title of the entry
-   * @param ipAddress   the IP address of the author
-   * @param date        the date that this comment was left
-   * @param state       the state of the comment
-   * @param blogEntry   the owning blog entry
-   */
-  Response(String title, String ipAddress, Date date, State state, BlogEntry blogEntry) {
-    this.blogEntry = blogEntry;
+	/**
+	 * Default, no args constructor.
+	 */
+	public Response() {
+	}
 
-    setTitle(title);
-    setIpAddress(ipAddress);
-    setDate(date);
-    setState(state);
-  }
+	/**
+	 * Creates a new instance with the specified properties.
+	 *
+	 * @param title     the title of the entry
+	 * @param ipAddress the IP address of the author
+	 * @param date      the date that this comment was left
+	 * @param state     the state of the comment
+	 * @param blogEntry the owning blog entry
+	 */
+	Response(String title, String ipAddress, Date date, State state, BlogEntry blogEntry) {
+		this.blogEntry = blogEntry;
 
-  /**
-   * Gets the id of this comment.
-   *
-   * @return    the id as a primitive long
-   */
-  public long getId() {
-    return date.getTime();
-  }
+		setTitle(title);
+		setIpAddress(ipAddress);
+		setDate(date);
+		setState(state);
+	}
 
-  /**
-   * Gets the globally unique id of this response.
-   *
-   * @return  a String of the form type/blogEntryId/responseId
-   */
-  public String getGuid() {
-    String s = "";
-    if (this instanceof Comment) {
-      s = "c/";
-    } else if (this instanceof TrackBack) {
-      s = "t/";
-    }
+	/**
+	 * Gets the id of this comment.
+	 *
+	 * @return the id as a primitive long
+	 */
+	public long getId() {
+		return date.getTime();
+	}
 
-    s+= getBlogEntry().getId() + "/" + getId();
+	/**
+	 * Gets the globally unique id of this response.
+	 *
+	 * @return a String of the form type/blogEntryId/responseId
+	 */
+	public String getGuid() {
+		String s = "";
+		if (this instanceof Comment) {
+			s = "c/";
+		} else if (this instanceof TrackBack) {
+			s = "t/";
+		}
 
-    return s;
-  }
+		s += getBlogEntry().getId() + "/" + getId();
 
-  /**
-   * Gets the title.
-   *
-   * @return  the title as a String
-   */
-  public String getTitle() {
-    return this.title;
-  }
+		return s;
+	}
 
-  /**
-   * Sets the title of the blog entry for this trackback.
-   *
-   * @param   title   the title as a String
-   */
-  public void setTitle(String title) {
-    this.title = StringUtils.transformHTML(title);
-  }
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title as a String
+	 */
+	public String getTitle() {
+		return this.title;
+	}
 
-  /**
-   * Gets the name of the source of this response.
-   *
-   * @return  a String
-   */
-  public abstract String getSourceName();
+	/**
+	 * Sets the title of the blog entry for this trackback.
+	 *
+	 * @param title the title as a String
+	 */
+	public void setTitle(String title) {
+		this.title = StringUtils.transformHTML(title);
+	}
 
-  /**
-   * Gets the link to the source of this response.
-   *
-   * @return  a String
-   */
-  public abstract String getSourceLink();
+	/**
+	 * Gets the name of the source of this response.
+	 *
+	 * @return a String
+	 */
+	public abstract String getSourceName();
 
-  /**
-   * Gets the IP address.
-   *
-   * @return  the IP address as a String
-   */
-  public String getIpAddress() {
-    return ipAddress;
-  }
+	/**
+	 * Gets the link to the source of this response.
+	 *
+	 * @return a String
+	 */
+	public abstract String getSourceLink();
 
-  /**
-   * Sets the IP address.
-   *
-   * @param ipAddress   the IP address of the responder
-   */
-  public void setIpAddress(String ipAddress) {
-    if (ipAddress == null || ipAddress.length() == 0) {
-      this.ipAddress = null;
-    } else {
-      this.ipAddress = ipAddress;
-    }
-  }
+	/**
+	 * Gets the IP address.
+	 *
+	 * @return the IP address as a String
+	 */
+	public String getIpAddress() {
+		return ipAddress;
+	}
 
-  /**
-   * Gets the date that this response was received.
-   *
-   * @return    the date as a java.util.Date instance.
-   */
-  public Date getDate() {
-    return date;
-  }
+	/**
+	 * Sets the IP address.
+	 *
+	 * @param ipAddress the IP address of the responder
+	 */
+	public void setIpAddress(String ipAddress) {
+		if (ipAddress == null || ipAddress.length() == 0) {
+			this.ipAddress = null;
+		} else {
+			this.ipAddress = ipAddress;
+		}
+	}
 
-  /**
-   * Sets the date that this response was received.
-   *
-   * @param   date    the date as a java.util.Date instance.
-   */
-  public void setDate(Date date) {
-    if (date == null) {
-      date = new Date();
-    }
+	/**
+	 * Gets the date that this response was received.
+	 *
+	 * @return the date as a java.util.Date instance.
+	 */
+	public Date getDate() {
+		return date;
+	}
 
-    Calendar cal = blogEntry.getBlog().getCalendar();
-    cal.setTime(date);
-    this.date = cal.getTime();
-  }
+	/**
+	 * Sets the date that this response was received.
+	 *
+	 * @param date the date as a java.util.Date instance.
+	 */
+	public void setDate(Date date) {
+		if (date == null) {
+			date = new Date();
+		}
 
-  /**
-   * Gets the owning blog entry.
-   *
-   * @return    the owning BlogEntry instance
-   */
-  public BlogEntry getBlogEntry() {
-    return blogEntry;
-  }
+		Calendar cal = blogEntry.getBlog().getCalendar();
+		cal.setTime(date);
+		this.date = cal.getTime();
+	}
 
-  /**
-   * Sets the owning blog entry.
-   *
-   * @param blogEntry   the owning BlogEntry instance
-   */
-  void setBlogEntry(BlogEntry blogEntry) {
-    this.blogEntry = blogEntry;
-  }
+	/**
+	 * Gets the owning blog entry.
+	 *
+	 * @return the owning BlogEntry instance
+	 */
+	public BlogEntry getBlogEntry() {
+		return blogEntry;
+	}
 
-  /**
-   * Gets the spam score.
-   *
-   * @return  an int
-   */
-  public int getSpamScore() {
-    return this.spamScore;
-  }
+	/**
+	 * Sets the owning blog entry.
+	 *
+	 * @param blogEntry the owning BlogEntry instance
+	 */
+	void setBlogEntry(BlogEntry blogEntry) {
+		this.blogEntry = blogEntry;
+	}
 
-  /**
-   * Increments the spam score by 1.
-   */
-  public void incrementSpamScore() {
-    this.spamScore++;
-  }
+	/**
+	 * Gets the spam score.
+	 *
+	 * @return an int
+	 */
+	public int getSpamScore() {
+		return this.spamScore;
+	}
 
-  /**
-   * Sets the state of this response to rejected.
-   */
-  public void setRejected() {
-    setState(State.REJECTED);
-  }
+	/**
+	 * Increments the spam score by 1.
+	 */
+	public void incrementSpamScore() {
+		this.spamScore++;
+	}
 
-  /**
-   * Determines whether this response is rejected.
-   *
-   * @return  true if the state is rejected, false otherwise
-   */
-  public boolean isRejected() {
-    return getState().equals(State.REJECTED);
-  }
+	/**
+	 * Sets the state of this response to rejected.
+	 */
+	public void setRejected() {
+		setState(State.REJECTED);
+	}
 
-  /**
-   * Sets the state of this response to approved.
-   */
-  public void setApproved() {
-    setState(State.APPROVED);
-  }
+	/**
+	 * Determines whether this response is rejected.
+	 *
+	 * @return true if the state is rejected, false otherwise
+	 */
+	public boolean isRejected() {
+		return getState().equals(State.REJECTED);
+	}
 
-  /**
-   * Determines whether this response is approved.
-   *
-   * @return  true if the state is approved, false otherwise
-   */
-  public boolean isApproved() {
-    return getState().equals(State.APPROVED);
-  }
+	/**
+	 * Sets the state of this response to approved.
+	 */
+	public void setApproved() {
+		setState(State.APPROVED);
+	}
 
-  /**
-   * Sets the state of this response to pending.
-   */
-  public void setPending() {
-    setState(State.PENDING);
-  }
+	/**
+	 * Determines whether this response is approved.
+	 *
+	 * @return true if the state is approved, false otherwise
+	 */
+	public boolean isApproved() {
+		return getState().equals(State.APPROVED);
+	}
 
-  /**
-   * Determines whether this response is pending.
-   *
-   * @return  true if the state is pending, false otherwise
-   */
-  public boolean isPending() {
-    return getState().equals(State.PENDING);
-  }
+	/**
+	 * Sets the state of this response to pending.
+	 */
+	public void setPending() {
+		setState(State.PENDING);
+	}
 
-  /**
-   * Whether this response has an email field
-   */
-  public abstract boolean isHasEmail();
+	/**
+	 * Determines whether this response is pending.
+	 *
+	 * @return true if the state is pending, false otherwise
+	 */
+	public boolean isPending() {
+		return getState().equals(State.PENDING);
+	}
+
+	/**
+	 * Whether this response has an email field
+	 */
+	public abstract boolean isHasEmail();
 
 }

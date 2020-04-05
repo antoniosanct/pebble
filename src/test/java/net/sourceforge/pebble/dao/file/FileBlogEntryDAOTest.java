@@ -31,15 +31,29 @@
  */
 package net.sourceforge.pebble.dao.file;
 
-import net.sourceforge.pebble.dao.BlogEntryDAO;
-import net.sourceforge.pebble.domain.*;
-import net.sourceforge.pebble.util.FileUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.dao.BlogEntryDAO;
+import net.sourceforge.pebble.domain.Attachment;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.domain.TrackBack;
+import net.sourceforge.pebble.util.FileUtils;
 
 /**
  * Tests for the FileBlogEntryDAO class.
@@ -51,6 +65,7 @@ public class FileBlogEntryDAOTest extends SingleBlogTestCase {
   private BlogEntryDAO dao= new FileBlogEntryDAO();
   private Locale defaultLocale;
 
+  @BeforeAll
   protected void setUp() throws Exception {
     super.setUp();
 
@@ -58,13 +73,14 @@ public class FileBlogEntryDAOTest extends SingleBlogTestCase {
     Locale.setDefault(Locale.ENGLISH);
   }
 
-
+  @AfterAll
   public void tearDown() throws Exception {
     super.tearDown();
     
     Locale.setDefault(defaultLocale);
   }
 
+  @Test
   public void testLoadBlogEntryFomFile() throws Exception {
     
     File source = new File(TEST_RESOURCE_LOCATION, "1081203335000.xml");
@@ -72,7 +88,6 @@ public class FileBlogEntryDAOTest extends SingleBlogTestCase {
     destination.mkdirs();
     FileUtils.copyFile(source, new File(destination, "1081203335000.xml"));
 
-    Day day = blog.getBlogForDay(2004, 04, 05);
     Category category1 = new Category("/category1", "Category 1");
     blog.addCategory(category1);
     Category category2 = new Category("/category2", "Category 2");
@@ -150,6 +165,7 @@ public class FileBlogEntryDAOTest extends SingleBlogTestCase {
     assertEquals(sdf.parse("06 Apr 2004 07:09:24:0 +0100"), trackBack2.getDate());
   }
 
+  @Test
   public void testInvalidCharacters() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setTitle("A title\u0000");

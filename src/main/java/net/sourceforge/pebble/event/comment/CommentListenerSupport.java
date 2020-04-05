@@ -43,6 +43,11 @@ import net.sourceforge.pebble.api.event.comment.CommentListener;
 public abstract class CommentListenerSupport implements CommentListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7522892946884700101L;
+
+/**
    * Called when a comment has been added.
    *
    * @param event   a CommentEvent instance

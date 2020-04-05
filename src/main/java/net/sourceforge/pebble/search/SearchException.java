@@ -34,17 +34,22 @@ package net.sourceforge.pebble.search;
 /**
  * Thrown when an exception was raised during a search.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class SearchException extends Exception {
 
-  /**
-   * Creates a new instance with the specified message.
-   *
-   * @param message   the exception message
-   */
-  public SearchException(String message) {
-    super(message);
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 483710286402814710L;
+
+	/**
+	 * Creates a new instance with the specified message.
+	 *
+	 * @param message the exception message
+	 */
+	public SearchException(String message) {
+		super(message);
+	}
 
 }

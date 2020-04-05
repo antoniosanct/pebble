@@ -71,7 +71,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     final Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void commentAdded(CommentEvent event) {
         assertEquals(comment, event.getSource());
         buf.reverse();
       }
@@ -106,7 +111,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void commentAdded(CommentEvent event) {
         fail();
       }
 
@@ -142,7 +152,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void commentAdded(CommentEvent event) {
         fail();
       }
 
@@ -177,7 +192,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void commentAdded(CommentEvent event) {
       }
 
       public void commentRemoved(CommentEvent event) {
@@ -206,7 +226,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     final TrackBack trackBack = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         assertEquals(trackBack, event.getSource());
         buf.reverse();
       }
@@ -241,7 +266,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
@@ -276,7 +306,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
@@ -311,7 +346,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
       }
 
       public void trackBackRemoved(TrackBackEvent event) {
@@ -341,7 +381,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     BlogEntryListener listener = new BlogEntryListener() {
-      public void blogEntryAdded(BlogEntryEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void blogEntryAdded(BlogEntryEvent event) {
         fail();
       }
 
@@ -378,7 +423,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     service.putBlogEntry(blogEntry);
 
     BlogEntryListener listener = new BlogEntryListener() {
-      public void blogEntryAdded(BlogEntryEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void blogEntryAdded(BlogEntryEvent event) {
         fail();
       }
 
@@ -416,7 +466,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     final StringBuffer buf = new StringBuffer("123");
 
     BlogEntryListener listener = new BlogEntryListener() {
-      public void blogEntryAdded(BlogEntryEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void blogEntryAdded(BlogEntryEvent event) {
         fail();
       }
 
@@ -464,7 +519,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     final List comments = new ArrayList();
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void commentAdded(CommentEvent event) {
         fail();
       }
 
@@ -505,7 +565,12 @@ public class BlogServiceTest extends SingleBlogTestCase {
     final List trackBacks = new ArrayList();
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 

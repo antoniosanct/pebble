@@ -44,6 +44,11 @@ import javax.servlet.http.HttpServletRequest;
 public class NoOpConfirmationStrategy extends AbstractConfirmationStrategy {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5024142118194711977L;
+
+/**
    * Called to determine whether confirmation is required.
    *
    * @param comment the Comment being confirmed

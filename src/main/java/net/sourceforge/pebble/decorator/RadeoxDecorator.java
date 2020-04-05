@@ -55,7 +55,12 @@ import java.util.regex.Pattern;
  */
 public class RadeoxDecorator extends ContentDecoratorSupport {
 
-  private static final String WIKI_START_TAG = "<wiki>";
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7546152557026980415L;
+	
+private static final String WIKI_START_TAG = "<wiki>";
   private static final String WIKI_END_TAG = "</wiki>";
 
   /**

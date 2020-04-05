@@ -41,35 +41,40 @@ import net.sourceforge.pebble.api.event.PebbleEvent;
  */
 public class TrackBackEvent extends PebbleEvent {
 
-  /** constant representing TrackBack added type */
-  public static final int TRACKBACK_ADDED = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3348178135720297237L;
 
-  /** constant representing TrackBack removed type */
-  public static final int TRACKBACK_REMOVED = 1;
+	/** constant representing TrackBack added type */
+	public static final int TRACKBACK_ADDED = 0;
 
-  /** constant representing TrackBack approved type */
-  public static final int TRACKBACK_APPROVED = 2;
+	/** constant representing TrackBack removed type */
+	public static final int TRACKBACK_REMOVED = 1;
 
-  /** constant representing TrackBack rejected type */
-  public static final int TRACKBACK_REJECTED = 3;
+	/** constant representing TrackBack approved type */
+	public static final int TRACKBACK_APPROVED = 2;
 
-  /**
-   * Creates a new instance with the specified source and type.
-   *
-   * @param trackBack   the TrackBack that initiated this event
-   * @param type        the type of this event
-   */
-  public TrackBackEvent(TrackBack trackBack, int type) {
-    super(trackBack, type);
-  }
+	/** constant representing TrackBack rejected type */
+	public static final int TRACKBACK_REJECTED = 3;
 
-  /**
-   * Gets the TrackBack that is the source of this event.
-   *
-   * @return  a TrackBack instance
-   */
-  public TrackBack getTrackBack() {
-    return (TrackBack)getSource();
-  }
+	/**
+	 * Creates a new instance with the specified source and type.
+	 *
+	 * @param trackBack the TrackBack that initiated this event
+	 * @param type      the type of this event
+	 */
+	public TrackBackEvent(TrackBack trackBack, int type) {
+		super(trackBack, type);
+	}
+
+	/**
+	 * Gets the TrackBack that is the source of this event.
+	 *
+	 * @return a TrackBack instance
+	 */
+	public TrackBack getTrackBack() {
+		return (TrackBack) getSource();
+	}
 
 }

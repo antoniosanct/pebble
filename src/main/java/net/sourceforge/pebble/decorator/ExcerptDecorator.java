@@ -47,7 +47,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ExcerptDecorator extends ContentDecoratorSupport {
 
-  private static final Log log = LogFactory.getLog(ExcerptDecorator.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2401960452695593678L;
+
+private static final Log log = LogFactory.getLog(ExcerptDecorator.class);
 
   /** the name of the maxLength property */
   public static final String MAX_LENGTH_KEY = "ExcerptDecorator.maxLength";

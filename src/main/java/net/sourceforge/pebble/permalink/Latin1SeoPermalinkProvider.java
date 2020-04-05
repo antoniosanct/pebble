@@ -59,6 +59,11 @@ import net.sourceforge.pebble.domain.Month;
 public class Latin1SeoPermalinkProvider extends PermalinkProviderSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5936422625858500331L;
+
+/**
    * the regex used to check for a day request
    */
   private static final String DAY_PERMALINK_REGEX = "/\\d\\d\\d\\d/\\d\\d/\\d\\d";

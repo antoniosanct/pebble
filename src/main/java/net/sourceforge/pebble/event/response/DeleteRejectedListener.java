@@ -44,7 +44,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DeleteRejectedListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4007054116486447036L;
+	
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(DeleteRejectedListener.class);
 
 

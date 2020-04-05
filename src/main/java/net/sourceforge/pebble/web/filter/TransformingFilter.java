@@ -52,9 +52,6 @@ import java.net.URLDecoder;
  */
 public class TransformingFilter implements Filter {
 
-  /** the config of this filter */
-  private FilterConfig filterConfig;
-
   /** the log used by this class */
   private static Log log = LogFactory.getLog(TransformingFilter.class);
 
@@ -64,7 +61,7 @@ public class TransformingFilter implements Filter {
    * @param config    a FilterConfig instance
    */
   public void init(FilterConfig config) {
-    this.filterConfig = config;
+    // filter config not used
   }
 
   /**

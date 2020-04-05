@@ -43,6 +43,11 @@ import java.beans.PropertyChangeEvent;
 public class TagIndexListener implements BlogEntryListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1660538955951113461L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event a BlogEntryEvent instance

@@ -61,6 +61,11 @@ import net.sourceforge.pebble.domain.Blog;
 public class ThumbnailDecorator extends ContentDecoratorSupport {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -501491638239084175L;
+
+	/**
      * Decorates the specified blog entry.
      *
      * @param context   the context in which the decoration is running
@@ -125,7 +130,6 @@ public class ThumbnailDecorator extends ContentDecoratorSupport {
         Matcher tagM = tagRE.matcher(content);
         StringBuffer sb = new StringBuffer(content.length());
         while (tagM.find()) {
-            StringBuilder repl = new StringBuilder();
             Matcher attrM = attrRE.matcher(tagM.group(1));
             String src = null;
             String alt = "";

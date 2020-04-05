@@ -45,6 +45,11 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 public class BlogTagsDecorator extends AbstractTagsDecorator {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5852017403572449575L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

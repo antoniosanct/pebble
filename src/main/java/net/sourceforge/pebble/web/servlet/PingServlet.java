@@ -49,17 +49,21 @@ import java.util.Date;
  * @author James Roper
  */
 public class PingServlet extends HttpServlet {
-  private static final Log log = LogFactory.getLog(PingServlet.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7949507707221891331L;
+	private static final Log log = LogFactory.getLog(PingServlet.class);
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    HttpSession session = req.getSession(false);
-    if (session == null) {
-      log.debug("Received ping with no session");
-    } else {
-      log.debug("Received ping from session " + session.getId());
-    }
-    resp.setContentType("text/plain");
-    resp.getWriter().write("Pong response at " + new Date().toString());
-  }
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession(false);
+		if (session == null) {
+			log.debug("Received ping with no session");
+		} else {
+			log.debug("Received ping from session " + session.getId());
+		}
+		resp.setContentType("text/plain");
+		resp.getWriter().write("Pong response at " + new Date().toString());
+	}
 }

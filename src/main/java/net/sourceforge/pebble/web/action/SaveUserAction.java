@@ -31,6 +31,14 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.domain.AbstractBlog;
@@ -42,15 +50,6 @@ import net.sourceforge.pebble.web.validation.ValidationContext;
 import net.sourceforge.pebble.web.view.RedirectView;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.UserView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
 
 /**
  * Saves user details (this is the blog admin version, where roles
@@ -60,9 +59,6 @@ import java.util.Enumeration;
  */
 @RequireSecurityToken
 public class SaveUserAction extends SecureAction {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(SaveUserAction.class);
 
   private static final String PREFERENCE = "preference.";
 

@@ -31,14 +31,19 @@
  */
 package net.sourceforge.pebble.api.permalink;
 
-import net.sourceforge.pebble.domain.*;
+import java.io.Serializable;
+
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Day;
+import net.sourceforge.pebble.domain.Month;
 
 /**
  * An interface implemented by any class that generates permalinks.
  *
  * @author Simon Brown
  */
-public interface PermalinkProvider {
+public interface PermalinkProvider extends Serializable {
 
   /**
    * Gets the blog associated with this provider instance.

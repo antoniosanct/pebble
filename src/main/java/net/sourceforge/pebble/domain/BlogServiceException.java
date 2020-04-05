@@ -36,32 +36,37 @@ import net.sourceforge.pebble.PebbleException;
 /**
  * The superclass for all blog-related exceptions.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class BlogServiceException extends PebbleException {
 
-  /**
-   * Creates a new instance with the specified message.
-   *
-   * @param blog      the Blog to which this exception applies
-   * @param message   the message for the exception
-   */
-  public BlogServiceException(Blog blog, String message) {
-    super(message);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5110668859921902838L;
 
-    blog.error(message);
-  }
+	/**
+	 * Creates a new instance with the specified message.
+	 *
+	 * @param blog    the Blog to which this exception applies
+	 * @param message the message for the exception
+	 */
+	public BlogServiceException(Blog blog, String message) {
+		super(message);
 
-  /**
-   * Creates a new instance with the specified cause.
-   *
-   * @param blog      the Blog to which this exception applies
-   * @param cause   the causing Exception
-   */
-  public BlogServiceException(Blog blog, Exception cause) {
-    super(cause);
+		blog.error(message);
+	}
 
-    blog.error(cause.getMessage());
-  }
+	/**
+	 * Creates a new instance with the specified cause.
+	 *
+	 * @param blog  the Blog to which this exception applies
+	 * @param cause the causing Exception
+	 */
+	public BlogServiceException(Blog blog, Exception cause) {
+		super(cause);
+
+		blog.error(cause.getMessage());
+	}
 
 }

@@ -45,7 +45,12 @@ import java.util.*;
  *
  * @author    Simon Brown
  */
-public class AuthorIndex {
+public class AuthorIndex implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6265704721597800412L;
 
   private static final Log log = LogFactory.getLog(AuthorIndex.class);
 

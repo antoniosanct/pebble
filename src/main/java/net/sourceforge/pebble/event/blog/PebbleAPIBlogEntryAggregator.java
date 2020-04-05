@@ -112,7 +112,6 @@ public abstract class PebbleAPIBlogEntryAggregator extends TimerTask implements 
         String subtitle = (String)remoteBlogEntry.get(PebbleAPIHandler.SUBTITLE);
         String excerpt = (String)remoteBlogEntry.get(PebbleAPIHandler.EXCERPT);
         String body = (String)remoteBlogEntry.get(PebbleAPIHandler.BODY);
-        Date date = (Date)remoteBlogEntry.get(PebbleAPIHandler.DATE);
         String author = (String)remoteBlogEntry.get(PebbleAPIHandler.AUTHOR);
         String permalink = (String)remoteBlogEntry.get(PebbleAPIHandler.PERMALINK);
         Vector<String> categories = (Vector<String>)remoteBlogEntry.get(PebbleAPIHandler.CATEGORIES);

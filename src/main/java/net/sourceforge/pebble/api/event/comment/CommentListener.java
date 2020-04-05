@@ -31,12 +31,14 @@
  */
 package net.sourceforge.pebble.api.event.comment;
 
+import java.io.Serializable;
+
 /**
  * Implemented by classes wanting to be notified of comment events.
  *
  * @author Simon Brown
  */
-public interface CommentListener {
+public interface CommentListener extends Serializable {
 
   /**
    * Called when a comment has been added.

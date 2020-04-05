@@ -31,17 +31,16 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.security.PebbleUserDetails;
 import net.sourceforge.pebble.util.SecurityUtils;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.FourZeroThreeView;
 import net.sourceforge.pebble.web.view.impl.UserPreferencesView;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Displays user preferences.

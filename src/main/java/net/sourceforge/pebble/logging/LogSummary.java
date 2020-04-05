@@ -31,8 +31,6 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.Blog;
-
 import java.util.Date;
 
 /**
@@ -42,22 +40,15 @@ import java.util.Date;
  */
 public abstract class LogSummary {
 
-  /** the blog that this instance is associated with */
-  private Blog blog;
-
   /** the date that this summary represents */
   private Date date;
-
-  /** the total number of requests */
-  private int totalRequests;
 
   /**
    * Creates a new log summary associated with the given blog.
    *
    * @param blog          a Blog instance
    */
-  LogSummary(Blog blog, Date date) {
-    this.blog = blog;
+  LogSummary(Date date) {
     this.date = date;
   }
 

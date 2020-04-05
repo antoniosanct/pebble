@@ -38,15 +38,20 @@ package net.sourceforge.pebble;
  */
 public class PebbleException extends Exception {
 
-  public PebbleException() {
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8407420231312609024L;
 
-  public PebbleException(String message) {
-    super(message);
-  }
+	public PebbleException() {
+	}
 
-  public PebbleException(Throwable cause) {
-    super(cause);
-  }
+	public PebbleException(String message) {
+		super(message);
+	}
+
+	public PebbleException(Throwable cause) {
+		super(cause);
+	}
 
 }

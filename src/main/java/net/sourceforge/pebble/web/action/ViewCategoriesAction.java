@@ -31,18 +31,15 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.Category;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.CategoriesView;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Allows the user to edit the categories associated with the current blog.
@@ -50,8 +47,6 @@ import org.apache.commons.logging.LogFactory;
  * @author    Simon Brown
  */
 public class ViewCategoriesAction extends SecureAction {
-
-  private static final Log log = LogFactory.getLog(ViewCategoriesAction.class);
 
   /**
    * Peforms the processing associated with this action.

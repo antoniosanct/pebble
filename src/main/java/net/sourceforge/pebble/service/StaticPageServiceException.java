@@ -37,32 +37,37 @@ import net.sourceforge.pebble.domain.Blog;
 /**
  * Thrown by the static page service.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class StaticPageServiceException extends PebbleException {
 
-  /**
-   * Creates a new instance with the specified message.
-   *
-   * @param blog      the Blog to which this exception applies
-   * @param message   the message for the exception
-   */
-  public StaticPageServiceException(Blog blog, String message) {
-    super(message);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1947044153115357928L;
 
-    blog.error(message);
-  }
+	/**
+	 * Creates a new instance with the specified message.
+	 *
+	 * @param blog    the Blog to which this exception applies
+	 * @param message the message for the exception
+	 */
+	public StaticPageServiceException(Blog blog, String message) {
+		super(message);
 
-  /**
-   * Creates a new instance with the specified cause.
-   *
-   * @param blog      the Blog to which this exception applies
-   * @param cause   the causing Exception
-   */
-  public StaticPageServiceException(Blog blog, Exception cause) {
-    super(cause);
+		blog.error(message);
+	}
 
-    blog.error(cause.getMessage());
-  }
+	/**
+	 * Creates a new instance with the specified cause.
+	 *
+	 * @param blog  the Blog to which this exception applies
+	 * @param cause the causing Exception
+	 */
+	public StaticPageServiceException(Blog blog, Exception cause) {
+		super(cause);
+
+		blog.error(cause.getMessage());
+	}
 
 }

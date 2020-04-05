@@ -32,6 +32,9 @@
 package net.sourceforge.pebble.api.event.blog;
 
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import net.sourceforge.pebble.api.event.blog.BlogEvent;
 
 /**

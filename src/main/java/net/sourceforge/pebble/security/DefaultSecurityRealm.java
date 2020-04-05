@@ -41,10 +41,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.authentication.dao.SaltSource;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -53,13 +53,13 @@ import java.util.*;
  *
  * @author    Simon Brown
  */
-public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener {
+public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener<ApplicationEvent> {
 
   private static final Log log = LogFactory.getLog(DefaultSecurityRealm.class);
 
   private static final String REALM_DIRECTORY_NAME = "realm";
 
-  protected static final String PASSWORD = "password";
+  protected static final String SECRETKEY = "password";
   protected static final String ROLES = "roles";
   protected static final String NAME = "name";
   protected static final String EMAIL_ADDRESS = "emailAddress";
@@ -72,10 +72,8 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
 
   private PasswordEncoder passwordEncoder;
 
-  private SaltSource saltSource;
-
   /** Map of open ids to users, cached in a copy on write map */
-  private volatile Map<String, String> openIdMap;
+  private Map<String, String> openIdMap;
 
   /**
    * Creates the underlying security realm upon creation, if necessary, and initialises the openIdMap.
@@ -93,7 +91,7 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
           realm.mkdirs();
           log.warn("*** Creating default user (username/password)");
           log.warn("*** Don't forget to delete this user in a production deployment!");
-          PebbleUserDetails defaultUser = new PebbleUserDetails("username", "password", "Default User", "username@domain.com", "http://www.domain.com", "Default User...", new String[] {Constants.BLOG_OWNER_ROLE, Constants.BLOG_PUBLISHER_ROLE, Constants.BLOG_CONTRIBUTOR_ROLE, Constants.BLOG_ADMIN_ROLE}, new HashMap<String,String>(), true);
+          PebbleUserDetails defaultUser = new PebbleUserDetails("username", SECRETKEY, "Default User", "username@domain.com", "http://www.domain.com", "Default User...", new String[] {Constants.BLOG_OWNER_ROLE, Constants.BLOG_PUBLISHER_ROLE, Constants.BLOG_CONTRIBUTOR_ROLE, Constants.BLOG_ADMIN_ROLE}, new HashMap<String,String>(), true);
           createUser(defaultUser);
         }
       } catch (SecurityRealmException e) {
@@ -102,7 +100,7 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
 
       try {
         // Initialise open id map
-        openIdMap = new HashMap<String, String>();
+        openIdMap = new HashMap<>();
         for (PebbleUserDetails user : getUsers()) {
           for (String openId : user.getOpenIds()) {
             openIdMap.put(openId, user.getUsername());
@@ -120,24 +118,13 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
    * @return  a Collection of PebbleUserDetails objects
    */
   public synchronized Collection<PebbleUserDetails> getUsers() throws SecurityRealmException {
-    LinkedList<PebbleUserDetails> users = new LinkedList<PebbleUserDetails>();
+    LinkedList<PebbleUserDetails> users = new LinkedList<>();
     File realm = getFileForRealm();
-    File files[] = realm.listFiles(new FilenameFilter() {
-      /**
-       * Tests if a specified file should be included in a file list.
-       *
-       * @param dir  the directory in which the file was found.
-       * @param name the name of the file.
-       * @return <code>true</code> if and only if the name should be
-       *         included in the file list; <code>false</code> otherwise.
-       */
-      public boolean accept(File dir, String name) {
-        return name.endsWith(".properties");
-      }
-    });
+    final FilenameFilter filter = (dir, name) -> name.endsWith(".properties");
+    File[] files = realm.listFiles(filter);
 
     for (File file : files) {
-      PebbleUserDetails pud = getUser(file.getName().substring(0, file.getName().lastIndexOf(".")));
+      PebbleUserDetails pud = getUser(file.getName().substring(0, file.getName().lastIndexOf('.')));
       if (pud != null) {
         users.add(pud);
       }
@@ -161,13 +148,11 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
       return null;
     }
 
-    try {
-      FileInputStream in = new FileInputStream(user);
+    try (FileInputStream in = new FileInputStream(user)) {
       Properties props = new Properties();
       props.load(in);
-      in.close();
 
-      String password = props.getProperty(PASSWORD);
+      String password = props.getProperty(SECRETKEY);
       String[] roles = props.getProperty(ROLES).split(",");
       String name = props.getProperty(NAME);
       String emailAddress = props.getProperty(EMAIL_ADDRESS);
@@ -179,7 +164,7 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
         detailsUpdateable = detailsUpdateableAsString.equalsIgnoreCase("true");
       }
 
-      Map<String,String> preferences = new HashMap<String,String>();
+      Map<String,String> preferences = new HashMap<>();
       for (Object key : props.keySet()) {
         String propertyName = (String)key;
         if (propertyName.startsWith(PREFERENCE)) {
@@ -203,23 +188,23 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
   }
 
   public synchronized void addOpenIdToUser(PebbleUserDetails pud, String openId) throws SecurityRealmException {
-    Collection<String> openIds = new ArrayList<String>(pud.getOpenIds());
+    Collection<String> openIds = new ArrayList<>(pud.getOpenIds());
     openIds.add(openId);
     pud.setOpenIds(openIds);
     updateUser(pud);
     // Update open id map
-    HashMap<String, String> newOpenIdMap = new HashMap<String, String>(openIdMap);
+    HashMap<String, String> newOpenIdMap = new HashMap<>(openIdMap);
     newOpenIdMap.put(openId, pud.getUsername());
     openIdMap = newOpenIdMap;
   }
 
   public synchronized void removeOpenIdFromUser(PebbleUserDetails pud, String openId) throws SecurityRealmException {
     // Update open id map
-    HashMap<String, String> newOpenIdMap = new HashMap<String, String>(openIdMap);
+    HashMap<String, String> newOpenIdMap = new HashMap<>(openIdMap);
     newOpenIdMap.remove(openId);
     openIdMap = newOpenIdMap;
     
-    Collection<String> openIds = new ArrayList<String>(pud.getOpenIds());
+    Collection<String> openIds = new ArrayList<>(pud.getOpenIds());
     openIds.remove(openId);
     pud.setOpenIds(openIds);
     updateUser(pud);
@@ -258,9 +243,9 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
 
     Properties props = new Properties();
     if (updatePassword) {
-      props.setProperty(DefaultSecurityRealm.PASSWORD, passwordEncoder.encodePassword(pud.getPassword(), saltSource.getSalt(pud)));
+      props.setProperty(DefaultSecurityRealm.SECRETKEY, passwordEncoder.encode(pud.getPassword()));
     } else {
-      props.setProperty(DefaultSecurityRealm.PASSWORD, currentDetails.getPassword());
+      props.setProperty(DefaultSecurityRealm.SECRETKEY, currentDetails.getPassword());
     }
     props.setProperty(DefaultSecurityRealm.ROLES, pud.getRolesAsString());
     props.setProperty(DefaultSecurityRealm.NAME, pud.getName());
@@ -270,15 +255,12 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
     props.setProperty(DefaultSecurityRealm.DETAILS_UPDATEABLE, "" + pud.isDetailsUpdateable());
 
     Map<String,String> preferences = pud.getPreferences();
-    for (String preference : preferences.keySet()) {
-      props.setProperty(DefaultSecurityRealm.PREFERENCE + preference, preferences.get(preference));
+    for (Map.Entry<String, String> preference : preferences.entrySet()) {
+      props.setProperty(DefaultSecurityRealm.PREFERENCE + preference, preferences.get(preference.getKey()));
     }
 
-    try {
-      FileOutputStream out = new FileOutputStream(user);
+    try (FileOutputStream out = new FileOutputStream(user)) {
       props.store(out, "User : " + pud.getUsername());
-      out.flush();
-      out.close();
     } catch (IOException ioe) {
       throw new SecurityRealmException(ioe);
     }
@@ -307,7 +289,11 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
   public synchronized void removeUser(String username) throws SecurityRealmException {
     File user = getFileForUser(username);
     if (user.exists()) {
-      user.delete();
+      try {
+		Files.delete(user.toPath());
+	  } catch (IOException e) {
+		  // not necessary
+      }
     }
 
     if (user.exists()) {
@@ -315,13 +301,13 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
     }
   }
 
-  protected File getFileForRealm() throws SecurityRealmException {
+  protected File getFileForRealm() {
     // find the directory and file corresponding to the user, of the form
     // ${pebbleContext.dataDirectory}/realm/${username}.properties
     return new File(configuration.getDataDirectory(), DefaultSecurityRealm.REALM_DIRECTORY_NAME);
   }
 
-  protected File getFileForUser(String username) throws SecurityRealmException {
+  protected File getFileForUser(String username) {
     // find the directory and file corresponding to the user, of the form
     // ${pebbleContext.dataDirectory}/realm/${username}.properties
     return new File(getFileForRealm(), username + ".properties");
@@ -341,14 +327,6 @@ public class DefaultSecurityRealm implements SecurityRealm, ApplicationListener 
 
   public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
-  }
-
-  public SaltSource getSaltSource() {
-    return saltSource;
-  }
-
-  public void setSaltSource(SaltSource saltSource) {
-    this.saltSource = saltSource;
   }
 
 }

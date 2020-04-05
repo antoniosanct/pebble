@@ -51,6 +51,11 @@ import java.util.*;
 public class MultiBlog extends AbstractBlog {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1733063085499354925L;
+
+/**
    * Creates a new Blog instance, based at the specified location.
    *
    * @param root    an absolute path pointing to the root directory of the blog

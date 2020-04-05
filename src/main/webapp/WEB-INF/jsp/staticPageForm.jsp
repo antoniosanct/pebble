@@ -95,7 +95,7 @@
         <td valign="top"><b>Original permalink</b></td>
         <td>
           <input type="text" name="originalPermalink" class="fullWidthText" value="${staticPage.originalPermalink}">
-          <div class="small">(optional, this will become the permalink for your static page)</div>
+          <div class="small"><fmt:message key="blogEntry.optional"/></div>
         </td>
       </tr>
 

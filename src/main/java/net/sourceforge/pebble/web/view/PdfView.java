@@ -31,43 +31,37 @@
  */
 package net.sourceforge.pebble.web.view;
 
-import java.io.ByteArrayInputStream;
 import java.io.BufferedOutputStream;
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FilenameFilter;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import org.w3c.dom.Document;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import net.sourceforge.pebble.PebbleContext;
-import net.sourceforge.pebble.domain.Tag;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.util.StringUtils;
-import net.sourceforge.pebble.web.listener.PebblePDFCreationListener;
+import java.io.IOException;
+import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.Iterator;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.DocumentException;
-
+import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.pdf.TrueTypeUtil;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.BaseFont;
+
+import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Tag;
+import net.sourceforge.pebble.util.StringUtils;
+import net.sourceforge.pebble.web.listener.PebblePDFCreationListener;
 
 
 /**

@@ -47,9 +47,14 @@ import java.io.*;
  *
  * @author    Simon Brown
  */
-public class CategoryIndex {
+public class CategoryIndex implements Serializable {
 
-  private static final Log log = LogFactory.getLog(CategoryIndex.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6222777534767583195L;
+
+private static final Log log = LogFactory.getLog(CategoryIndex.class);
 
   private Blog blog;
 

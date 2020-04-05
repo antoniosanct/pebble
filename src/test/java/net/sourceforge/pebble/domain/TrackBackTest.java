@@ -138,7 +138,12 @@ public class TrackBackTest extends SingleBlogTestCase {
   public void testListenersFiredWhenTrackBackMarkedAsPending() {
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
@@ -169,7 +174,12 @@ public class TrackBackTest extends SingleBlogTestCase {
     trackback.setPending();
 
     TrackBackListener listener1 = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
@@ -187,7 +197,12 @@ public class TrackBackTest extends SingleBlogTestCase {
     };
 
     TrackBackListener listener2 = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
@@ -220,7 +235,12 @@ public class TrackBackTest extends SingleBlogTestCase {
     trackback = (TrackBack)trackback.clone();
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 

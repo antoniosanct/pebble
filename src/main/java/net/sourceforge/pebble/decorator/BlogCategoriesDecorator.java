@@ -48,6 +48,11 @@ import net.sourceforge.pebble.util.I18n;
 public class BlogCategoriesDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2398566661726822365L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

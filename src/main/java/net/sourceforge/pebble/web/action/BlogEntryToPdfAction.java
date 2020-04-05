@@ -31,25 +31,18 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.Constants;
-
-import net.sourceforge.pebble.util.SecurityUtils;
-
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.domain.BlogServiceException;
-
-import net.sourceforge.pebble.web.view.NotFoundView;
-import net.sourceforge.pebble.web.view.PdfView;
-import net.sourceforge.pebble.web.view.View;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.BlogServiceException;
+import net.sourceforge.pebble.web.view.NotFoundView;
+import net.sourceforge.pebble.web.view.PdfView;
+import net.sourceforge.pebble.web.view.View;
 
 /**
  * Allows the user to export current blog entry as a PDF file.
@@ -57,8 +50,6 @@ import org.apache.commons.logging.LogFactory;
  * @author    Alexander Zagniotov
  */
 public class BlogEntryToPdfAction extends Action {
-
-  private static final Log log = LogFactory.getLog(BlogEntryToPdfAction.class);
 
   /**
    * Peforms the processing associated with this action.

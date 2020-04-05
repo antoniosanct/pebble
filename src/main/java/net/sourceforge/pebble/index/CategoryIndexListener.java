@@ -43,6 +43,11 @@ import java.util.List;
 public class CategoryIndexListener implements BlogEntryListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3637088447185827683L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event a BlogEntryEvent instance

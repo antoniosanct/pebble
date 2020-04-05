@@ -31,22 +31,39 @@
  */
 package net.sourceforge.pebble.index;
 
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.StaticPage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.*;
-import java.util.*;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.StaticPage;
 
 /**
  * Maintains an index of all static pages
  *
  * @author    Simon Brown
  */
-public class StaticPageIndex {
+public class StaticPageIndex implements Serializable {
 
-  private static final Log log = LogFactory.getLog(StaticPageIndex.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2638565759415028779L;
+
+private static final Log log = LogFactory.getLog(StaticPageIndex.class);
 
   private static final String PAGES_INDEX_DIRECTORY_NAME = "pages";
   private static final String NAME_TO_ID_INDEX_FILE_NAME = "name.index";

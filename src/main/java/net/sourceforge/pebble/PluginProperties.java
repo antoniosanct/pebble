@@ -31,24 +31,39 @@
  */
 package net.sourceforge.pebble;
 
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.event.response.ContentSpamListener;
-import net.sourceforge.pebble.event.response.SpamScoreListener;
-import net.sourceforge.pebble.event.response.LinkSpamListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.*;
-import java.util.*;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.event.response.ContentSpamListener;
+import net.sourceforge.pebble.event.response.LinkSpamListener;
+import net.sourceforge.pebble.event.response.SpamScoreListener;
 
 /**
  * Contains properties that can be used by Pebble plugins.
  *
  * @author Simon Brown
  */
-public class PluginProperties {
+public class PluginProperties implements Serializable {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1542110588979686653L;
+
+/**
    * the log used by this class
    */
   private static final Log log = LogFactory.getLog(PluginProperties.class);

@@ -42,17 +42,21 @@ import org.springframework.security.access.ConfigAttribute;
  */
 public class PrivateBlogConfigAttributeDefinition implements ConfigAttribute {
 
-  private Blog blog;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3561556006385375003L;
+	private Blog blog;
 
-  PrivateBlogConfigAttributeDefinition(Blog blog) {
-    this.blog = blog;
-  }
+	PrivateBlogConfigAttributeDefinition(Blog blog) {
+		this.blog = blog;
+	}
 
-  public Blog getBlog() {
-    return blog;
-  }
+	public Blog getBlog() {
+		return blog;
+	}
 
-  public String getAttribute() {
-    return null;
-  }
+	public String getAttribute() {
+		return null;
+	}
 }

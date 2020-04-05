@@ -46,6 +46,11 @@ import java.util.HashSet;
 public class EmailAuthorNotificationListener extends AbstractEmailNotificationListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3939406079457595195L;
+
+/**
    * Returns the collection of recipients.
    *
    * @param comment   the Comment from the event

@@ -34,13 +34,14 @@ package net.sourceforge.pebble.decorator;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import net.sourceforge.pebble.PluginProperties;
 import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.util.I18n;
 
 /**
  * Adds user-defined suffix to each blog post. Suffix can contain
@@ -52,6 +53,11 @@ import net.sourceforge.pebble.util.I18n;
 public class SuffixDecorator extends ContentDecoratorSupport {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7440672187305329768L;
+	
+	/**
      * The name of the configuration property which specifies the suffix
      */
     public String SUFFIX = "SuffixDecorator.suffix";

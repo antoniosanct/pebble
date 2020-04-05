@@ -43,6 +43,11 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 public class DisableCommentsDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2181633295276730749L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

@@ -31,22 +31,21 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.comparator.CountedUrlByCountComparator;
-import net.sourceforge.pebble.comparator.CountedUrlByNameComparator;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.logging.CountedUrl;
-import net.sourceforge.pebble.logging.Log;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.impl.RequestsView;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sourceforge.pebble.comparator.CountedUrlByCountComparator;
+import net.sourceforge.pebble.comparator.CountedUrlByNameComparator;
+import net.sourceforge.pebble.logging.CountedUrl;
+import net.sourceforge.pebble.logging.Log;
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.RequestsView;
 
 /**
  * Gets the requests for the specified time period.
@@ -63,7 +62,6 @@ public class ViewRequestsAction extends AbstractLogAction {
    * @return the name of the next view
    */
   public View process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-    Blog blog = (Blog)getModel().get(Constants.BLOG_KEY);
     Log log = getLog(request, response);
 
     List requests = new ArrayList(log.getRequests());

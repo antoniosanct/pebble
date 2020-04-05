@@ -45,6 +45,11 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 public class StaticPageTagsDecorator extends AbstractTagsDecorator {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2402369890949475519L;
+
+/**
    * Decorates the specified static page.
    *
    * @param context    the context in which the decoration is running

@@ -49,76 +49,80 @@ import java.io.OutputStream;
 /**
  * Single entry point for all XML-RPC requests (e.g. Blogger API).
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class XmlRpcController extends HttpServlet {
 
-  /**
-   * Initialises this instance.
-   */
-  public void init() {
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5123559826864742506L;
 
-  /**
-   * Processes the request - this is delegated to from doGet and doPost.
-   *
-   * @param request   the HttpServletRequest instance
-   * @param response   the HttpServletResponse instance
-   */
-  protected void processRequest(HttpServletRequest request,
-                                HttpServletResponse response)
-      throws ServletException, IOException {
+	/**
+	 * Initialises this instance.
+	 */
+	public void init() {
+	}
 
-    try {
-      XmlRpcServer xmlrpc = new XmlRpcServer();
-      ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+	/**
+	 * Processes the request - this is delegated to from doGet and doPost.
+	 *
+	 * @param request  the HttpServletRequest instance
+	 * @param response the HttpServletResponse instance
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-      BloggerAPIHandler bloggerApi = (BloggerAPIHandler)ctx.getBean("bloggerApiHandler");
-      xmlrpc.addHandler("blogger", bloggerApi);
+		try {
+			XmlRpcServer xmlrpc = new XmlRpcServer();
+			ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 
-      MetaWeblogAPIHandler metaweblogApi = (MetaWeblogAPIHandler)ctx.getBean("metaweblogApiHandler");
-      xmlrpc.addHandler("metaWeblog", metaweblogApi);
+			BloggerAPIHandler bloggerApi = (BloggerAPIHandler) ctx.getBean("bloggerApiHandler");
+			xmlrpc.addHandler("blogger", bloggerApi);
 
-      PebbleAPIHandler pebbleApi = (PebbleAPIHandler)ctx.getBean("pebbleApiHandler");
-      xmlrpc.addHandler("pebble", pebbleApi);
+			MetaWeblogAPIHandler metaweblogApi = (MetaWeblogAPIHandler) ctx.getBean("metaweblogApiHandler");
+			xmlrpc.addHandler("metaWeblog", metaweblogApi);
 
-      SearchAPIHandler searchApi = (SearchAPIHandler)ctx.getBean("searchApiHandler");
-      xmlrpc.addHandler("search", searchApi);
+			PebbleAPIHandler pebbleApi = (PebbleAPIHandler) ctx.getBean("pebbleApiHandler");
+			xmlrpc.addHandler("pebble", pebbleApi);
 
-      byte[] result = xmlrpc.execute(request.getInputStream());
-      response.setContentType("text/xml; charset=UTF-8");
-      response.setContentLength(result.length);
-      OutputStream out = response.getOutputStream();
-      out.write(result);
-      out.flush();
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new ServletException(e);
-    }
-  }
+			SearchAPIHandler searchApi = (SearchAPIHandler) ctx.getBean("searchApiHandler");
+			xmlrpc.addHandler("search", searchApi);
 
-  /**
-   * A default implementation of doGet that delegates to the processRequest method.
-   *
-   * @param req   the HttpServletRequest instance
-   * @param res   the HttpServletResponse instance
-   */
-  protected void doGet(HttpServletRequest req, HttpServletResponse res)
-      throws ServletException, IOException {
+			byte[] result = xmlrpc.execute(request.getInputStream());
+			response.setContentType("text/xml; charset=UTF-8");
+			response.setContentLength(result.length);
+			OutputStream out = response.getOutputStream();
+			out.write(result);
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+	}
 
-    processRequest(req, res);
-  }
+	/**
+	 * A default implementation of doGet that delegates to the processRequest
+	 * method.
+	 *
+	 * @param req the HttpServletRequest instance
+	 * @param res the HttpServletResponse instance
+	 */
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-  /**
-   * A default implementation of doPost that delegates to the processRequest method.
-   *
-   * @param req   the HttpServletRequest instance
-   * @param res   the HttpServletResponse instance
-   */
-  protected void doPost(HttpServletRequest req, HttpServletResponse res)
-      throws ServletException, IOException {
+		processRequest(req, res);
+	}
 
-    processRequest(req, res);
-  }
+	/**
+	 * A default implementation of doPost that delegates to the processRequest
+	 * method.
+	 *
+	 * @param req the HttpServletRequest instance
+	 * @param res the HttpServletResponse instance
+	 */
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		processRequest(req, res);
+	}
 
 }

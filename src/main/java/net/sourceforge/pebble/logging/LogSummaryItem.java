@@ -31,8 +31,6 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.Blog;
-
 import java.util.Date;
 
 /**
@@ -50,8 +48,8 @@ public class LogSummaryItem extends LogSummary {
    *
    * @param blog          a Blog instance
    */
-  LogSummaryItem(Blog blog, Date date, int totalRequests) {
-    super(blog, date);
+  LogSummaryItem(Date date, int totalRequests) {
+    super(date);
     this.totalRequests = totalRequests;
   }
 

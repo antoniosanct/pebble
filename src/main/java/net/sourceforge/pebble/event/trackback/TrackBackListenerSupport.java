@@ -43,6 +43,11 @@ import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
 public abstract class TrackBackListenerSupport implements TrackBackListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8704481552584585545L;
+
+/**
    * Called when a TrackBack has been added.
    *
    * @param event   a TrackBackEvent instance

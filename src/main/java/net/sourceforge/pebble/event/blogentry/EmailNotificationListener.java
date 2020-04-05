@@ -48,6 +48,11 @@ import java.util.HashSet;
 public class EmailNotificationListener extends BlogEntryListenerSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4610674678946290784L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event   a BlogEntryEvent instance

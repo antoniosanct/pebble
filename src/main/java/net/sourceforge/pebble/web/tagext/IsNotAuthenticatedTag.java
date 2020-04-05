@@ -37,26 +37,31 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
- * A custom tag that includes its body content if the current user
- * has not been authenticated.
+ * A custom tag that includes its body content if the current user has not been
+ * authenticated.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class IsNotAuthenticatedTag extends TagSupport {
 
-  /**
-   * Implementation from the Tag interface - this is called when the opening tag
-   * is encountered.
-   *
-   * @return  an integer specifying what to do afterwards
-   * @throws  javax.servlet.jsp.JspException    if something goes wrong
-   */
-  public int doStartTag() throws JspException {
-    if (!SecurityUtils.isUserAuthenticated()) {
-      return EVAL_BODY_INCLUDE;
-    } else {
-      return SKIP_BODY;
-    }
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5366727641523524720L;
+
+	/**
+	 * Implementation from the Tag interface - this is called when the opening tag
+	 * is encountered.
+	 *
+	 * @return an integer specifying what to do afterwards
+	 * @throws javax.servlet.jsp.JspException if something goes wrong
+	 */
+	public int doStartTag() throws JspException {
+		if (!SecurityUtils.isUserAuthenticated()) {
+			return EVAL_BODY_INCLUDE;
+		} else {
+			return SKIP_BODY;
+		}
+	}
 
 }

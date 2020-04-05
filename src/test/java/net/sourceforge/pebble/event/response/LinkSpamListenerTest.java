@@ -45,8 +45,6 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   private LinkSpamListener listener;
   private Comment comment;
   private CommentEvent commentEvent;
-  private TrackBack trackBack;
-  private TrackBackEvent trackBackEvent;
 
   /**
    * Common setup code.

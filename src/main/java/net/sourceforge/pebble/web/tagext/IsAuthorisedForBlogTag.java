@@ -44,29 +44,34 @@ import javax.servlet.jsp.tagext.TagSupport;
  * A custom tag that includes its body content if the current is authorised for
  * the given blog.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class IsAuthorisedForBlogTag extends TagSupport {
 
-  /**
-   * Implementation from the Tag interface - this is called when the opening tag
-   * is encountered.
-   *
-   * @return  an integer specifying what to do afterwards
-   * @throws  javax.servlet.jsp.JspException    if something goes wrong
-   */
-  public int doStartTag() throws JspException {
-    HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-    AbstractBlog abstractBlog = (AbstractBlog)request.getAttribute(Constants.BLOG_KEY);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8242837196256159454L;
 
-    if (abstractBlog instanceof Blog) {
-      Blog blog = (Blog)abstractBlog;
-      if (SecurityUtils.isUserAuthorisedForBlog(blog)) {
-        return EVAL_BODY_INCLUDE;
-      }
-    }
+	/**
+	 * Implementation from the Tag interface - this is called when the opening tag
+	 * is encountered.
+	 *
+	 * @return an integer specifying what to do afterwards
+	 * @throws javax.servlet.jsp.JspException if something goes wrong
+	 */
+	public int doStartTag() throws JspException {
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		AbstractBlog abstractBlog = (AbstractBlog) request.getAttribute(Constants.BLOG_KEY);
 
-    return SKIP_BODY;
-  }
+		if (abstractBlog instanceof Blog) {
+			Blog blog = (Blog) abstractBlog;
+			if (SecurityUtils.isUserAuthorisedForBlog(blog)) {
+				return EVAL_BODY_INCLUDE;
+			}
+		}
+
+		return SKIP_BODY;
+	}
 
 }

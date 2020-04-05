@@ -31,14 +31,14 @@
  */
 package net.sourceforge.pebble.api.event.blogentry;
 
-import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
+import java.io.Serializable;
 
 /**
  * Implemented by classes wanting to be notified of blog entry events.
  *
  * @author Simon Brown
  */
-public interface BlogEntryListener {
+public interface BlogEntryListener extends Serializable {
 
   /**
    * Called when a blog entry has been added.

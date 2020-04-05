@@ -31,23 +31,24 @@
  */
 package net.sourceforge.pebble.event.blogentry;
 
-import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
-import net.sourceforge.pebble.audit.AuditTrail;
-import net.sourceforge.pebble.decorator.PubSubHubBubFeedDecorator;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Category;
-import net.sourceforge.pebble.domain.Tag;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
+import net.sourceforge.pebble.decorator.PubSubHubBubFeedDecorator;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.Tag;
 
 /**
  * Listener that posts to a PubSubHubBub Hub when a blog entry is added/published/changed.
@@ -55,7 +56,12 @@ import java.util.Collections;
  * @author James Roper
  */
 public class PubSubHubBubBlogEntryListener extends BlogEntryListenerSupport {
-  private final static String HUB_MODE_PARAM = "hub.mode";
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2168357753151321321L;
+	
+private final static String HUB_MODE_PARAM = "hub.mode";
   private final static String HUB_URL_PARAM = "hub.url";
   private final static String HUB_MODE = "publish";
   private final static String ATOM_XML = "atom.xml";

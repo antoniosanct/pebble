@@ -31,11 +31,10 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.Blog;
-
-import java.util.List;
 import java.util.LinkedList;
-import java.util.Collections;
+import java.util.List;
+
+import net.sourceforge.pebble.domain.Blog;
 
 /**
  * Represents a visited or referer URL along with a count of how many times

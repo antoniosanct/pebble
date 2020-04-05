@@ -31,14 +31,15 @@
  */
 package net.sourceforge.pebble.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.FileNameMap;
 import java.net.URLConnection;
-import java.nio.channels.FileChannel;
 import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A collection of utility methods for manipulating files.
@@ -113,20 +114,6 @@ public final class FileUtils {
     }
 
     directory.delete();
-  }
-
-  /**
-   * Copies a file.
-   *
-   * @param source        the source File
-   * @param destination   the destination File
-   */
-  public static void copyFile(File source, File destination) throws IOException {
-    FileChannel srcChannel = new FileInputStream(source).getChannel();
-    FileChannel dstChannel = new FileOutputStream(destination).getChannel();
-    dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
-    srcChannel.close();
-    dstChannel.close();
   }
 
   /**

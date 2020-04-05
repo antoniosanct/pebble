@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.domain.AbstractBlog;
@@ -39,12 +43,6 @@ import net.sourceforge.pebble.security.SecurityRealmException;
 import net.sourceforge.pebble.web.security.RequireSecurityToken;
 import net.sourceforge.pebble.web.view.RedirectView;
 import net.sourceforge.pebble.web.view.View;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Allows the user to manage users.
@@ -53,9 +51,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RequireSecurityToken
 public class ManageUsersAction extends SecureAction {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(ManageUsersAction.class);
 
   /**
    * Peforms the processing associated with this action.

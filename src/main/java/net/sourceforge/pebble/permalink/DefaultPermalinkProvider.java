@@ -47,7 +47,12 @@ import java.util.Date;
  */
 public class DefaultPermalinkProvider extends PermalinkProviderSupport {
 
-  /** the regex used to check for a blog entry permalink : /yyyy/mm/dd/blogentryid.html */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7321157509826307125L;
+	
+/** the regex used to check for a blog entry permalink : /yyyy/mm/dd/blogentryid.html */
   private static final String BLOG_ENTRY_PERMALINK_REGEX = "/\\d\\d\\d\\d/\\d\\d/\\d\\d/\\d*.html";
 
   /**

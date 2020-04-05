@@ -31,15 +31,13 @@
  */
 package net.sourceforge.pebble.event.blogentry;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.util.SecurityUtils;
-import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.beans.PropertyChangeEvent;
 import java.util.Iterator;
 import java.util.List;
+
+import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.util.SecurityUtils;
 
 /**
  * Marks new and changed blog entries as unpublished.
@@ -48,10 +46,12 @@ import java.util.List;
  */
 public class MarkUnpublishedListener extends BlogEntryListenerSupport {
 
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(MarkUnpublishedListener.class);
-
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4384734201602577634L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event   a BlogEntryEvent instance

@@ -31,17 +31,19 @@
  */
 package net.sourceforge.pebble.security;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.AbstractBlog;
-import net.sourceforge.pebble.domain.Blog;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.web.FilterInvocation;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.AbstractBlog;
+import net.sourceforge.pebble.domain.Blog;
 
 /**
  * Bespoke FilterInvocationDefinitionSource that holds a mapping between blog
@@ -54,9 +56,6 @@ import java.util.*;
  * @author Simon Brown
  */
 public class PrivateBlogSecurityMetadataSource implements SecurityMetadataSource {
-
-  private static final Log log = LogFactory.getLog(PrivateBlogSecurityMetadataSource.class);
-
 
   /**
    * Accesses the <code>ConfigAttributeDefinition</code> that applies to a given secure object.<P>Returns

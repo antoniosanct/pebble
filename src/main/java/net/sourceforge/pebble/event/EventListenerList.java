@@ -31,24 +31,31 @@
  */
 package net.sourceforge.pebble.event;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sourceforge.pebble.api.event.blog.BlogListener;
 import net.sourceforge.pebble.api.event.blogentry.BlogEntryListener;
 import net.sourceforge.pebble.api.event.comment.CommentListener;
 import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Maintains a list of listeners, allowing them to be added and removed.
  *
  * @author Simon Brown
  */
-public class EventListenerList {
+public class EventListenerList implements Serializable {
 
-  /** the log in use by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2730067219475105211L;
+
+/** the log in use by this class */
   private static final Log log = LogFactory.getLog(EventListenerList.class);
 
   /** the list of blog listeners */

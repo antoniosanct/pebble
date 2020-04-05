@@ -31,23 +31,26 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.MultiBlog;
-import net.sourceforge.pebble.domain.FileManager;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.service.LastModifiedService;
-import net.sourceforge.pebble.util.FileUtils;
-import net.sourceforge.pebble.web.view.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.FileManager;
+import net.sourceforge.pebble.domain.MultiBlog;
+import net.sourceforge.pebble.service.LastModifiedService;
+import net.sourceforge.pebble.util.FileUtils;
+import net.sourceforge.pebble.web.view.FileView;
+import net.sourceforge.pebble.web.view.ForwardView;
+import net.sourceforge.pebble.web.view.NotFoundView;
+import net.sourceforge.pebble.web.view.NotModifiedView;
+import net.sourceforge.pebble.web.view.View;
 
 /**
  * Gets a file/image from a blog.
@@ -55,9 +58,6 @@ import java.util.Date;
  * @author    Simon Brown
  */
 public class FileAction extends Action {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(FileAction.class);
 
   @Inject
   private LastModifiedService lastModifiedService;

@@ -46,6 +46,11 @@ import java.util.Calendar;
 public class NullLogger extends AbstractLogger {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8267009392182804403L;
+
+/**
    * Creates a new instance associated with the specified blog.
    *                                                 
    * @param blog    a Blog instance
@@ -113,7 +118,7 @@ public class NullLogger extends AbstractLogger {
     cal.set(Calendar.DAY_OF_MONTH, day);
     int totalRequests = 0;
 
-    return new LogSummaryItem(blog, cal.getTime(), totalRequests);
+    return new LogSummaryItem(cal.getTime(), totalRequests);
   }
 
 }

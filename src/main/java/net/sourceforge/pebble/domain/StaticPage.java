@@ -45,127 +45,132 @@ import java.util.List;
  */
 public class StaticPage extends PageBasedContent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -798302823315240266L;
+
 	public static final String TEMPLATE_PROPERTY = "template";
-	
-  /** the name of the page */
-  private String name;
-  
-  /** the name of the template **/
-  private String template = TEMPLATE_PROPERTY;
 
-  /**
-   * Creates a new blog entry.
-   *
-   * @param blog    the owning Blog
-   */
-  public StaticPage(Blog blog) {
-    super(blog);
-    setPublished(true);
-  }
+	/** the name of the page */
+	private String name;
 
-  public String getName() {
-    return name;
-  }
+	/** the name of the template **/
+	private String template = TEMPLATE_PROPERTY;
 
-  public void setName(String name) {
-    this.name = StringUtils.transformHTML(name);
-  }
+	/**
+	 * Creates a new blog entry.
+	 *
+	 * @param blog the owning Blog
+	 */
+	public StaticPage(Blog blog) {
+		super(blog);
+		setPublished(true);
+	}
 
-  /**
-   * Gets a list of all tags.
-   *
-   * @return  a List of tags
-   */
-  public List<Tag> getAllTags() {
-    List<Tag> list = new ArrayList<Tag>(getTagsAsList());
-    Collections.sort(list);
+	public String getName() {
+		return name;
+	}
 
-    return list;
-  }
+	public void setName(String name) {
+		this.name = StringUtils.transformHTML(name);
+	}
 
-  /**
-   * Gets a permalink for this blog entry that is local to the blog. In other
-   * words, it doesn't take into account the original permalink for
-   * aggregated content.
-   *
-   * @return an absolute URL as a String
-   */
-  public String getLocalPermalink() {
-    return getBlog().getUrl() + "pages/" + name + ".html";
-  }
+	/**
+	 * Gets a list of all tags.
+	 *
+	 * @return a List of tags
+	 */
+	public List<Tag> getAllTags() {
+		List<Tag> list = new ArrayList<Tag>(getTagsAsList());
+		Collections.sort(list);
 
-  public void validate(ValidationContext context) {
-	// TODO: localize
-    if (name == null || name.length() == 0) {
-      context.addError("Name cannot be empty");
-    } else if (!name.matches("[\\w_/-]+")) {
-      context.addError("Name \"" + StringUtils.transformHTML(name) + "\" must contain only A-Za-z0-9_-/");
-    }
+		return list;
+	}
 
-    String id = getBlog().getStaticPageIndex().getStaticPage(name);
-    if (id != null && !id.equals(getId())) {
-      context.addError("A page with the name \"" + name + "\" already exists");
-    }
-  }
+	/**
+	 * Gets a permalink for this blog entry that is local to the blog. In other
+	 * words, it doesn't take into account the original permalink for aggregated
+	 * content.
+	 *
+	 * @return an absolute URL as a String
+	 */
+	public String getLocalPermalink() {
+		return getBlog().getUrl() + "pages/" + name + ".html";
+	}
 
-  public String getGuid() {
-    return "page/" + getBlog().getId() + "/" + getId();
-  }
+	public void validate(ValidationContext context) {
+		// TODO: localize
+		if (name == null || name.length() == 0) {
+			context.addError("Name cannot be empty");
+		} else if (!name.matches("[\\w_/-]+")) {
+			context.addError("Name \"" + StringUtils.transformHTML(name) + "\" must contain only A-Za-z0-9_-/");
+		}
 
-  public void setTemplate(String newTemplate) {
-    propertyChangeSupport.firePropertyChange(TEMPLATE_PROPERTY, template, newTemplate);
-    this.template = newTemplate;
-  }
-  
-  public String getTemplate() {
-    return template;
-  }
-  
-  /**
-   * Indicates whether some other object is "equal to" this one.
-   *
-   * @param o   the reference object with which to compare.
-   * @return <code>true</code> if this object is the same as the obj
-   *         argument; <code>false</code> otherwise.
-   * @see #hashCode()
-   * @see java.util.Hashtable
-   */
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
+		String id = getBlog().getStaticPageIndex().getStaticPage(name);
+		if (id != null && !id.equals(getId())) {
+			context.addError("A page with the name \"" + name + "\" already exists");
+		}
+	}
 
-    if (!(o instanceof StaticPage)) {
-      return false;
-    }
+	public String getGuid() {
+		return "page/" + getBlog().getId() + "/" + getId();
+	}
 
-    StaticPage staticPage = (StaticPage)o;
-    return getGuid().equals(staticPage.getGuid());
-  }
+	public void setTemplate(String newTemplate) {
+		propertyChangeSupport.firePropertyChange(TEMPLATE_PROPERTY, template, newTemplate);
+		this.template = newTemplate;
+	}
 
-  /**
-   * Creates and returns a copy of this object.
-   *
-   * @return a clone of this instance.
-   * @see Cloneable
-   */
-  public Object clone() {
-    StaticPage page = new StaticPage(getBlog());
-    page.setEventsEnabled(false);
-    page.setPersistent(isPersistent());
-    page.setTitle(getTitle());
-    page.setSubtitle(getSubtitle());
-    page.setBody(getBody());
-    page.setDate(getDate());
-    page.setState(getState());
-    page.setAuthor(getAuthor());
-    page.setOriginalPermalink(getOriginalPermalink());
-    page.setName(getName());
-    page.setTags(getTags());
-    page.setLockedBy(getLockedBy());
-    page.setTemplate(getTemplate());
+	public String getTemplate() {
+		return template;
+	}
 
-    return page;
-  }
+	/**
+	 * Indicates whether some other object is "equal to" this one.
+	 *
+	 * @param o the reference object with which to compare.
+	 * @return <code>true</code> if this object is the same as the obj argument;
+	 *         <code>false</code> otherwise.
+	 * @see #hashCode()
+	 * @see java.util.Hashtable
+	 */
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (!(o instanceof StaticPage)) {
+			return false;
+		}
+
+		StaticPage staticPage = (StaticPage) o;
+		return getGuid().equals(staticPage.getGuid());
+	}
+
+	/**
+	 * Creates and returns a copy of this object.
+	 *
+	 * @return a clone of this instance.
+	 * @see Cloneable
+	 */
+	public Object clone() {
+		StaticPage page = new StaticPage(getBlog());
+		page.setEventsEnabled(false);
+		page.setPersistent(isPersistent());
+		page.setTitle(getTitle());
+		page.setSubtitle(getSubtitle());
+		page.setBody(getBody());
+		page.setDate(getDate());
+		page.setState(getState());
+		page.setAuthor(getAuthor());
+		page.setOriginalPermalink(getOriginalPermalink());
+		page.setName(getName());
+		page.setTags(getTags());
+		page.setLockedBy(getLockedBy());
+		page.setTemplate(getTemplate());
+
+		return page;
+	}
 
 }

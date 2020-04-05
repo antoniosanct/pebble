@@ -43,6 +43,11 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 public class DisableResponseDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8873724324937463189L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

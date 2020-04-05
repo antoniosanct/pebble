@@ -36,87 +36,91 @@ import java.io.Serializable;
 /**
  * Represents a state.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class State implements Serializable {
 
-  public static final State APPROVED = new State("approved");
-  public static final State REJECTED = new State("rejected");
-  public static final State PENDING = new State("pending");
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8244180949419305907L;
+	public static final State APPROVED = new State("approved");
+	public static final State REJECTED = new State("rejected");
+	public static final State PENDING = new State("pending");
 
-  public static final State UNPUBLISHED = new State("unpublished");
-  public static final State PUBLISHED = new State("published");
+	public static final State UNPUBLISHED = new State("unpublished");
+	public static final State PUBLISHED = new State("published");
 
-  public static State getState(String name) {
-    if (name == null) {
-      return null;
-    } else if (name.equals("approved")) {
-      return APPROVED;
-    } else if (name.equals("rejected")) {
-      return REJECTED;
-    } else if (name.equals("pending")) {
-      return PENDING;
-    } else if (name.equals("unpublished")) {
-      return UNPUBLISHED;
-    } else if (name.equals("published")) {
-      return PUBLISHED;
-    } else {
-      return null;
-    }
-  }
+	public static State getState(String name) {
+		if (name == null) {
+			return null;
+		} else if (name.equals("approved")) {
+			return APPROVED;
+		} else if (name.equals("rejected")) {
+			return REJECTED;
+		} else if (name.equals("pending")) {
+			return PENDING;
+		} else if (name.equals("unpublished")) {
+			return UNPUBLISHED;
+		} else if (name.equals("published")) {
+			return PUBLISHED;
+		} else {
+			return null;
+		}
+	}
 
-  /** the name of the state */
-  private String name;
+	/** the name of the state */
+	private String name;
 
-  /**
-   * Creates a new instance.
-   *
-   * @param name    the name of the state
-   */
-  private State(String name) {
-    this.name = name;
-  }
+	/**
+	 * Creates a new instance.
+	 *
+	 * @param name the name of the state
+	 */
+	private State(String name) {
+		this.name = name;
+	}
 
-  /**
-   * Gets the name of this state.
-   *
-   * @return    the name as a String
-   */
-  public String getName() {
-    return name;
-  }
+	/**
+	 * Gets the name of this state.
+	 *
+	 * @return the name as a String
+	 */
+	public String getName() {
+		return name;
+	}
 
-  /**
-   * Gets the hashcode of this object.
-   *
-   * @return  the hashcode as an int
-   */
-  public int hashCode() {
-    return name.hashCode();
-  }
+	/**
+	 * Gets the hashcode of this object.
+	 *
+	 * @return the hashcode as an int
+	 */
+	public int hashCode() {
+		return name.hashCode();
+	}
 
-  /**
-   * Determines whether the specified object is equal to this one.
-   *
-   * @param o   the object to compare against
-   * @return    true if Object o represents the same category, false otherwise
-   */
-  public boolean equals(Object o) {
-    if (!(o instanceof State)) {
-      return false;
-    }
+	/**
+	 * Determines whether the specified object is equal to this one.
+	 *
+	 * @param o the object to compare against
+	 * @return true if Object o represents the same category, false otherwise
+	 */
+	public boolean equals(Object o) {
+		if (!(o instanceof State)) {
+			return false;
+		}
 
-    State state = (State)o;
-    return state.getName().equals(name);
-  }
+		State state = (State) o;
+		return state.getName().equals(name);
+	}
 
-  /**
-   * Returns a String representation of this object.
-   *
-   * @return  a String
-   */
-  public String toString() {
-    return this.name;
-  }
+	/**
+	 * Returns a String representation of this object.
+	 *
+	 * @return a String
+	 */
+	public String toString() {
+		return this.name;
+	}
 
 }

@@ -52,6 +52,11 @@ import java.util.Map;
 public abstract class AbstractEmailNotificationListener extends TrackBackListenerSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9057044371005009601L;
+
+/**
    * Called when a TrackBack has been added.
    *
    * @param event a TrackBackEvent instance

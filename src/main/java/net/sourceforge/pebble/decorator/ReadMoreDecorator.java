@@ -48,6 +48,11 @@ public class ReadMoreDecorator extends ContentDecoratorSupport {
 
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 338234636709866323L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

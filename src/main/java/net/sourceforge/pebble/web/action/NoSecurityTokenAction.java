@@ -31,14 +31,12 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.impl.NoSecurityTokenView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.NoSecurityTokenView;
 
 /**
  * Redirects the user to a 404 page.
@@ -46,9 +44,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author    Simon Brown
  */
 public class NoSecurityTokenAction extends Action {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(NoSecurityTokenAction.class);
 
   /**
    * Peforms the processing associated with this action.

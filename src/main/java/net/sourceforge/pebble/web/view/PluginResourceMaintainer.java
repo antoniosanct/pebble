@@ -121,17 +121,11 @@ public class PluginResourceMaintainer {
       //noinspection ResultOfMethodCallIgnored
       dest.getParentFile().mkdirs();
     }
-    InputStream is = null;
-    OutputStream os = null;
-    try {
-      os = new FileOutputStream(dest);
-      is = viewClass.getClassLoader().getResourceAsStream(classpathResource);
+    try (InputStream is = viewClass.getClassLoader().getResourceAsStream(classpathResource);
+    		OutputStream os = new FileOutputStream(dest)) {
       IOUtils.copy(is, os);
     } catch (IOException e) {
       log.error("Error copying resource (" + classpathResource + ") from classpath to " + dest.getAbsolutePath(), e);
-    } finally {
-      IOUtils.closeQuietly(is);
-      IOUtils.closeQuietly(os);
     }
   }
 

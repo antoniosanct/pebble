@@ -31,105 +31,115 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import com.maxmind.geoip.LookupService;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URL;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.DatabaseReader.Builder;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CountryResponse;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.logging.Log;
 import net.sourceforge.pebble.logging.LogEntry;
 import net.sourceforge.pebble.logging.Request;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.CountriesView;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.Constants;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Gets the visitor country information for the specified time period.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class ViewCountriesAction extends AbstractLogAction {
 
-  /**
-   * Peforms the processing associated with this action.
-   *
-   * @param request  the HttpServletRequest instance
-   * @param response the HttpServletResponse instance
-   * @return the name of the next view
-   */
-  public View process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-    Blog blog = (Blog)getModel().get(Constants.BLOG_KEY);
-    Log log = getLog(request, response);
+	/**
+	 * Peforms the processing associated with this action.
+	 *
+	 * @param request  the HttpServletRequest instance
+	 * @param response the HttpServletResponse instance
+	 * @return the name of the next view
+	 */
+	public View process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		Blog blog = (Blog) getModel().get(Constants.BLOG_KEY);
+		Log log = getLog(request, response);
 
-    Set<String> countries = new TreeSet<String>(new Comparator<String>() {
-      public int compare(String s1, String s2) {
-        return s1 != null ? s1.compareToIgnoreCase(s2) : -1;
-      }
-    });
-    Map<String,Integer> consolidatedCountries = new HashMap<String,Integer>();
-    Map<String,Integer> countriesForNewsFeeds = new HashMap<String,Integer>();
-    Map<String,Integer> countriesForPageViews = new HashMap<String,Integer>();
-    Map<String,Integer> countriesForFileDownloads = new HashMap<String,Integer>();
+		Set<String> countries = new TreeSet<String>(new Comparator<String>() {
+			public int compare(String s1, String s2) {
+				return s1 != null ? s1.compareToIgnoreCase(s2) : -1;
+			}
+		});
+		Map<String, Integer> consolidatedCountries = new HashMap<>(1);
+		Map<String, Integer> countriesForNewsFeeds = new HashMap<>(1);
+		Map<String, Integer> countriesForPageViews = new HashMap<>(1);
+		Map<String, Integer> countriesForFileDownloads = new HashMap<>(1);
 
-    LookupService lookupService = null;
+		URL urlFilename = getClass().getResource("/geo-ip.dat");
+		try (DatabaseReader dr = new Builder(urlFilename.openStream()).build()) {
 
-    try {
-      String filename = getClass().getResource("/geo-ip.dat").toExternalForm().substring(5);
-      lookupService = new LookupService(filename, LookupService.GEOIP_MEMORY_CACHE);
+			for (LogEntry logEntry : log.getLogEntries()) {
+				Optional<CountryResponse> cr = dr.tryCountry(InetAddress.getByName(logEntry.getHost()));
+				if (cr.isPresent()) {
+					String country = cr.get().getCountry().getName();
+					countries.add(country);
+					register(country, countriesForNewsFeeds);
+					register(country, countriesForPageViews);
+					register(country, countriesForFileDownloads);
+					register(country, consolidatedCountries);
 
-      for (LogEntry logEntry : log.getLogEntries()) {
-        String country = lookupService.getCountry(logEntry.getHost()).getName();
-        countries.add(country);
-        register(country, countriesForNewsFeeds);
-        register(country, countriesForPageViews);
-        register(country, countriesForFileDownloads);
-        register(country, consolidatedCountries);
+					Request req = new Request(logEntry.getRequestUri(), blog);
+					if (req.isNewsFeed()) {
+						increment(country, countriesForNewsFeeds);
+						increment(country, consolidatedCountries);
+					} else if (req.isPageView()) {
+						increment(country, countriesForPageViews);
+						increment(country, consolidatedCountries);
+					} else if (req.isFileDownload()) {
+						increment(country, countriesForFileDownloads);
+						increment(country, consolidatedCountries);
+					}
+				}
+			}
+		} catch (IOException ioe) {
+			throw new ServletException(ioe);
+		} catch (GeoIp2Exception e) {
+			throw new ServletException(e);
+		}
 
-        Request req = new Request(logEntry.getRequestUri(), blog);
-        if (req.isNewsFeed()) {
-          increment(country, countriesForNewsFeeds);
-          increment(country, consolidatedCountries);
-        } else if (req.isPageView()) {
-          increment(country, countriesForPageViews);
-          increment(country, consolidatedCountries);
-        } else if (req.isFileDownload()) {
-          increment(country, countriesForFileDownloads);
-          increment(country, consolidatedCountries);
-        }
-      }
-    } catch (IOException ioe) {
-      throw new ServletException(ioe);
-    } finally {
-      if (lookupService != null) {
-        lookupService.close();
-      }
-    }
+		getModel().put("logAction", "viewCountries");
+		getModel().put("countries", countries);
+		getModel().put("consolidatedCountries", consolidatedCountries);
+		getModel().put("countriesForNewsFeeds", countriesForNewsFeeds);
+		getModel().put("countriesForPageViews", countriesForPageViews);
+		getModel().put("countriesForFileDownloads", countriesForFileDownloads);
 
-    getModel().put("logAction", "viewCountries");
-    getModel().put("countries", countries);
-    getModel().put("consolidatedCountries", consolidatedCountries);
-    getModel().put("countriesForNewsFeeds", countriesForNewsFeeds);
-    getModel().put("countriesForPageViews", countriesForPageViews);
-    getModel().put("countriesForFileDownloads", countriesForFileDownloads);
+		return new CountriesView();
+	}
 
-    return new CountriesView();
-  }
+	private void register(String country, Map<String, Integer> map) {
+		Integer count = map.get(country);
+		if (count == null) {
+			count = 0;
+		}
+		map.put(country, count);
+	}
 
-  private void register(String country, Map<String,Integer> map) {
-    Integer count = map.get(country);
-    if (count == null) {
-      count = 0;
-    }
-    map.put(country, count);
-  }
-
-  private void increment(String country, Map<String,Integer> map) {
-    Integer count = map.get(country);
-    count = count + 1;
-    map.put(country, count);
-  }
+	private void increment(String country, Map<String, Integer> map) {
+		Integer count = map.get(country);
+		count = count + 1;
+		map.put(country, count);
+	}
 
 }

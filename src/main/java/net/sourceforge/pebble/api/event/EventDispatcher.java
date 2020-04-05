@@ -31,25 +31,28 @@
  */
 package net.sourceforge.pebble.api.event;
 
+import java.io.Serializable;
+
 import net.sourceforge.pebble.api.event.blog.BlogEvent;
 import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
 import net.sourceforge.pebble.api.event.comment.CommentEvent;
 import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
-import net.sourceforge.pebble.event.EventListenerList;
 import net.sourceforge.pebble.domain.BlogEntry;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sourceforge.pebble.event.EventListenerList;
 
 /**
  * Responsible for dispatching events to registered listeners.
  *
  * @author Simon Brown
  */
-public abstract class EventDispatcher {
+public abstract class EventDispatcher implements Serializable {
 
-  private static final Log log = LogFactory.getLog(EventDispatcher.class);
-
-  /** the event listener list */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2972171492938695216L;
+	
+/** the event listener list */
   private EventListenerList eventListenerList;
 
   /**

@@ -31,20 +31,25 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.*;
-import net.sourceforge.pebble.web.security.RequireSecurityToken;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.NotFoundView;
-import net.sourceforge.pebble.web.view.impl.RemoveEmailAddressConfirmationView;
-import net.sourceforge.pebble.web.view.impl.RemoveEmailAddressView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.BlogServiceException;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.web.view.NotFoundView;
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.RemoveEmailAddressConfirmationView;
+import net.sourceforge.pebble.web.view.impl.RemoveEmailAddressView;
 
 /**
  * Removes an email address subscription to blog comments

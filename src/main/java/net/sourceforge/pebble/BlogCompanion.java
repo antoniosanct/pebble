@@ -45,7 +45,12 @@ import java.io.*;
  *
  * @author Pieroxy
  */
-public class BlogCompanion {
+public class BlogCompanion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6832543399133219489L;
 
   /**
    * the log used by this class
@@ -81,13 +86,11 @@ public class BlogCompanion {
     File contentFile = new File(blog.getCompanionFile());
     if (contentFile.exists()) {
       Reader reader = null;
-      try {
-        reader = new InputStreamReader(new FileInputStream(contentFile), blog.getCharacterEncoding());
+      try (InputStream is = new FileInputStream(contentFile)){
+        reader = new InputStreamReader(is, blog.getCharacterEncoding());
         content = IOUtils.toString(reader);
       } catch (IOException e) {
         log.error(e.getMessage());
-      } finally {
-        IOUtils.closeQuietly(reader);
       }
     }
 
@@ -118,14 +121,12 @@ public class BlogCompanion {
    */
   public synchronized void store() throws IOException {
     Writer writer = null;
-    try {
-      writer = new OutputStreamWriter(new FileOutputStream(blog.getCompanionFile()), blog.getCharacterEncoding());
+    try (OutputStream os = new FileOutputStream(blog.getCompanionFile())) {
+      writer = new OutputStreamWriter(os, blog.getCharacterEncoding());
       writer.write(content);
     } catch (IOException e) {
       log.error(e.getMessage());
       throw e;
-    } finally {
-      IOUtils.closeQuietly(writer);
     }
   }
 

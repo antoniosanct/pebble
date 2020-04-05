@@ -44,6 +44,11 @@ import net.sourceforge.pebble.api.event.blogentry.BlogEntryListener;
 public class BlogEntryIndexListener implements BlogEntryListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5120065188417977467L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event a BlogEntryEvent instance

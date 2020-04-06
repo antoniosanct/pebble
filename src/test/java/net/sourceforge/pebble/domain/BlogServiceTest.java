@@ -36,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,8 +56,13 @@ import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
  *
  * @author    Simon Brown
  */
-public class BlogServiceTest extends SingleBlogTestCase {
+public class BlogServiceTest extends SingleBlogTestCase implements Serializable {
 
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5657577659343984737L;
+	
   private BlogService service;
   private BlogEntry blogEntry;
 

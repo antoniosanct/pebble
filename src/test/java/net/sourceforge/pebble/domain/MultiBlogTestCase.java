@@ -33,6 +33,7 @@ package net.sourceforge.pebble.domain;
 
 import java.io.File;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import net.sourceforge.pebble.PebbleContext;
@@ -79,7 +80,7 @@ public abstract class MultiBlogTestCase extends PebbleTestCase {
     blog2.start();
   }
 
-  protected void tearDown() throws Exception {
+  @AfterEach protected void tearDown() throws Exception {
     blog1.stop();
     blog2.stop();
     BlogManager.getInstance().removeAllBlogs();

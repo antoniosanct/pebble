@@ -204,7 +204,7 @@ public class Blog extends AbstractBlog implements Serializable {
   private EmailSubscriptionList emailSubscriptionList;
 
   /** the ApplicationContext to instantiate plugins with */
-  private final AutowireCapableBeanFactory beanFactory;
+  private transient final AutowireCapableBeanFactory beanFactory;
 
   /** the Cache that can be used by services to cache arbitrary config */
   private final ConcurrentMap<String, Supplier<?>> serviceCache = new ConcurrentHashMap<String, Supplier<?>>();

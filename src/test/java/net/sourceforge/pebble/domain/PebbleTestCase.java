@@ -33,6 +33,7 @@ package net.sourceforge.pebble.domain;
 
 import java.io.File;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.support.StaticApplicationContext;
@@ -78,7 +79,7 @@ public abstract class PebbleTestCase {
     PebbleContext.getInstance().setApplicationContext(testApplicationContext);
   }
 
-  protected void tearDown() throws Exception {
+  @AfterEach protected void tearDown() throws Exception {
     FileUtils.deleteFile(TEST_BLOG_LOCATION);
   }
 

@@ -76,8 +76,7 @@ public abstract class SingleBlogTestCase extends PebbleTestCase {
     blog.start();
   }
 
-  @AfterEach
-  protected void tearDown() throws Exception {
+  @AfterEach protected void tearDown() throws Exception {
     blog.stop();
     BlogManager.getInstance().removeAllBlogs();
 

@@ -31,10 +31,9 @@
  */
 package net.sourceforge.pebble.web.filter;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static org.mockito.Mockito.verify;
+
+import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -43,75 +42,83 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.verify;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ResponseSplittingPreventerTest {
 
-  @Mock
-  private HttpServletRequest request;
-  @Mock
-  private HttpServletResponse response;
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
 
-  private ResponseSplittingPreventer filter = new ResponseSplittingPreventer();
+	private ResponseSplittingPreventer filter = new ResponseSplittingPreventer();
 
-  @Test
-  public void normalSetHeaderValue() throws Exception {
-    filter.doFilter(request, response, new FilterChain() {
-      public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        ((HttpServletResponse) response).setHeader("foo", "bar");
-      }
-    });
-    verify(response).setHeader("foo", "bar");
-  }
+	@Test public void normalSetHeaderValue() throws Exception {
+		filter.doFilter(request, response, new FilterChain() {
+			@Test public void doFilter(ServletRequest request, ServletResponse response)
+					throws IOException, ServletException {
+				((HttpServletResponse) response).setHeader("foo", "bar");
+			}
+		});
+		verify(response).setHeader("foo", "bar");
+	}
 
-  @Test
-  public void normalAddHeaderValue() throws Exception {
-    filter.doFilter(request, response, new FilterChain() {
-      public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        ((HttpServletResponse) response).addHeader("foo", "bar");
-      }
-    });
-    verify(response).addHeader("foo", "bar");
-  }
+	@Test public void normalAddHeaderValue() throws Exception {
+		filter.doFilter(request, response, new FilterChain() {
+			@Test public void doFilter(ServletRequest request, ServletResponse response)
+					throws IOException, ServletException {
+				((HttpServletResponse) response).addHeader("foo", "bar");
+			}
+		});
+		verify(response).addHeader("foo", "bar");
+	}
 
-  @Test
-  public void normalSendRedirectValue() throws Exception {
-    filter.doFilter(request, response, new FilterChain() {
-      public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        ((HttpServletResponse) response).sendRedirect("foo");
-      }
-    });
-    verify(response).sendRedirect("foo");
-  }
+	@Test public void normalSendRedirectValue() throws Exception {
+		filter.doFilter(request, response, new FilterChain() {
+			@Test public void doFilter(ServletRequest request, ServletResponse response)
+					throws IOException, ServletException {
+				((HttpServletResponse) response).sendRedirect("foo");
+			}
+		});
+		verify(response).sendRedirect("foo");
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void badSetHeaderValue() throws Exception {
-    filter.doFilter(request, response, new FilterChain() {
-      public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        ((HttpServletResponse) response).setHeader("foo", "bar\n");
-      }
-    });
-  }
+	@Test public void badSetHeaderValue() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			filter.doFilter(request, response, new FilterChain() {
+				@Test public void doFilter(ServletRequest request, ServletResponse response)
+						throws IOException, ServletException {
+					((HttpServletResponse) response).setHeader("foo", "bar\n");
+				}
+			});
+		});
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void badAddHeaderValue() throws Exception {
-    filter.doFilter(request, response, new FilterChain() {
-      public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        ((HttpServletResponse) response).addHeader("foo", "bar\n");
-      }
-    });
-  }
+	@Test public void badAddHeaderValue() throws Exception {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			filter.doFilter(request, response, new FilterChain() {
+				@Test public void doFilter(ServletRequest request, ServletResponse response)
+						throws IOException, ServletException {
+					((HttpServletResponse) response).addHeader("foo", "bar\n");
+				}
+			});
+		});
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void badSendRedirectValue() throws Exception {
-    filter.doFilter(request, response, new FilterChain() {
-      public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        ((HttpServletResponse) response).sendRedirect("foo\n");
-      }
-    });
-  }
+	@Test public void badSendRedirectValue() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			filter.doFilter(request, response, new FilterChain() {
+				@Test public void doFilter(ServletRequest request, ServletResponse response)
+						throws IOException, ServletException {
+					((HttpServletResponse) response).sendRedirect("foo\n");
+				}
+			});
+		});
+	}
 
 }

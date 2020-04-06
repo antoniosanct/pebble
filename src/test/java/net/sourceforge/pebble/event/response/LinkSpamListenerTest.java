@@ -31,9 +31,16 @@
  */
 package net.sourceforge.pebble.event.response;
 
-import net.sourceforge.pebble.domain.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the LinkSpamListener class.
@@ -45,13 +52,11 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   private LinkSpamListener listener;
   private Comment comment;
   private CommentEvent commentEvent;
-  private TrackBack trackBack;
-  private TrackBackEvent trackBackEvent;
 
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     listener = new LinkSpamListener();
@@ -62,7 +67,7 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with no links.
    */
-  public void testCommentAddedWithNoLinks() {
+  @Test public void testCommentAddedWithNoLinks() {
     assertTrue(comment.isApproved());
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -71,7 +76,7 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with two links, the default threshold being three.
    */
-  public void testCommentAddedWithTwoLinks() {
+  @Test public void testCommentAddedWithTwoLinks() {
     StringBuffer buf = new StringBuffer();
     buf.append("Here is some content ...");
     buf.append("<a href=\"http://www.somedomain1.com\">link</a>");
@@ -89,7 +94,7 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with three links, the default threshold being three.
    */
-  public void testCommentAddedWithThreeLinks() {
+  @Test public void testCommentAddedWithThreeLinks() {
     StringBuffer buf = new StringBuffer();
     buf.append("Here is some content ...");
     buf.append("<a href=\"http://www.somedomain1.com\">link</a>");
@@ -104,7 +109,7 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with four links, the default threshold being three.
    */
-  public void testCommentAddedWithFourLinks() {
+  @Test public void testCommentAddedWithFourLinks() {
     StringBuffer buf = new StringBuffer();
     buf.append("Here is some content ...");
     buf.append("<a href=\"http://www.somedomain1.com\">link</a>");
@@ -125,7 +130,7 @@ public class LinkSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests that the spam score is increased if the link threshold is exceeded.
    */
-  public void testSpamScoreIncremented() {
+  @Test public void testSpamScoreIncremented() {
     StringBuffer buf = new StringBuffer();
     buf.append("Here is some content ...");
     buf.append("<a href=\"http://www.somedomain1.com\">link</a>");

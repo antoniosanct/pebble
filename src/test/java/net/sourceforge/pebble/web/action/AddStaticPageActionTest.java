@@ -31,6 +31,11 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 
 /**
@@ -40,13 +45,13 @@ import net.sourceforge.pebble.Constants;
  */
 public class AddStaticPageActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new AddStaticPageAction();
 
     super.setUp();
   }
 
-//  public void testProcessWithNoStaticNameSpecified() throws Exception {
+//  @Test public void testProcessWithNoStaticNameSpecified() throws Exception {
 //    View view = action.process(request, response);
 //
 //    BlogEntry blogEntry = (BlogEntry)action.getModel().get(Constants.BLOG_ENTRY_KEY);
@@ -55,7 +60,7 @@ public class AddStaticPageActionTest extends SecureActionTestCase {
 //    assertTrue(view instanceof BlogEntryFormView);
 //  }
 //
-//  public void testProcessWithAStaticNameSpecified() throws Exception {
+//  @Test public void testProcessWithAStaticNameSpecified() throws Exception {
 //    request.setParameter("staticName", "books");
 //    View view = action.process(request, response);
 //
@@ -69,7 +74,7 @@ public class AddStaticPageActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors have access to add a blog entry.
    */
-  public void testOnlyBlogContributorsHaveAccess() {
+  @Test public void testOnlyBlogContributorsHaveAccess() {
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
     assertEquals(Constants.BLOG_CONTRIBUTOR_ROLE, roles[0]);

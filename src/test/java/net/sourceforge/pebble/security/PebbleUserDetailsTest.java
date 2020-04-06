@@ -32,28 +32,33 @@
 
 package net.sourceforge.pebble.security;
 
-import junit.framework.TestCase;
-import net.sourceforge.pebble.Constants;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.HashMap;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import net.sourceforge.pebble.Constants;
 
 /**
  * Tests for the PebbleUserDetails class.
  *
  * @author    Simon Brown
  */
-public class PebbleUserDetailsTest extends TestCase {
+public class PebbleUserDetailsTest {
 
   private PebbleUserDetails user;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     user = new PebbleUserDetails("username", "password", "A user", "emailAddress", "website", "profile", new String[] {Constants.BLOG_OWNER_ROLE}, new HashMap<String,String>(), true);
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertEquals("username", user.getUsername());
     assertEquals("password", user.getPassword());
     assertEquals("A user", user.getName());
@@ -62,11 +67,11 @@ public class PebbleUserDetailsTest extends TestCase {
 
     Collection<GrantedAuthority> authorities = user.getAuthorities();
     assertEquals(2, authorities.size());
-    assertTrue(authorities.contains(new GrantedAuthorityImpl(Constants.BLOG_OWNER_ROLE)));
-    assertTrue(authorities.contains(new GrantedAuthorityImpl(Constants.BLOG_READER_ROLE)));
+    assertTrue(authorities.contains(new SimpleGrantedAuthority(Constants.BLOG_OWNER_ROLE)));
+    assertTrue(authorities.contains(new SimpleGrantedAuthority(Constants.BLOG_READER_ROLE)));
   }
 
-  public void testConstructionWithNoExplicitRoles() {
+  @Test public void testConstructionWithNoExplicitRoles() {
     user = new PebbleUserDetails("username", "password", "A user", "emailAddress", "website", "profile", null, new HashMap<String,String>(), true);
 
     assertEquals("username", user.getUsername());
@@ -77,7 +82,7 @@ public class PebbleUserDetailsTest extends TestCase {
 
     Collection<GrantedAuthority> authorities = user.getAuthorities();
     assertEquals(1, authorities.size());
-    assertTrue(authorities.contains(new GrantedAuthorityImpl(Constants.BLOG_READER_ROLE)));
+    assertTrue(authorities.contains(new SimpleGrantedAuthority(Constants.BLOG_READER_ROLE)));
   }
 
 }

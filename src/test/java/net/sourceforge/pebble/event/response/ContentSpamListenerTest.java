@@ -31,12 +31,18 @@
  */
 package net.sourceforge.pebble.event.response;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.event.comment.CommentEvent;
+import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 
 /**
  * Tests for the ContentSpamListener class.
@@ -54,7 +60,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     blog.getPluginProperties().setProperty(ContentSpamListener.REGEX_LIST_KEY, "test");
@@ -69,7 +75,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with no content spam.
    */
-  public void testCommentWithNoContentSpam() {
+  @Test public void testCommentWithNoContentSpam() {
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
 
@@ -81,7 +87,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam.
    */
-  public void testCommentWithSomeContentSpam() {
+  @Test public void testCommentWithSomeContentSpam() {
     comment.setBody("Here is some junk about poker and online casinos.");
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -96,7 +102,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam in upper case.
    */
-  public void testCommentWithSomeContentSpamInUpperCase() {
+  @Test public void testCommentWithSomeContentSpamInUpperCase() {
     comment.setBody("Here is some junk about POKER and ONLINE CASINOS.");
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -111,7 +117,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam and a custom threshold.
    */
-  public void testCommentWithSomeContentSpamAndThreshold() {
+  @Test public void testCommentWithSomeContentSpamAndThreshold() {
     blog.getPluginProperties().setProperty(ContentSpamListener.REGEX_LIST_KEY, "poker");
     blog.getPluginProperties().setProperty(ContentSpamListener.THRESHOLD_KEY, "1");
     comment.setBody("Here is some junk about poker and online casinos.");
@@ -128,7 +134,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam in the author field.
    */
-  public void testCommentWithSomeContentSpamInAuthorField() {
+  @Test public void testCommentWithSomeContentSpamInAuthorField() {
     comment.setAuthor("online casinos");
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -143,7 +149,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam in the title field.
    */
-  public void testCommentWithSomeContentSpamInTitleField() {
+  @Test public void testCommentWithSomeContentSpamInTitleField() {
     comment.setTitle("online casinos");
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -158,7 +164,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam in the title field.
    */
-  public void testCommentWithSomeContentSpamInWebsiteField() {
+  @Test public void testCommentWithSomeContentSpamInWebsiteField() {
     comment.setWebsite("http://online.casinos.com");
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -173,7 +179,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment with some content spam in all fields.
    */
-  public void testCommentWithSomeContentSpamInAllFields() {
+  @Test public void testCommentWithSomeContentSpamInAllFields() {
     comment.setAuthor("online casinos");
     comment.setTitle("online casinos");
     comment.setWebsite("http://online.casinos.com");
@@ -191,7 +197,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with no content spam.
    */
-  public void testTrackBackWithNoContentSpam() {
+  @Test public void testTrackBackWithNoContentSpam() {
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
 
@@ -203,7 +209,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam.
    */
-  public void testTrackBackWithSomeContentSpam() {
+  @Test public void testTrackBackWithSomeContentSpam() {
     trackBack.setExcerpt("Here is some junk about poker and online casinos.");
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
@@ -218,7 +224,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam in upper case.
    */
-  public void testTrackBackWithSomeContentSpaminUpperCase() {
+  @Test public void testTrackBackWithSomeContentSpaminUpperCase() {
     trackBack.setExcerpt("Here is some junk about POKER and ONLINE CASINOS.");
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
@@ -233,7 +239,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam and a custom threshold.
    */
-  public void testTrackBackWithSomeContentSpamAndThreshold() {
+  @Test public void testTrackBackWithSomeContentSpamAndThreshold() {
     blog.getPluginProperties().setProperty(ContentSpamListener.REGEX_LIST_KEY, "poker");
     blog.getPluginProperties().setProperty(ContentSpamListener.THRESHOLD_KEY, "1");
     trackBack.setExcerpt("Here is some junk about poker and online casinos.");
@@ -250,7 +256,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam in the blog name field.
    */
-  public void testTrackBackWithSomeContentSpamInBlogNameField() {
+  @Test public void testTrackBackWithSomeContentSpamInBlogNameField() {
     trackBack.setBlogName("online casinos");
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
@@ -265,7 +271,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam in the title field.
    */
-  public void testTrackBackWithSomeContentSpamInTitleField() {
+  @Test public void testTrackBackWithSomeContentSpamInTitleField() {
     trackBack.setTitle("online casinos");
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
@@ -280,7 +286,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam in the blog URL field.
    */
-  public void testTrackBackWithSomeContentSpamInBlogUrlField() {
+  @Test public void testTrackBackWithSomeContentSpamInBlogUrlField() {
     trackBack.setUrl("http://online.casinos.com");
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());
@@ -295,7 +301,7 @@ public class ContentSpamListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack with some content spam in all fields.
    */
-  public void testTrackBackWithSomeContentSpamInAllField() {
+  @Test public void testTrackBackWithSomeContentSpamInAllField() {
     trackBack.setTitle("online casinos");
     trackBack.setBlogName("online casinos");
     trackBack.setUrl("http://online.casinos.com");

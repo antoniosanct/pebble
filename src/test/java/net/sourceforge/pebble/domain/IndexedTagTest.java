@@ -31,6 +31,12 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.index.IndexedTag;
 
 
@@ -43,13 +49,13 @@ public class IndexedTagTest extends SingleBlogTestCase {
 
   private IndexedTag tag;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     tag = new IndexedTag("java", blog);
   }
 
-  public void testAddBlogEntry() {
+  @Test public void testAddBlogEntry() {
     assertTrue(tag.getBlogEntries().isEmpty());
     assertEquals(0, tag.getNumberOfBlogEntries());
     String blogEntry = "1234567890";
@@ -59,7 +65,7 @@ public class IndexedTagTest extends SingleBlogTestCase {
     assertEquals(1, tag.getNumberOfBlogEntries());
   }
 
-  public void testRemoveBlogEntry() {
+  @Test public void testRemoveBlogEntry() {
     String blogEntry = "1234567890";
     tag.addBlogEntry(blogEntry);
     assertTrue(tag.getBlogEntries().contains(blogEntry));
@@ -70,7 +76,7 @@ public class IndexedTagTest extends SingleBlogTestCase {
     assertEquals(0, tag.getNumberOfBlogEntries());
   }
 
-//  public void testCalculateRanking() {
+//  @Test public void testCalculateRanking() {
 //    tag.calculateRank(0);
 //    assertEquals(1, tag.getRank());
 //

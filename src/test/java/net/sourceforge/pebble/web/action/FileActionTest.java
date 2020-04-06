@@ -31,11 +31,17 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import javax.servlet.ServletException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.FileMetaData;
 import net.sourceforge.pebble.web.view.ForwardView;
 import net.sourceforge.pebble.web.view.View;
-
-import javax.servlet.ServletException;
 
 /**
  * Tests for the FileAction class.
@@ -44,13 +50,13 @@ import javax.servlet.ServletException;
  */
 public class FileActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new FileAction();
 
     super.setUp();
   }
 
-  public void testBrowsingForbiddenByAnonymousUsers() {
+  @Test public void testBrowsingForbiddenByAnonymousUsers() {
     try {
       View view = action.process(request, response);
       assertTrue(view instanceof ForwardView);
@@ -60,7 +66,7 @@ public class FileActionTest extends SingleBlogActionTestCase {
     }
   }
 
-  public void testBrowsingForbiddenWhenRootRequestedByAnonymousUsers() {
+  @Test public void testBrowsingForbiddenWhenRootRequestedByAnonymousUsers() {
     try {
       request.setParameter("name", "/");
       View view = action.process(request, response);
@@ -71,7 +77,7 @@ public class FileActionTest extends SingleBlogActionTestCase {
     }
   }
 
-  public void testAccessToParentDirectoriesIsDeniedToAnonymousUsers() {
+  @Test public void testAccessToParentDirectoriesIsDeniedToAnonymousUsers() {
     try {
       request.setParameter("name", "../");
       request.setParameter("type", FileMetaData.BLOG_FILE);

@@ -36,16 +36,21 @@ import net.sourceforge.pebble.PebbleException;
 /**
  * Represents a security realm with some basic operations.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class SecurityRealmException extends PebbleException {
 
-  public SecurityRealmException(String message) {
-    super(message);
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5157981378454841778L;
 
-  public SecurityRealmException(Throwable cause) {
-    super(cause);
-  }
+	public SecurityRealmException(String message) {
+		super(message);
+	}
+
+	public SecurityRealmException(Throwable cause) {
+		super(cause);
+	}
 
 }

@@ -56,203 +56,212 @@ import net.sourceforge.pebble.util.UrlRewriter;
 /**
  * A custom tag that outputs a calendar control.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class CalendarTag extends TagSupport {
 
-  /**
-   * Implementation from the Tag interface - this is called when the opening tag
-   * is encountered.
-   *
-   * @return  an integer specifying what to do afterwards
-   * @throws  JspException    if something goes wrong
-   */
-  public int doStartTag() throws JspException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8435854998045613668L;
 
-    HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-    Blog blog = (Blog)request.getAttribute(Constants.BLOG_KEY);
-    Month month = (Month)request.getAttribute(Constants.MONTHLY_BLOG);
-    Day today = blog.getBlogForToday();
-    Calendar now = blog.getCalendar();
+	/**
+	 * Implementation from the Tag interface - this is called when the opening tag
+	 * is encountered.
+	 *
+	 * @return an integer specifying what to do afterwards
+	 * @throws JspException if something goes wrong
+	 */
+	public int doStartTag() throws JspException {
 
-    if (month == null) {
-      month = today.getMonth();
-    }
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		Blog blog = (Blog) request.getAttribute(Constants.BLOG_KEY);
+		Month month = (Month) request.getAttribute(Constants.MONTHLY_BLOG);
+		Day today = blog.getBlogForToday();
+		Calendar now = blog.getCalendar();
 
-    Calendar firstDayOfMonth = blog.getCalendar();
-    firstDayOfMonth.setTime(month.getBlogForDay(1).getDate());
+		if (month == null) {
+			month = today.getMonth();
+		}
 
-    SimpleDateFormat monthAndYearFormatter = new SimpleDateFormat("MMMM yyyy", blog.getLocale());
-    monthAndYearFormatter.setTimeZone(blog.getTimeZone());
-    SimpleDateFormat monthFormatter = new SimpleDateFormat("MMM", blog.getLocale());
-    monthFormatter.setTimeZone(blog.getTimeZone());
-    NumberFormat numberFormatter = NumberFormat.getIntegerInstance(blog.getLocale());
+		Calendar firstDayOfMonth = blog.getCalendar();
+		firstDayOfMonth.setTime(month.getBlogForDay(1).getDate());
 
-    Month firstMonth = blog.getBlogForFirstMonth();
+		SimpleDateFormat monthAndYearFormatter = new SimpleDateFormat("MMMM yyyy", blog.getLocale());
+		monthAndYearFormatter.setTimeZone(blog.getTimeZone());
+		SimpleDateFormat monthFormatter = new SimpleDateFormat("MMM", blog.getLocale());
+		monthFormatter.setTimeZone(blog.getTimeZone());
+		NumberFormat numberFormatter = NumberFormat.getIntegerInstance(blog.getLocale());
 
-    try {
-      JspWriter out = pageContext.getOut();
+		Month firstMonth = blog.getBlogForFirstMonth();
 
-      out.write("<div class=\"calendar\">");
-      out.write("<table width=\"100%\">");
-      out.write("<tr>");
-      out.write("<td colspan=\"7\" align=\"center\">");
-      if (month.before(firstMonth)) {
-        out.write("<b>");
-        out.write(monthAndYearFormatter.format(month.getDate()));
-        out.write("</b>");
-      } else {
-        out.write("<b><a href=\"");
-        out.write(UrlRewriter.doRewrite(month.getPermalink()));
-        out.write("\">");
-        out.write(monthAndYearFormatter.format(month.getDate()));
-        out.write("</a></b>");
-      }
-      out.write("</td>");
-      out.write("</tr>");
+		try {
+			JspWriter out = pageContext.getOut();
 
-      int firstDayOfWeek = now.getFirstDayOfWeek();
+			out.write("<div class=\"calendar\">");
+			out.write("<table width=\"100%\">");
+			out.write("<tr>");
+			out.write("<td colspan=\"7\" align=\"center\">");
+			if (month.before(firstMonth)) {
+				out.write("<b>");
+				out.write(monthAndYearFormatter.format(month.getDate()));
+				out.write("</b>");
+			} else {
+				out.write("<b><a href=\"");
+				out.write(UrlRewriter.doRewrite(month.getPermalink()));
+				out.write("\">");
+				out.write(monthAndYearFormatter.format(month.getDate()));
+				out.write("</a></b>");
+			}
+			out.write("</td>");
+			out.write("</tr>");
 
-      // write out the calendar header
-      DateFormatSymbols symbols = new DateFormatSymbols(blog.getLocale());
-      String[] days = symbols.getShortWeekdays();
-      out.write("<tr>");
-      for (int i = firstDayOfWeek; i <= 7; i++) {
-        out.write("<td class=\"calendarDayHeader\" width=\"14%\">" + days[i] + "</td>");
-      }
-      for (int i = 1; i < firstDayOfWeek; i++) {
-        out.write("<td class=\"calendarDayHeader\">" + days[i] + "</td>");
-      }
-      out.write("</tr>");
+			int firstDayOfWeek = now.getFirstDayOfWeek();
 
-      // write out the body of the calendar
-      Iterator it = getDatesForCompleteWeeks(blog, month).iterator();
-      Calendar cal;
-      int count = 0;
-      while (it.hasNext()) {
-        cal = (Calendar)it.next();
-        Day daily = blog.getBlogForDay(cal.getTime());
+			// write out the calendar header
+			DateFormatSymbols symbols = new DateFormatSymbols(blog.getLocale());
+			String[] days = symbols.getShortWeekdays();
+			out.write("<tr>");
+			for (int i = firstDayOfWeek; i <= 7; i++) {
+				out.write("<td class=\"calendarDayHeader\" width=\"14%\">" + days[i] + "</td>");
+			}
+			for (int i = 1; i < firstDayOfWeek; i++) {
+				out.write("<td class=\"calendarDayHeader\">" + days[i] + "</td>");
+			}
+			out.write("</tr>");
 
-        String formattedNumber = numberFormatter.format(cal.get(Calendar.DAY_OF_MONTH));
-        if (formattedNumber.length() == 1) {
-          formattedNumber = "&nbsp;" + formattedNumber;
-        }
+			// write out the body of the calendar
+			Iterator it = getDatesForCompleteWeeks(blog, month).iterator();
+			Calendar cal;
+			int count = 0;
+			while (it.hasNext()) {
+				cal = (Calendar) it.next();
+				Day daily = blog.getBlogForDay(cal.getTime());
 
-        if (count % 7 == 0) {
-          out.write("<tr>");
-        }
+				String formattedNumber = numberFormatter.format(cal.get(Calendar.DAY_OF_MONTH));
+				if (formattedNumber.length() == 1) {
+					formattedNumber = "&nbsp;" + formattedNumber;
+				}
 
-        // output padding if the date to display isn't in the month
-        if (cal.get(Calendar.MONTH) != firstDayOfMonth.get(Calendar.MONTH)) {
-          out.write("<td class=\"calendarDay\">&nbsp;");
-        } else if (now.get(Calendar.YEAR) == cal.get(Calendar.YEAR) &&
-          now.get(Calendar.MONTH) == cal.get(Calendar.MONTH) &&
-          now.get(Calendar.DAY_OF_MONTH) == cal.get(Calendar.DAY_OF_MONTH)) {
-          out.write("<td class=\"calendarToday\">");
-          if (daily.hasBlogEntries()) {
-            out.write("&nbsp;<a href=\"" + UrlRewriter.doRewrite(daily.getPermalink()) + "\">" + formattedNumber + "</a>&nbsp;");
-          } else {
-            out.write("&nbsp;" + formattedNumber + "&nbsp;");
-          }
-        } else {
-          if (daily.hasBlogEntries()) {
-            out.write("<td class=\"calendarDayWithEntries\">");
-            out.write("&nbsp;<a href=\"" + UrlRewriter.doRewrite(daily.getPermalink()) + "\">" + formattedNumber + "</a>&nbsp;");
-          } else {
-            out.write("<td class=\"calendarDay\">");
-            out.write("&nbsp;" + formattedNumber + "&nbsp;");
-          }
-        }
-        out.write("</td>");
+				if (count % 7 == 0) {
+					out.write("<tr>");
+				}
 
-        if (count % 7 == 6) {
-          out.write("</tr>");
-        }
+				// output padding if the date to display isn't in the month
+				if (cal.get(Calendar.MONTH) != firstDayOfMonth.get(Calendar.MONTH)) {
+					out.write("<td class=\"calendarDay\">&nbsp;");
+				} else if (now.get(Calendar.YEAR) == cal.get(Calendar.YEAR)
+						&& now.get(Calendar.MONTH) == cal.get(Calendar.MONTH)
+						&& now.get(Calendar.DAY_OF_MONTH) == cal.get(Calendar.DAY_OF_MONTH)) {
+					out.write("<td class=\"calendarToday\">");
+					if (daily.hasBlogEntries()) {
+						out.write("&nbsp;<a href=\"" + UrlRewriter.doRewrite(daily.getPermalink()) + "\">"
+								+ formattedNumber + "</a>&nbsp;");
+					} else {
+						out.write("&nbsp;" + formattedNumber + "&nbsp;");
+					}
+				} else {
+					if (daily.hasBlogEntries()) {
+						out.write("<td class=\"calendarDayWithEntries\">");
+						out.write("&nbsp;<a href=\"" + UrlRewriter.doRewrite(daily.getPermalink()) + "\">"
+								+ formattedNumber + "</a>&nbsp;");
+					} else {
+						out.write("<td class=\"calendarDay\">");
+						out.write("&nbsp;" + formattedNumber + "&nbsp;");
+					}
+				}
+				out.write("</td>");
 
-        count++;
-      }
+				if (count % 7 == 6) {
+					out.write("</tr>");
+				}
 
-      // write out the footer of the calendar
-      Month previous = month.getPreviousMonth();
-      Month next = month.getNextMonth();
+				count++;
+			}
 
-      out.write("<tr>");
-      out.write("<td colspan=\"7\" align=\"center\">");
+			// write out the footer of the calendar
+			Month previous = month.getPreviousMonth();
+			Month next = month.getNextMonth();
 
-      // only display the previous month link if there are blog entries
-      if (previous.before(firstMonth)) {
-        out.write(monthFormatter.format(previous.getDate()));
-      } else {
-        out.write("<a href=\"" + UrlRewriter.doRewrite(previous.getPermalink()) + "\">" + monthFormatter.format(previous.getDate()) + "</a>");
-      }
+			out.write("<tr>");
+			out.write("<td colspan=\"7\" align=\"center\">");
 
-      String todayText = I18n.getMessage(blog, "common.today");
-      out.write("&nbsp; | &nbsp;");
-      out.write("<a href=\"" + UrlRewriter.doRewrite(today.getPermalink()) + "\">" + todayText + "</a>");
-      out.write("&nbsp; | &nbsp;");
+			// only display the previous month link if there are blog entries
+			if (previous.before(firstMonth)) {
+				out.write(monthFormatter.format(previous.getDate()));
+			} else {
+				out.write("<a href=\"" + UrlRewriter.doRewrite(previous.getPermalink()) + "\">"
+						+ monthFormatter.format(previous.getDate()) + "</a>");
+			}
 
-      // only display the next month date if it's not in the future
-      if (next.getDate().after(now.getTime()) || next.before(firstMonth)) {
-        out.write(monthFormatter.format(next.getDate()));
-      } else {
-        out.write("<a href=\"" + UrlRewriter.doRewrite(next.getPermalink()) + "\">" + monthFormatter.format(next.getDate()) + "</a>");
-      }
-      out.write("</td>");
-      out.write("</tr>");
+			String todayText = I18n.getMessage(blog, "common.today");
+			out.write("&nbsp; | &nbsp;");
+			out.write("<a href=\"" + UrlRewriter.doRewrite(today.getPermalink()) + "\">" + todayText + "</a>");
+			out.write("&nbsp; | &nbsp;");
 
-      out.write("</table>");
-      out.write("</div>");
-    } catch (IOException ioe) {
-      throw new JspTagException(ioe.getMessage());
-    }
+			// only display the next month date if it's not in the future
+			if (next.getDate().after(now.getTime()) || next.before(firstMonth)) {
+				out.write(monthFormatter.format(next.getDate()));
+			} else {
+				out.write("<a href=\"" + UrlRewriter.doRewrite(next.getPermalink()) + "\">"
+						+ monthFormatter.format(next.getDate()) + "</a>");
+			}
+			out.write("</td>");
+			out.write("</tr>");
 
-    return SKIP_BODY;
-  }
+			out.write("</table>");
+			out.write("</div>");
+		} catch (IOException ioe) {
+			throw new JspTagException(ioe.getMessage());
+		}
 
-  /**
-   * Gets a list of dates that should be displayed for the given month. This
-   * method adds dates either side of the month, padding the list so that it
-   * contains a number of complete weeks. For example, if the first day of the
-   * month for the blog's locale is Monday and the given month starts on a
-   * Tuesday, this method will add in that previous Monday to present
-   * back a complete week. The same happens for the end of the month. This
-   * makes rendering easier since we just have a 7xN grid.
-   *
-   * @param blog    a Blog instance
-   * @param month   the month
-   * @return  a List of Calendar instances
-   */
-  private List getDatesForCompleteWeeks(Blog blog, Month month) {
-    List dates = new ArrayList();
-    Calendar start = blog.getCalendar();
-    start.setTime(month.getBlogForDay(1).getDate());
-    Calendar end = blog.getCalendar();
-    end.setTime(month.getBlogForDay(month.getLastDayInMonth()).getDate());
-    Calendar cal;
+		return SKIP_BODY;
+	}
 
-    // put all days in month into a list
-    for (int i = 1; i <= month.getLastDayInMonth(); i++) {
-      cal = (Calendar)start.clone();
-      cal.set(Calendar.DAY_OF_MONTH, i);
-      dates.add(cal);
-    }
+	/**
+	 * Gets a list of dates that should be displayed for the given month. This
+	 * method adds dates either side of the month, padding the list so that it
+	 * contains a number of complete weeks. For example, if the first day of the
+	 * month for the blog's locale is Monday and the given month starts on a
+	 * Tuesday, this method will add in that previous Monday to present back a
+	 * complete week. The same happens for the end of the month. This makes
+	 * rendering easier since we just have a 7xN grid.
+	 *
+	 * @param blog  a Blog instance
+	 * @param month the month
+	 * @return a List of Calendar instances
+	 */
+	private List getDatesForCompleteWeeks(Blog blog, Month month) {
+		List dates = new ArrayList();
+		Calendar start = blog.getCalendar();
+		start.setTime(month.getBlogForDay(1).getDate());
+		Calendar end = blog.getCalendar();
+		end.setTime(month.getBlogForDay(month.getLastDayInMonth()).getDate());
+		Calendar cal;
 
-    // pad out before the start of the month, until the first day of the week
-    cal = (Calendar)start.clone();
-    while (cal.get(Calendar.DAY_OF_WEEK) != cal.getFirstDayOfWeek()) {
-      cal.add(Calendar.DATE, -1);
-      dates.add(0, cal.clone());
-    }
+		// put all days in month into a list
+		for (int i = 1; i <= month.getLastDayInMonth(); i++) {
+			cal = (Calendar) start.clone();
+			cal.set(Calendar.DAY_OF_MONTH, i);
+			dates.add(cal);
+		}
 
-    // pad out after month, until the last day of the week
-    cal = (Calendar)end.clone();
-    cal.add(Calendar.DATE, 1);
-    while (cal.get(Calendar.DAY_OF_WEEK) != cal.getFirstDayOfWeek()) {
-      dates.add(cal.clone());
-      cal.add(Calendar.DATE, 1);
-    }
+		// pad out before the start of the month, until the first day of the week
+		cal = (Calendar) start.clone();
+		while (cal.get(Calendar.DAY_OF_WEEK) != cal.getFirstDayOfWeek()) {
+			cal.add(Calendar.DATE, -1);
+			dates.add(0, cal.clone());
+		}
 
-    return dates;
-  }
+		// pad out after month, until the last day of the week
+		cal = (Calendar) end.clone();
+		cal.add(Calendar.DATE, 1);
+		while (cal.get(Calendar.DAY_OF_WEEK) != cal.getFirstDayOfWeek()) {
+			dates.add(cal.clone());
+			cal.add(Calendar.DATE, 1);
+		}
+
+		return dates;
+	}
 
 }

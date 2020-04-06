@@ -44,62 +44,67 @@ import java.util.List;
  */
 public class BlogEntryEvent extends PebbleEvent {
 
-  /** constant representing blog entry added type */
-  public static final int BLOG_ENTRY_ADDED = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4025287180247522110L;
 
-  /** constant representing blog entry removed type */
-  public static final int BLOG_ENTRY_REMOVED = 1;
+	/** constant representing blog entry added type */
+	public static final int BLOG_ENTRY_ADDED = 0;
 
-  /** constant representing blog entry changed type */
-  public static final int BLOG_ENTRY_CHANGED = 2;
+	/** constant representing blog entry removed type */
+	public static final int BLOG_ENTRY_REMOVED = 1;
 
-  /** constant representing blog entry published type */
-  public static final int BLOG_ENTRY_PUBLISHED = 3;
+	/** constant representing blog entry changed type */
+	public static final int BLOG_ENTRY_CHANGED = 2;
 
-  /** constant representing blog entry unpublished type */
-  public static final int BLOG_ENTRY_UNPUBLISHED = 4;
+	/** constant representing blog entry published type */
+	public static final int BLOG_ENTRY_PUBLISHED = 3;
 
-  /** the list of property change events that caused this event */
-  private List<PropertyChangeEvent> propertyChangeEvents;
+	/** constant representing blog entry unpublished type */
+	public static final int BLOG_ENTRY_UNPUBLISHED = 4;
 
-  /**
-   * Creates a new instance with the specified source and type.
-   *
-   * @param blogEntry   the blog entry that created this event
-   * @param type        the type of this event
-   */
-  public BlogEntryEvent(BlogEntry blogEntry, int type) {
-    super(blogEntry, type);
-  }
+	/** the list of property change events that caused this event */
+	private List<PropertyChangeEvent> propertyChangeEvents;
 
-  /**
-   * Creates a new instance with the specified source and type.
-   *
-   * @param blogEntry   the blog entry that created this event
-   * @param propertyChangeEvents    the type of this event
-   */
-  public BlogEntryEvent(BlogEntry blogEntry, List<PropertyChangeEvent> propertyChangeEvents) {
-    super(blogEntry, BLOG_ENTRY_CHANGED);
-    this.propertyChangeEvents = propertyChangeEvents;
-  }
+	/**
+	 * Creates a new instance with the specified source and type.
+	 *
+	 * @param blogEntry the blog entry that created this event
+	 * @param type      the type of this event
+	 */
+	public BlogEntryEvent(BlogEntry blogEntry, int type) {
+		super(blogEntry, type);
+	}
 
-  /**
-   * Gets the blog entry that is the source of this event.
-   *
-   * @return  a BlogEntry instance
-   */
-  public BlogEntry getBlogEntry() {
-    return (BlogEntry)getSource();
-  }
+	/**
+	 * Creates a new instance with the specified source and type.
+	 *
+	 * @param blogEntry            the blog entry that created this event
+	 * @param propertyChangeEvents the type of this event
+	 */
+	public BlogEntryEvent(BlogEntry blogEntry, List<PropertyChangeEvent> propertyChangeEvents) {
+		super(blogEntry, BLOG_ENTRY_CHANGED);
+		this.propertyChangeEvents = propertyChangeEvents;
+	}
 
-  /**
-   * Gets the list of property change events that caused this event.
-   *
-   * @return  a List of PropertyChangeEvent objects, or null if the type of
-   *          this event is not BLOG_ENTRY_CHANGED
-   */
-  public List<PropertyChangeEvent> getPropertyChangeEvents() {
-    return this.propertyChangeEvents;
-  }
+	/**
+	 * Gets the blog entry that is the source of this event.
+	 *
+	 * @return a BlogEntry instance
+	 */
+	public BlogEntry getBlogEntry() {
+		return (BlogEntry) getSource();
+	}
+
+	/**
+	 * Gets the list of property change events that caused this event.
+	 *
+	 * @return a List of PropertyChangeEvent objects, or null if the type of this
+	 *         event is not BLOG_ENTRY_CHANGED
+	 */
+	public List<PropertyChangeEvent> getPropertyChangeEvents() {
+		return this.propertyChangeEvents;
+	}
 
 }

@@ -31,33 +31,38 @@
  */
 package net.sourceforge.pebble.web.validation;
 
-import junit.framework.TestCase;
-import net.sourceforge.pebble.web.validation.ValidationContext;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the ValidationContext class.
  *
  * @author    Simon Brown
  */
-public class ValidationContextTest extends TestCase {
+public class ValidationContextTest {
 
   private ValidationContext context;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     this.context = new ValidationContext();
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertFalse(context.hasErrors());
   }
 
-  public void testContextWithNoErrors() {
+  @Test public void testContextWithNoErrors() {
     assertFalse(context.hasErrors());
     assertEquals(0, context.getNumberOfErrors());
     assertTrue(context.getErrors().isEmpty());
   }
 
-  public void testContextWithOneError() {
+  @Test public void testContextWithOneError() {
     ValidationError error = new ValidationError("Some message");
     context.addError(error);
     assertTrue(context.hasErrors());
@@ -66,7 +71,7 @@ public class ValidationContextTest extends TestCase {
     assertSame(error, context.getError(0));
   }
 
-  public void testContextWithOneErrorMessage() {
+  @Test public void testContextWithOneErrorMessage() {
     context.addError("Some error message");
     assertTrue(context.hasErrors());
     assertEquals(1, context.getNumberOfErrors());

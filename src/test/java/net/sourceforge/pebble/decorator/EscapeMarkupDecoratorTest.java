@@ -31,11 +31,16 @@
  */
 package net.sourceforge.pebble.decorator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.decorator.ContentDecorator;
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.StaticPage;
-import net.sourceforge.pebble.api.decorator.ContentDecorator;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 
 /**
  * Tests for the RelativeUriDecorator class.
@@ -49,7 +54,7 @@ public class EscapeMarkupDecoratorTest extends SingleBlogTestCase {
   private BlogEntry blogEntry;
   private StaticPage staticPage;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     decorator = new EscapeMarkupDecorator();
@@ -61,7 +66,7 @@ public class EscapeMarkupDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that text in the body between <escape> tags is escaped.
    */
-  public void testEscapeTextInBody() throws Exception {
+  @Test public void testEscapeTextInBody() throws Exception {
     blogEntry.setBody(null);
     decorator.decorate(context, blogEntry);
     assertEquals("", blogEntry.getBody());
@@ -95,7 +100,7 @@ public class EscapeMarkupDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that text in the excerpt between <escape> tags is escaped.
    */
-  public void testEscapeTextInExcerpt() throws Exception {
+  @Test public void testEscapeTextInExcerpt() throws Exception {
     blogEntry.setExcerpt(null);
     decorator.decorate(context, blogEntry);
     assertEquals("", blogEntry.getExcerpt());
@@ -129,7 +134,7 @@ public class EscapeMarkupDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that text in the body between <escape> tags is escaped.
    */
-  public void testEscapeTextInBodyOfStaticPage() throws Exception {
+  @Test public void testEscapeTextInBodyOfStaticPage() throws Exception {
     staticPage.setBody(null);
     decorator.decorate(context, staticPage);
     assertEquals("", staticPage.getBody());

@@ -32,48 +32,53 @@
 
 package net.sourceforge.pebble.util.importer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
-import java.io.File;
-import java.util.List;
-
 public class MovableTypeImporterTest extends SingleBlogTestCase {
   private File testCasesDir = new File(TEST_RESOURCE_LOCATION, "mt_testcases");
 
-  public void testImport() throws Exception {
+  @Test public void testImport() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "exported.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
     BlogEntry entry = (BlogEntry) list.get(0);
-    assertEquals("excerpt", "excerpt", entry.getContent());
-    assertEquals("excerpt", "excerpt", entry.getExcerpt());
+    assertEquals("excerpt", entry.getContent(), "excerpt");
+    assertEquals("excerpt", entry.getExcerpt(), "excerpt");
     //body part needs to include extended body
-    assertEquals("body", "body<br />extended body", entry.getBody());
+    assertEquals("body<br />extended body", entry.getBody(), "body");
   }
 
-  public void testNoPrimaryCategory() throws Exception {
+  @Test public void testNoPrimaryCategory() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "noprimarycategory.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
   }
 
-  public void testMultipleSubCategory() throws Exception {
+  @Test public void testMultipleSubCategory() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "multiplesubcategory.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
 //    BlogEntry entry = (BlogEntry)list.get(0);
 //    Set<Category> categories = entry.getCategories();
 //    assertEquals("# of categories",3, categories.size());
@@ -82,67 +87,67 @@ public class MovableTypeImporterTest extends SingleBlogTestCase {
 //    assertTrue(categories.contains("subcategory2"));
   }
 
-  public void testNoExcerpt() throws Exception {
+  @Test public void testNoExcerpt() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "noexcerpt.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
     BlogEntry entry = (BlogEntry) list.get(0);
-    assertEquals("content", "body", entry.getContent());
-    assertEquals("excerpt", "body", entry.getExcerpt());
+    assertEquals("body", entry.getContent(), "content");
+    assertEquals("body", entry.getExcerpt(), "excerpt");
     //body part needs to include extended body
-    assertEquals("body", "body<br />extended body", entry.getBody());
+    assertEquals("body<br />extended body", entry.getBody(), "body");
   }
 
-  public void testNoExcerptNoExtendedBody() throws Exception {
+  @Test public void testNoExcerptNoExtendedBody() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "noexcerpt_noextendedbody.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
     BlogEntry entry = (BlogEntry) list.get(0);
-    assertEquals("content", "body", entry.getContent());
-    assertEquals("excerpt", "", entry.getExcerpt());
+    assertEquals("body", entry.getContent(), "content");
+    assertEquals("", entry.getExcerpt(), "excerpt");
     //body part needs to include extended body
-    assertEquals("body", "body", entry.getBody());
+    assertEquals("body", entry.getBody(), "body");
   }
 
-  public void testUTF8() throws Exception {
+  @Test public void testUTF8() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "utf8.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
     BlogEntry entry = (BlogEntry) list.get(0);
-    assertEquals("content", "\u65E5\u672C\u8A9Eexcerpt", entry.getContent());
-    assertEquals("title", "\u65E5\u672C\u8A9E", entry.getTitle());
+    assertEquals("\u65E5\u672C\u8A9Eexcerpt", entry.getContent(), "content");
+    assertEquals("\u65E5\u672C\u8A9E", entry.getTitle(), "title");
   }
 
-  public void testPublished() throws Exception {
+  @Test public void testPublished() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "exported.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
     BlogEntry entry = (BlogEntry) list.get(0);
-    assertTrue("publised", entry.isPublished());
+    assertTrue(entry.isPublished(), "publised");
   }
-  public void testComment() throws Exception {
+  @Test public void testComment() throws Exception {
     blog.setProperty(Blog.TIMEZONE_KEY, "Japan/Tokyo");
     File source = new File(testCasesDir, "withcomment.txt");
     MovableTypeImporter.main(new String[]{source.getAbsolutePath(), blog.getRoot(), "Tokyo/Japan"});
     blog.reindex();
     List list = blog.getBlogEntries();
-    assertEquals("size of entry", 1, list.size());
+    assertEquals(1, list.size(), "size of entry");
     BlogEntry entry = (BlogEntry) list.get(0);
-    assertTrue("publised", entry.isPublished());
+    assertTrue(entry.isPublished(), "publised");
     List<Comment> comments = entry.getComments();
-    assertEquals("size of comments", 1, comments.size());
+    assertEquals(1, comments.size(), "size of comments");
     System.out.println(blog.getRoot());
   }
 }

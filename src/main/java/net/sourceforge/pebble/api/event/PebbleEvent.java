@@ -40,51 +40,56 @@ import java.util.EventObject;
  */
 public abstract class PebbleEvent extends EventObject {
 
-  /** the type of the event */
-  private int type;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -116759086575873690L;
 
-  /** flag to indicate whether this event has been vetoed */
-  private boolean vetoed = false;
+	/** the type of the event */
+	private int type;
 
-  /**
-   * Creates a new instance with the specified source and type.
-   *
-   * @param source    the Object that created this event
-   * @param type    the type of this event
-   */
-  public PebbleEvent(Object source, int type) {
-    super(source);
+	/** flag to indicate whether this event has been vetoed */
+	private boolean vetoed = false;
 
-    this.type = type;
-  }
+	/**
+	 * Creates a new instance with the specified source and type.
+	 *
+	 * @param source the Object that created this event
+	 * @param type   the type of this event
+	 */
+	public PebbleEvent(Object source, int type) {
+		super(source);
 
-  /**
-   * Gets the type of this event.
-   *
-   * @return  the type as an int
-   */
-  public int getType() {
-    return this.type;
-  }
+		this.type = type;
+	}
 
-  /**
-   * Vetos this event so that other listeners will not reveive it.
-   */
-  public void veto() {
-    this.vetoed = true;
-  }
+	/**
+	 * Gets the type of this event.
+	 *
+	 * @return the type as an int
+	 */
+	public int getType() {
+		return this.type;
+	}
 
-  /**
-   * Determines whether this event has been vetoed.
-   *
-   * @return  true if this event has been vetoed, false otherwise
-   */
-  public boolean isVetoed() {
-    return this.vetoed;
-  }
+	/**
+	 * Vetos this event so that other listeners will not reveive it.
+	 */
+	public void veto() {
+		this.vetoed = true;
+	}
 
-  public String toString() {
-    return getClass().getName() + "/" + source + "/" + type;
-  }
+	/**
+	 * Determines whether this event has been vetoed.
+	 *
+	 * @return true if this event has been vetoed, false otherwise
+	 */
+	public boolean isVetoed() {
+		return this.vetoed;
+	}
+
+	public String toString() {
+		return getClass().getName() + "/" + source + "/" + type;
+	}
 
 }

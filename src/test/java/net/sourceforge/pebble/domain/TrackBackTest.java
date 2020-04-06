@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
 
@@ -44,7 +51,7 @@ public class TrackBackTest extends SingleBlogTestCase {
 
   private TrackBack trackback;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     trackback = new BlogEntry(blog).createTrackBack("Title", "Excerpt", "http://www.somedomain.com", "Some blog", "127.0.0.1");
@@ -54,7 +61,7 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Test that a TrackBack instance can be created correctly.
    */
-  public void testConstructionOfSimpleInstance() {
+  @Test public void testConstructionOfSimpleInstance() {
     assertNotNull(trackback);
     assertEquals("Title", trackback.getTitle());
     assertEquals("Excerpt", trackback.getExcerpt());
@@ -71,14 +78,14 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Tests that the title is set appropriately.
    */
-  public void testTitle() {
+  @Test public void testTitle() {
     assertEquals("Title", trackback.getTitle());
   }
 
   /**
    * Tests that the title defaults to the URL is not specified.
    */
-  public void testTitleDefaultsToUrlWhenNotSpecified() {
+  @Test public void testTitleDefaultsToUrlWhenNotSpecified() {
     trackback.setTitle("");
     assertEquals("http://www.somedomain.com", trackback.getTitle());
 
@@ -89,7 +96,7 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Tests that the excerpt can't be null.
    */
-  public void testExcerptNeverNull() {
+  @Test public void testExcerptNeverNull() {
     trackback.setExcerpt("");
     assertEquals("", trackback.getExcerpt());
 
@@ -100,7 +107,7 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Tests that the blog name can't be null.
    */
-  public void testBlogNameNeverNull() {
+  @Test public void testBlogNameNeverNull() {
     trackback.setBlogName("");
     assertEquals("", trackback.getBlogName());
 
@@ -111,14 +118,14 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Tests the permalink for a TrackBack.
    */
-  public void testPermalink() {
+  @Test public void testPermalink() {
     assertEquals(trackback.getBlogEntry().getPermalink() + "#trackback" + trackback.getId(), trackback.getPermalink());
   }
 
   /**
    * Tests that a TrackBack can be cloned.
    */
-  public void testClone() {
+  @Test public void testClone() {
     TrackBack clonedTrackBack = (TrackBack)trackback.clone();
 
     assertEquals(trackback.getTitle(), clonedTrackBack.getTitle());
@@ -135,22 +142,27 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are not fired when a TrackBack is marked as pending.
    */
-  public void testListenersFiredWhenTrackBackMarkedAsPending() {
+  @Test public void testListenersFiredWhenTrackBackMarkedAsPending() {
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };
@@ -162,44 +174,54 @@ public class TrackBackTest extends SingleBlogTestCase {
   /**
    * Tests that a TrackBackEvent can be vetoed.
    */
-  public void trackBackEventCanBeVetoed() {
+  @Test public void trackBackEventCanBeVetoed() {
     // create 2 listeners, veto the event in the first and
     // fail if the second receives the event
 
     trackback.setPending();
 
     TrackBackListener listener1 = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         event.veto();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };
 
     TrackBackListener listener2 = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };
@@ -215,24 +237,29 @@ public class TrackBackTest extends SingleBlogTestCase {
    * Why? Because manipulating comments from a blog entry decorator will
    * generate excess events if not disabled.
    */
-  public void testListenersNotFiredWhenClonedTrackBackApproved() {
+  @Test public void testListenersNotFiredWhenClonedTrackBackApproved() {
     trackback.setPending();
     trackback = (TrackBack)trackback.clone();
 
     TrackBackListener listener = new TrackBackListener() {
-      public void trackBackAdded(TrackBackEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void trackBackAdded(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRemoved(TrackBackEvent event) {
+      @Test public void trackBackRemoved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackApproved(TrackBackEvent event) {
+      @Test public void trackBackApproved(TrackBackEvent event) {
         fail();
       }
 
-      public void trackBackRejected(TrackBackEvent event) {
+      @Test public void trackBackRejected(TrackBackEvent event) {
         fail();
       }
     };

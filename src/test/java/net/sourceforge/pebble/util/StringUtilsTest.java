@@ -31,16 +31,19 @@
  */
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the utilities in the StringUtils class.
  *
  * @author    Simon Brown
  */
-public class StringUtilsTest extends TestCase {
+public class StringUtilsTest {
 
-  public void testTransformHTML() {
+  @Test public void testTransformHTML() {
     assertNull(StringUtils.transformHTML(null));
     assertEquals("Here is some text", StringUtils.transformHTML("Here is some text"));
     assertEquals("Here is a &lt; symbol", StringUtils.transformHTML("Here is a < symbol"));
@@ -49,7 +52,7 @@ public class StringUtilsTest extends TestCase {
     assertEquals("&lt;a href=&quot;http://www.google.com&quot;&gt;Google&lt;/a&gt;", StringUtils.transformHTML("<a href=\"http://www.google.com\">Google</a>"));
   }
 
-  public void testTransformToHTMLSubset() {
+  @Test public void testTransformToHTMLSubset() {
     assertNull(StringUtils.transformToHTMLSubset(null));
     assertEquals("Here is some text", StringUtils.transformToHTMLSubset("Here is some text"));
     assertEquals("Here is a &lt; symbol", StringUtils.transformToHTMLSubset("Here is a &amp;lt; symbol"));
@@ -89,14 +92,14 @@ public class StringUtilsTest extends TestCase {
     assertEquals("Here is a <a href=\"http://javascript:alert('Hi')\">link</a> to Google", StringUtils.transformToHTMLSubset("Here is a &lt;a href=&quot;javascript:alert('Hi')&quot;&gt;link&lt;/a&gt; to Google"));
   }
 
-  public void testFilterNewLines() {
+  @Test public void testFilterNewLines() {
     assertNull(StringUtils.filterNewlines(null));
     assertEquals("Here is some text", StringUtils.filterNewlines("Here is some text"));
     assertEquals("Line 1\n", StringUtils.filterNewlines("Line 1\r\n"));
     assertEquals("Line 1\nLine2", StringUtils.filterNewlines("Line 1\r\nLine2"));
   }
 
-  public void testFilterHTML() {
+  @Test public void testFilterHTML() {
     assertEquals("Here is some text.", StringUtils.filterHTML("Here is <!-- <rdf>...</rdf> -->some text."));
     assertEquals("Here is some text.", StringUtils.filterHTML("Here is <!-- <rdf/> -->some text."));
     assertEquals("Here is some text.", StringUtils.filterHTML("<b>Here</b> is <i>some</i> text."));
@@ -110,7 +113,7 @@ public class StringUtilsTest extends TestCase {
     assertEquals("Here is some style 2", StringUtils.filterHTML("<STYLE>body { color: red;}</stYle>Here is some style 2"));
   }
   
-  public void testFindThumbnailUrl() {
+  @Test public void testFindThumbnailUrl() {
     assertEquals(null, StringUtils.findThumbnailUrl("<img src=\"booba.jpg\">"));
     assertEquals("http://google.fr/booba.jpg", StringUtils.findThumbnailUrl("<img src=\"http://google.fr/booba.jpg\">"));
     assertEquals(null, StringUtils.findThumbnailUrl("<img> src=\"http://google.fr/booba.jpg\">"));
@@ -121,7 +124,7 @@ public class StringUtilsTest extends TestCase {
     assertEquals("http://google.fr/booba.jpg", StringUtils.findThumbnailUrl("this is some <img class=\"icon\" src='http://google.fr/incrediblySmallIcon.jpg'> text <img src='http://google.fr/booba.jpg' itemprop=\"thumbnailURL\" class=\"thumbnail class2\" > this is some text"));
 }
 
-  public void testStripScriptTags() {
+  @Test public void testStripScriptTags() {
     assertEquals("some text", StringUtils.stripScriptTags("some <script>alert(1)</script>text"));
     assertEquals("some text", StringUtils.stripScriptTags("some <script >alert(1)</script>text"));
     assertEquals("some text", StringUtils.stripScriptTags("some <script >alert(1)</script >text"));
@@ -129,8 +132,7 @@ public class StringUtilsTest extends TestCase {
     assertEquals("some text", StringUtils.stripScriptTags("some <script src=\"something.js\"/>text"));
   }
 
-
-   public void testUnescapeHTMLEntities() {
+   @Test public void testUnescapeHTMLEntities() {
     assertEquals("\u00A0", StringUtils.unescapeHTMLEntities("&nbsp;"));
 	assertEquals("\u00A0\u00A0nbsp\u00A0\u00A0", StringUtils.unescapeHTMLEntities("&nbsp;&nbsp;nbsp&nbsp;&nbsp;"));
 	assertEquals("\u00E7", StringUtils.unescapeHTMLEntities("&ccedil;"));

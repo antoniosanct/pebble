@@ -31,13 +31,18 @@
  */
 package net.sourceforge.pebble.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+
 import net.sourceforge.pebble.dao.DAOFactory;
 import net.sourceforge.pebble.dao.PersistenceException;
 import net.sourceforge.pebble.dao.RefererFilterDAO;
 import net.sourceforge.pebble.logging.CountedUrl;
-
-import java.util.*;
-import java.util.regex.Matcher;
 
 /**
  * A class to manage regular expressions used to filter out obscene and spam
@@ -45,9 +50,14 @@ import java.util.regex.Matcher;
  *
  * @author    Simon Brown
  */
-public class RefererFilterManager {
+public class RefererFilterManager implements Serializable {
 
-  /** the next filter id - used internally */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7169868542833057166L;
+
+/** the next filter id - used internally */
   private int nextId = 1;
 
   /** the owning root blog */

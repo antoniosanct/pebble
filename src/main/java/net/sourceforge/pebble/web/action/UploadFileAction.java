@@ -31,29 +31,30 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.PebbleContext;
-import net.sourceforge.pebble.domain.FileManager;
-import net.sourceforge.pebble.domain.FileMetaData;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.BlogManager;
-import net.sourceforge.pebble.web.view.RedirectView;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.impl.FileTooLargeView;
-import net.sourceforge.pebble.web.view.impl.NotEnoughSpaceView;
-import org.apache.commons.fileupload.DiskFileUpload;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.FileManager;
+import net.sourceforge.pebble.domain.FileMetaData;
+import net.sourceforge.pebble.web.view.RedirectView;
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.FileTooLargeView;
+import net.sourceforge.pebble.web.view.impl.NotEnoughSpaceView;
 
 /**
  * Superclass for actions that allow the user to upload a file.
@@ -81,18 +82,19 @@ public abstract class UploadFileAction extends AbstractFileAction {
     FileManager fileManager = new FileManager(blog, type);
 
     try {
-      boolean isMultipart = FileUpload.isMultipartContent(request);
+      boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
       if (isMultipart) {
-        DiskFileUpload upload = new DiskFileUpload();
-        long sizeInBytes = PebbleContext.getInstance().getConfiguration().getFileUploadSize() * 1024; // convert to bytes
-        upload.setSizeMax(sizeInBytes);
-        upload.setSizeThreshold((int)sizeInBytes/4);
-        upload.setRepositoryPath(System.getProperty("java.io.tmpdir"));
+    	  final long sizeInBytes = PebbleContext.getInstance().getConfiguration().getFileUploadSize() * 1024; // convert to bytes
+    	  DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+        factory.setSizeThreshold((int)sizeInBytes/4);
+        ServletFileUpload sfu = new ServletFileUpload(factory);
+        sfu.setSizeMax(sizeInBytes);
 
         List items;
         try {
-          items = upload.parseRequest(request);
+          items = sfu.parseRequest(request);
         } catch (FileUploadBase.SizeLimitExceededException e) {
           return new FileTooLargeView();
         }

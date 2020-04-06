@@ -31,6 +31,7 @@
  */
 package net.sourceforge.pebble.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -38,9 +39,14 @@ import java.util.Date;
  *
  * @author    Simon Brown
  */
-public abstract class TimePeriod {
+public abstract class TimePeriod implements Serializable {
 
-  /** a reference to the top level, owning blog */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5519843715350733099L;
+
+/** a reference to the top level, owning blog */
   private Blog blog;
 
   /** a Date representation of the day that this blog is for */

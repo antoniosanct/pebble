@@ -31,19 +31,21 @@
  */
 package net.sourceforge.pebble.search;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the SearchException class.
  *
  * @author    Simon Brown
  */
-public class SearchExceptionTest extends TestCase {
+public class SearchExceptionTest {
 
   /**
    * Tests that a BlogServiceException can be correctly instantiated.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     SearchException exception = new SearchException("A nasty error message");
     assertEquals("A nasty error message", exception.getMessage());
   }

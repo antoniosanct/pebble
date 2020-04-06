@@ -31,16 +31,25 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+
+import java.util.Collection;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.*;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.MultiBlogTestCase;
 import net.sourceforge.pebble.mock.MockHttpServletRequest;
 import net.sourceforge.pebble.mock.MockHttpServletResponse;
 import net.sourceforge.pebble.service.LastModifiedService;
 import net.sourceforge.pebble.web.model.Model;
-
-import java.util.Collection;
-
-import static org.mockito.Mockito.*;
 
 /**
  * Tests for the FeedAction class.
@@ -54,7 +63,7 @@ public class MultiBlogFeedActionTest extends MultiBlogTestCase {
   private MockHttpServletResponse response;
   private LastModifiedService lastModifiedService;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     action = new FeedAction();
@@ -67,7 +76,7 @@ public class MultiBlogFeedActionTest extends MultiBlogTestCase {
     action.setLastModifiedService(lastModifiedService);
   }
 
-  public void testCategoriesExcludedFromFeedInMultiUserMode() throws Exception {
+  @Test public void testCategoriesExcludedFromFeedInMultiUserMode() throws Exception {
     Category cat1 = new Category("/cat1", "Category 1");
     Category cat2 = new Category("/cat2", "Category 2");
     blog1.addCategory(cat1);

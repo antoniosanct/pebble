@@ -48,16 +48,13 @@ public class DispatchingFilter implements Filter {
   /** the log used by this class */
   private static Log log = LogFactory.getLog(DispatchingFilter.class);
 
-  /** the config of this filter */
-  private FilterConfig filterConfig;
-
   /**
    * Initialises this instance.
    *
    * @param config    a FilterConfig instance
    */
   public void init(FilterConfig config) {
-    this.filterConfig = config;
+    // filter config not used.
   }
 
   /**

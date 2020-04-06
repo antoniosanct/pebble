@@ -47,10 +47,12 @@ import java.util.*;
  */
 public class ResponseManager implements CommentListener, TrackBackListener {
 
-  /** the owning blog */
-  private Blog blog;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3512913445311984799L;
 
-  /** the set of recent comments */
+/** the set of recent comments */
   private SortedSet recentComments;
 
   /** the set of recent TrackBacks */
@@ -70,9 +72,7 @@ public class ResponseManager implements CommentListener, TrackBackListener {
    *
    * @param blog    a Blog instance
    */
-  public ResponseManager(Blog blog) {
-    this.blog = blog;
-
+  public ResponseManager() {
     recentComments = new TreeSet(new ResponseByDateComparator());
     recentTrackBacks = new TreeSet(new ResponseByDateComparator());
     approvedResponses = new TreeSet(new ResponseByDateComparator());

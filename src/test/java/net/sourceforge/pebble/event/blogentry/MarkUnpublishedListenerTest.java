@@ -31,14 +31,19 @@
  */
 package net.sourceforge.pebble.event.blogentry;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.util.SecurityUtils;
-import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.util.SecurityUtils;
 
 /**
  * Tests for the MarkUnpublishedListener class.
@@ -54,7 +59,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     listener = new MarkUnpublishedListener();
@@ -65,7 +70,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the blogEntryAdded() method.
    */
-  public void testBlogEntryAdded() {
+  @Test public void testBlogEntryAdded() {
     SecurityUtils.runAsBlogOwner();
 
     assertTrue(blogEntry.isUnpublished());
@@ -83,7 +88,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
    * Tests the blogEntryChanged() method, when a blog publisher changes
    * the blog entry.
    */
-  public void testBlogEntryChangedByBlogPublisher() {
+  @Test public void testBlogEntryChangedByBlogPublisher() {
     blogEntry.setPublished(true);
     SecurityUtils.runAsBlogPublisher();
 
@@ -99,7 +104,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
    * Tests the blogEntryChanged() method, when a blog contributor changes
    * the blog entry.
    */
-  public void testBlogEntryChangedByBlogContributor() {
+  @Test public void testBlogEntryChangedByBlogContributor() {
     blogEntry.setPublished(true);
     List propertyChangeEvents = new ArrayList();
     PropertyChangeEvent pce = new PropertyChangeEvent(blogEntry, BlogEntry.TITLE_PROPERTY, null, null);
@@ -112,7 +117,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the blogEntryChanged() method when the title is changed.
    */
-  public void testBlogEntryChangedForTitleProperty() {
+  @Test public void testBlogEntryChangedForTitleProperty() {
     blogEntry.setPublished(true);
     List propertyChangeEvents = new ArrayList();
     PropertyChangeEvent pce = new PropertyChangeEvent(blogEntry, BlogEntry.TITLE_PROPERTY, null, null);
@@ -125,7 +130,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the blogEntryChanged() method when the excerpt is changed.
    */
-  public void testBlogEntryChangedForExcerptProperty() {
+  @Test public void testBlogEntryChangedForExcerptProperty() {
     blogEntry.setPublished(true);
     List propertyChangeEvents = new ArrayList();
     PropertyChangeEvent pce = new PropertyChangeEvent(blogEntry, BlogEntry.EXCERPT_PROPERTY, null, null);
@@ -138,7 +143,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the blogEntryChanged() method when the body is changed.
    */
-  public void testBlogEntryChangedForBodyProperty() {
+  @Test public void testBlogEntryChangedForBodyProperty() {
     blogEntry.setPublished(true);
     List propertyChangeEvents = new ArrayList();
     PropertyChangeEvent pce = new PropertyChangeEvent(blogEntry, BlogEntry.BODY_PROPERTY, null, null);
@@ -151,7 +156,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the blogEntryChanged() method when the original permalink is changed.
    */
-  public void testBlogEntryChangedForOriginalPermalinkProperty() {
+  @Test public void testBlogEntryChangedForOriginalPermalinkProperty() {
     blogEntry.setPublished(true);
     List propertyChangeEvents = new ArrayList();
     PropertyChangeEvent pce = new PropertyChangeEvent(blogEntry, BlogEntry.ORIGINAL_PERMALINK_PROPERTY, null, null);
@@ -164,7 +169,7 @@ public class MarkUnpublishedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the blogEntryChanged() method when the comments enabled is changed.
    */
-  public void testBlogEntryChangedForCommentsEnabledProperty() {
+  @Test public void testBlogEntryChangedForCommentsEnabledProperty() {
     blogEntry.setPublished(true);
     List propertyChangeEvents = new ArrayList();
     PropertyChangeEvent pce = new PropertyChangeEvent(blogEntry, BlogEntry.COMMENTS_ENABLED_PROPERTY, null, null);

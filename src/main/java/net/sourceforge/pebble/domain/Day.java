@@ -42,7 +42,12 @@ import java.util.*;
  */
 public class Day extends TimePeriod implements Permalinkable {
 
-  /** the parent, Month instance */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2776489738125973403L;
+
+/** the parent, Month instance */
   private Month month;
 
   /** an integer representing the day that this Day is for */

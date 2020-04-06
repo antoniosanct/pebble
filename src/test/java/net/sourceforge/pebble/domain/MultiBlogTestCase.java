@@ -31,12 +31,14 @@
  */
 package net.sourceforge.pebble.domain;
 
+import java.io.File;
+
+import org.junit.jupiter.api.BeforeEach;
+
+import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.dao.DAOFactory;
 import net.sourceforge.pebble.dao.mock.MockDAOFactory;
-import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.security.MockSecurityRealm;
-
-import java.io.File;
 
 /**
  * Superclass for test cases that make uses of multiple blogs.
@@ -47,7 +49,7 @@ public abstract class MultiBlogTestCase extends PebbleTestCase {
 
   protected Blog blog1, blog2;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     DAOFactory.setConfiguredFactory(new MockDAOFactory());

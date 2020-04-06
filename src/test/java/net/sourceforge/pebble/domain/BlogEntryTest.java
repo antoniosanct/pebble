@@ -31,9 +31,23 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.beans.PropertyChangeEvent;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the BlogEntry class.
@@ -44,7 +58,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
 
   private BlogEntry blogEntry;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     blogEntry = new BlogEntry(blog);
     blogEntry.setTitle("A title");
@@ -58,7 +72,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests the construction.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertNotNull(blogEntry.getId());
     assertEquals("A title", blogEntry.getTitle());
     assertEquals("Some body", blogEntry.getBody());
@@ -81,21 +95,21 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that the root blog is setup correctly.
    */
-  public void testGetRootBlog() {
+  @Test public void testGetRootBlog() {
     assertEquals(blog, blogEntry.getBlog());
   }
 
   /**
    * Tests that the root is setup correctly.
    */
-  public void testDay() {
+  @Test public void testDay() {
     //assertEquals(dailyBlog, blogEntry.getDay());
   }
 
   /**
    * Tests for the id.
    */
-  public void testId() {
+  @Test public void testId() {
     String id = "" + blogEntry.getDate().getTime();
     assertEquals(id, blogEntry.getId());
   }
@@ -103,7 +117,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the title.
    */
-  public void testTitle() {
+  @Test public void testTitle() {
     blogEntry.setTitle("A new title");
     assertEquals("A new title", blogEntry.getTitle());
   }
@@ -111,7 +125,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the subtitle.
    */
-  public void testSubtitle() {
+  @Test public void testSubtitle() {
     blogEntry.setSubtitle("A new subtitle");
     assertEquals("A new subtitle", blogEntry.getSubtitle());
   }
@@ -119,7 +133,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the body.
    */
-  public void testBody() {
+  @Test public void testBody() {
     blogEntry.setBody("A new body");
     assertEquals("A new body", blogEntry.getBody());
   }
@@ -127,7 +141,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the excerpt.
    */
-  public void testExcerpt() {
+  @Test public void testExcerpt() {
     blogEntry.setExcerpt("An excerpt");
     assertEquals("An excerpt", blogEntry.getExcerpt());
   }
@@ -135,7 +149,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the categories.
    */
-  public void testCategories() {
+  @Test public void testCategories() {
     assertEquals(0, blogEntry.getCategories().size());
 
     Category category = new Category("1", "One");
@@ -151,7 +165,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the "in category" check.
    */
-  public void testInCategory() {
+  @Test public void testInCategory() {
     CategoryBuilder builder = new CategoryBuilder(blog);
     Category apple = new Category("/apple", "Apple");
     Category java = new Category("/java", "Java");
@@ -175,7 +189,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that all categories can be removed.
    */
-  public void testAllCategoriesCanBeRemoved() {
+  @Test public void testAllCategoriesCanBeRemoved() {
     CategoryBuilder builder = new CategoryBuilder(blog);
     Category apple = new Category("/apple", "Apple");
     Category java = new Category("/java", "Java");
@@ -194,7 +208,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the tags.
    */
-  public void testTagsSeparatedByCommas() {
+  @Test public void testTagsSeparatedByCommas() {
     blogEntry.setTags("some, tags");
     assertEquals("some tags", blogEntry.getTags());
     List tags = blogEntry.getTagsAsList();
@@ -206,7 +220,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the tags.
    */
-  public void testTagsSeparatedByWhitespace() {
+  @Test public void testTagsSeparatedByWhitespace() {
     blogEntry.setTags("some tags");
     assertEquals("some tags", blogEntry.getTags());
     List tags = blogEntry.getTagsAsList();
@@ -218,14 +232,14 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for the date.
    */
-  public void testDate() {
+  @Test public void testDate() {
     assertNotNull(blogEntry.getDate());
   }
 
   /**
    * Tests for the author.
    */
-  public void testAuthor() {
+  @Test public void testAuthor() {
     blogEntry.setAuthor("A new author");
     assertEquals("A new author", blogEntry.getAuthor());
   }
@@ -233,7 +247,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests the aggregated property.
    */
-  public void testAggregated() {
+  @Test public void testAggregated() {
     blogEntry.setOriginalPermalink("http://www.simongbrown.com/blog/2003/04/01.html#a123456789");
     assertTrue(blogEntry.isAggregated());
 
@@ -247,7 +261,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests the comments enabled property.
    */
-  public void testCommentsEnabled() {
+  @Test public void testCommentsEnabled() {
     assertTrue(blogEntry.isCommentsEnabled());
     blogEntry.setCommentsEnabled(false);
     assertFalse(blogEntry.isCommentsEnabled());
@@ -256,7 +270,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests the links that will refer to a blog entry and its comments.
    */
-  public void testLinks() {
+  @Test public void testLinks() {
     DecimalFormat format = new DecimalFormat("00");
     Calendar cal = blog.getCalendar();
     cal.setTime(blogEntry.getDate());
@@ -276,7 +290,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry can correctly manage blog comments.
    */
-  public void testComments() {
+  @Test public void testComments() {
     Comment blogComment1, blogComment2;
     Calendar cal1, cal2;
     cal1 = blog.getCalendar();
@@ -340,7 +354,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
    * Tests that a blog entry can correctly manage blog comments when two are
    * added at the same time.
    */
-  public void testTwoCommentsAddedAtTheSameTime() {
+  @Test public void testTwoCommentsAddedAtTheSameTime() {
     Comment blogComment1, blogComment2;
     blogComment1 = blogEntry.createComment("", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
     blogComment2 = (Comment)blogComment1.clone();
@@ -359,7 +373,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that nested comments can be accessed.
    */
-  public void testNestedComments() {
+  @Test public void testNestedComments() {
     Comment comment1, comment2;
     Date date1 = new Date(0);
     Date date2 = new Date(1000);
@@ -383,7 +397,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
    * Tests that the number of comments reported is correct when some of those
    * comments are nested.
    */
-  public void testNumberOfCommentsCorrectWhenNestedCommentsPresent() {
+  @Test public void testNumberOfCommentsCorrectWhenNestedCommentsPresent() {
     Comment comment1, comment2;
     Calendar cal1, cal2;
     cal1 = blog.getCalendar();
@@ -404,7 +418,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that removing a comment also removes all of its children.
    */
-  public void testRemovingCommentRemovesAllChildren() {
+  @Test public void testRemovingCommentRemovesAllChildren() {
     Comment comment1, comment2;
     Date date1 = new Date(0);
     Date date2 = new Date(1000);
@@ -424,7 +438,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that a nested comment can be removed.
    */
-  public void testNestedCommentCanBeRemoved() {
+  @Test public void testNestedCommentCanBeRemoved() {
     Comment comment1, comment2;
     Date date1 = new Date(0);
     Date date2 = new Date(1000);
@@ -445,7 +459,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that the permalink for a comment is correctly set.
    */
-  public void testCommentPermalink() {
+  @Test public void testCommentPermalink() {
     Comment blogComment;
 
     blogComment = blogEntry.createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
@@ -456,7 +470,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry can correctly manage trackbacks.
    */
-  public void testTrackBacks() {
+  @Test public void testTrackBacks() {
     // check that there are no trackbacks to start with
     assertEquals(0, blogEntry.getNumberOfTrackBacks());
     assertEquals(0, blogEntry.getTrackBacks().size());
@@ -465,7 +479,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry is cloneable.
    */
-  public void testCloneableNormalBlogEntry() {
+  @Test public void testCloneableNormalBlogEntry() {
     blogEntry.setTitle("An old title");
     blogEntry.setSubtitle("An old subtitle");
     blogEntry.setBody("An old body");
@@ -503,7 +517,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry is cloneable.
    */
-  public void testCloneableAggregatedBlogEntry() {
+  @Test public void testCloneableAggregatedBlogEntry() {
     blogEntry.setTitle("An old title");
     blogEntry.setBody("An old body");
     blogEntry.setAuthor("An old author");
@@ -527,7 +541,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertNull(clonedBlogEntry.getAttachment());
   }
 
-  public void testTopLevelCommentsClonedProperly() {
+  @Test public void testTopLevelCommentsClonedProperly() {
     Comment comment = blogEntry.createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
     blogEntry.addComment(comment);
 
@@ -537,7 +551,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
 
   }
 
-  public void testNestedCommentsClonedProperly() {
+  @Test public void testNestedCommentsClonedProperly() {
     Comment comment1 = blogEntry.createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
     blogEntry.addComment(comment1);
     Comment comment2 = blogEntry.createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
@@ -553,7 +567,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   }
 
 // todo
-//  public void testValidationForStaticPage() {
+//  @Test public void testValidationForStaticPage() {
 //    blogEntry.setType(BlogEntry.STATIC_PAGE);
 //
 //    ValidationContext context = new ValidationContext();
@@ -584,7 +598,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that the next blog entry can be accessed.
    */
-  public void testGetNextBlogEntry() throws Exception {
+  @Test public void testGetNextBlogEntry() throws Exception {
     BlogService service = new BlogService();
     Day today = blog.getBlogForToday();
     Day oneDayAgo = today.getPreviousDay();
@@ -614,7 +628,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that the previous blog entry can be accessed.
    */
-  public void testGetPreviousBlogEntry() throws Exception {
+  @Test public void testGetPreviousBlogEntry() throws Exception {
     BlogService service = new BlogService();
     Day today = blog.getBlogForToday();
     Day oneDayAgo = today.getPreviousDay();
@@ -644,7 +658,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests for a blog entry attachment.
    */
-  public void testAttachment() {
+  @Test public void testAttachment() {
     Attachment a = new Attachment("url", 1024, "image/jpeg");
     blogEntry.setAttachment(a);
     assertEquals(a, blogEntry.getAttachment());
@@ -654,7 +668,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   }
 
 // todo
-//  public void testPermalinkForStaticPage() {
+//  @Test public void testPermalinkForStaticPage() {
 //    blogEntry.setType(BlogEntry.STATIC_PAGE);
 //    blogEntry.setStaticName("SomePage");
 //    assertEquals("http://www.yourdomain.com/blog/pages/SomePage.html", blogEntry.getPermalink());
@@ -663,7 +677,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are not fired when a comment is added/removed on a clone.
    */
-  public void testCommentListenersNotFiredFromClone() {
+  @Test public void testCommentListenersNotFiredFromClone() {
     final Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     blogEntry = (BlogEntry)blogEntry.clone();
     blogEntry.addComment(comment);
@@ -673,7 +687,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are not fired when a TrackBack is added/removed on a clone.
    */
-  public void testTrackBackListenersNotFiredFromClone() {
+  @Test public void testTrackBackListenersNotFiredFromClone() {
     final TrackBack trackBack = blogEntry.createTrackBack("title", "excerpt", "url", "blogName", "127.0.0.1");
     blogEntry = (BlogEntry)blogEntry.clone();
     blogEntry.addTrackBack(trackBack);
@@ -681,14 +695,14 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertTrue(blogEntry.getEvents().isEmpty());
   }
 
-  public void testPropertyChangedEventsNotFiredWhenEventsDisabled() {
+  @Test public void testPropertyChangedEventsNotFiredWhenEventsDisabled() {
     assertFalse(blogEntry.isDirty());
     blogEntry.setEventsEnabled(false);
     blogEntry.setBody("New body");
     assertFalse(blogEntry.isDirty());
   }
 
-  public void testPropertyChangedEventsFiredForBodyProperty() {
+  @Test public void testPropertyChangedEventsFiredForBodyProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setBody(blogEntry.getBody());
@@ -703,7 +717,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals("New body", event.getNewValue());
   }
 
-  public void testPropertyChangedEventsFiredForExcerptProperty() {
+  @Test public void testPropertyChangedEventsFiredForExcerptProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setExcerpt(blogEntry.getExcerpt());
@@ -718,7 +732,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals("New excerpt", event.getNewValue());
   }
 
-  public void testPropertyChangedEventsFiredForTitleProperty() {
+  @Test public void testPropertyChangedEventsFiredForTitleProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setTitle(blogEntry.getTitle());
@@ -733,7 +747,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals("New title", event.getNewValue());
   }
 
-  public void testPropertyChangedEventsNotFiredForAuthorProperty() {
+  @Test public void testPropertyChangedEventsNotFiredForAuthorProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setAuthor(blogEntry.getAuthor());
@@ -748,7 +762,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     //assertEquals("New author", event.getNewValue());
   }
 
-  public void testPropertyChangedEventsFiredForOriginalPermalinkProperty() {
+  @Test public void testPropertyChangedEventsFiredForOriginalPermalinkProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setOriginalPermalink(null);
@@ -767,7 +781,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertFalse(blogEntry.isDirty());
   }
 
-  public void testPropertyChangedEventsFiredForAttachmentProperty() {
+  @Test public void testPropertyChangedEventsFiredForAttachmentProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setAttachment(null);
@@ -787,7 +801,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertFalse(blogEntry.isDirty());
   }
 
-  public void testPropertyChangedEventsFiredForCommentsEnabledProperty() {
+  @Test public void testPropertyChangedEventsFiredForCommentsEnabledProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setCommentsEnabled(true);
@@ -802,7 +816,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals(Boolean.FALSE, event.getNewValue());
   }
 
-  public void testPropertyChangedEventsFiredForTrackBacksEnabledProperty() {
+  @Test public void testPropertyChangedEventsFiredForTrackBacksEnabledProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setTrackBacksEnabled(true);
@@ -817,7 +831,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals(Boolean.FALSE, event.getNewValue());
   }
 
-  public void testPropertyChangedEventsFiredForCategoriesProperty() {
+  @Test public void testPropertyChangedEventsFiredForCategoriesProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.removeAllCategories();
@@ -872,7 +886,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertTrue(((Set)event.getNewValue()).contains(c2));
   }
 
-  public void testPropertyChangedEventsFiredForTagsProperty() {
+  @Test public void testPropertyChangedEventsFiredForTagsProperty() {
     assertFalse(blogEntry.isDirty());
 
     blogEntry.setTags(blogEntry.getTags());
@@ -890,7 +904,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests that all tags can be retrieved.
    */
-  public void testGetAllTags() {
+  @Test public void testGetAllTags() {
     CategoryBuilder builder = new CategoryBuilder(blog);
     Category apple = new Category("/apple", "Apple");
     Category java = new Category("/java", "Java");
@@ -920,7 +934,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
    * Tests that all tags can be retrieved, even when the blog entry
    * hasn't been associated with any categories.
    */
-  public void testGetAllTagsWhenNotAssociatedWithACategory() {
+  @Test public void testGetAllTagsWhenNotAssociatedWithACategory() {
     CategoryBuilder builder = new CategoryBuilder(blog);
     builder.getRootCategory().setTags("myblog");
     blog.setRootCategory(builder.getRootCategory());
@@ -932,7 +946,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
   /**
    * Tests the hasTag() method.
    */
-  public void testHasTag() {
+  @Test public void testHasTag() {
     CategoryBuilder builder = new CategoryBuilder(blog);
     Category apple = new Category("/apple", "Apple");
     Category java = new Category("/java", "Java");
@@ -958,7 +972,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertTrue(blogEntry.hasTag("junit"));
   }
 
-  public void testLastModifiedDate() {
+  @Test public void testLastModifiedDate() {
     blogEntry.setDate(new Date(100));
     blogEntry.addComment(blogEntry.createComment("", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1", new Date(123), State.APPROVED));
     blogEntry.addComment(blogEntry.createComment("", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1", new Date(456), State.APPROVED));
@@ -973,7 +987,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals(new Date(987), blogEntry.getLastModified());
    }
 
-  public void testRemoveCommentViaRemoveResponse() {
+  @Test public void testRemoveCommentViaRemoveResponse() {
     Comment comment = blogEntry.createComment("", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1", new Date(123), State.APPROVED);
     blogEntry.addComment(comment);
     assertEquals(1, blogEntry.getNumberOfComments());
@@ -981,7 +995,7 @@ public class BlogEntryTest extends SingleBlogTestCase {
     assertEquals(0, blogEntry.getNumberOfComments());
    }
 
-  public void testRemoveTrackBackViaRemoveResponse() {
+  @Test public void testRemoveTrackBackViaRemoveResponse() {
     TrackBack trackBack = blogEntry.createTrackBack("Title", "Excerpt", "http://www.somedomain.com", "Some blog", "127.0.0.1", new Date(123), State.APPROVED);
     blogEntry.addTrackBack(trackBack);
     assertEquals(1, blogEntry.getNumberOfTrackBacks());

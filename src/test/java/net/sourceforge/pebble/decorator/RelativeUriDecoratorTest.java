@@ -31,12 +31,17 @@
  */
 package net.sourceforge.pebble.decorator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.decorator.ContentDecorator;
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 import net.sourceforge.pebble.domain.Attachment;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.StaticPage;
-import net.sourceforge.pebble.api.decorator.ContentDecorator;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 
 /**
  * Tests for the RelativeUriDecorator class.
@@ -50,7 +55,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   private StaticPage staticPage;
   private ContentDecoratorContext context;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     blogEntry = new BlogEntry(blog);
@@ -63,7 +68,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to an image is translated, in the body.
    */
-  public void testImageUriInBody() throws Exception {
+  @Test public void testImageUriInBody() throws Exception {
     blogEntry.setBody("Body - <img src=\"./images/someimage.jpg\">");
     decorator.decorate(context, blogEntry);
     assertEquals("Body - <img src=\"http://www.yourdomain.com/blog/images/someimage.jpg\">", blogEntry.getBody());
@@ -72,7 +77,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to a file is translated, in the body.
    */
-  public void testFileUriInBody() throws Exception {
+  @Test public void testFileUriInBody() throws Exception {
     blogEntry.setBody("Body - <a href=\"./files/someimage.zip\">");
     decorator.decorate(context, blogEntry);
     assertEquals("Body - <a href=\"http://www.yourdomain.com/blog/files/someimage.zip\">", blogEntry.getBody());
@@ -81,7 +86,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to a blog entry is translated, in the body.
    */
-  public void testBlogEntryUriInBody() throws Exception {
+  @Test public void testBlogEntryUriInBody() throws Exception {
     blogEntry.setBody("Body - <a href=\"./2007/01/01/some_title.html\">");
     decorator.decorate(context, blogEntry);
     assertEquals("Body - <a href=\"http://www.yourdomain.com/blog/2007/01/01/some_title.html\">", blogEntry.getBody());
@@ -90,7 +95,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to an image is translated, in the excerpt.
    */
-  public void testImageUriInExcerpt() throws Exception {
+  @Test public void testImageUriInExcerpt() throws Exception {
     blogEntry.setExcerpt("Excerpt - <img src=\"./images/someimage.jpg\">");
     decorator.decorate(context, blogEntry);
     assertEquals("Excerpt - <img src=\"http://www.yourdomain.com/blog/images/someimage.jpg\">", blogEntry.getExcerpt());
@@ -99,7 +104,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to a file is translated, in the excerpt.
    */
-  public void testFileUriInExcerpt() throws Exception {
+  @Test public void testFileUriInExcerpt() throws Exception {
     blogEntry.setExcerpt("Excerpt - <a href=\"./files/someimage.zip\">");
     decorator.decorate(context, blogEntry);
     assertEquals("Excerpt - <a href=\"http://www.yourdomain.com/blog/files/someimage.zip\">", blogEntry.getExcerpt());
@@ -108,7 +113,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI in an attachment is translated.
    */
-  public void testRelativeUriInAttachment() throws Exception {
+  @Test public void testRelativeUriInAttachment() throws Exception {
     blogEntry.setAttachment(new Attachment("./files/someimage.jpg", 1024, "image/jpeg"));
     decorator.decorate(context, blogEntry);
     assertEquals("http://www.yourdomain.com/blog/files/someimage.jpg", blogEntry.getAttachment().getUrl());
@@ -121,7 +126,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to an image is translated, in the body.
    */
-  public void testImageUriInBodyOfStaticPage() throws Exception {
+  @Test public void testImageUriInBodyOfStaticPage() throws Exception {
     staticPage.setBody("Body - <img src=\"./images/someimage.jpg\">");
     decorator.decorate(context, staticPage);
     assertEquals("Body - <img src=\"http://www.yourdomain.com/blog/images/someimage.jpg\">", staticPage.getBody());
@@ -130,7 +135,7 @@ public class RelativeUriDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a relative URI pointing to a file is translated, in the body.
    */
-  public void testFileUriInBodyOfStaticPage() throws Exception {
+  @Test public void testFileUriInBodyOfStaticPage() throws Exception {
     staticPage.setBody("Body - <a href=\"./files/someimage.zip\">");
     decorator.decorate(context, staticPage);
     assertEquals("Body - <a href=\"http://www.yourdomain.com/blog/files/someimage.zip\">", staticPage.getBody());

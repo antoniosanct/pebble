@@ -48,7 +48,12 @@ import java.util.regex.Pattern;
  */
 public class LinkSpamListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 714748021645834552L;
+
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(LinkSpamListener.class);
 
   /** the pattern used to find HTML links */

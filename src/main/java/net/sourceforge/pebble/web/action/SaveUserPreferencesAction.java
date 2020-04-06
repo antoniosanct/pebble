@@ -31,28 +31,27 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.web.security.RequireSecurityToken;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.RedirectView;
-import net.sourceforge.pebble.web.view.ForwardView;
-import net.sourceforge.pebble.web.view.impl.FourZeroThreeView;
-import net.sourceforge.pebble.web.validation.ValidationContext;
-import net.sourceforge.pebble.domain.AbstractBlog;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.PebbleContext;
-import net.sourceforge.pebble.util.SecurityUtils;
+import net.sourceforge.pebble.domain.AbstractBlog;
 import net.sourceforge.pebble.security.PebbleUserDetails;
 import net.sourceforge.pebble.security.SecurityRealm;
 import net.sourceforge.pebble.security.SecurityRealmException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
+import net.sourceforge.pebble.util.SecurityUtils;
+import net.sourceforge.pebble.web.security.RequireSecurityToken;
+import net.sourceforge.pebble.web.validation.ValidationContext;
+import net.sourceforge.pebble.web.view.ForwardView;
+import net.sourceforge.pebble.web.view.RedirectView;
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.FourZeroThreeView;
 
 /**
  * Saves user preferences.
@@ -61,9 +60,6 @@ import java.util.Enumeration;
  */
 @RequireSecurityToken
 public class SaveUserPreferencesAction extends SecureAction {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(SaveUserPreferencesAction.class);
 
   private static final String PREFERENCE = "preference.";
 

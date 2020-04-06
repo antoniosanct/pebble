@@ -32,49 +32,41 @@
 
 package net.sourceforge.pebble.dao.file;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public class XmlStringFilterTest {
 
-  @Test
-  public void writeSimpleString() throws Exception {
+  @Test public void writeSimpleString() throws Exception {
     assertEquals("blah", XmlStringFilter.filter("blah"));
   }
 
-  @Test
-  public void writeEmptyString() throws Exception {
+  @Test public void writeEmptyString() throws Exception {
     assertEquals("", XmlStringFilter.filter(""));
   }
 
-  @Test
-  public void writeOneControl() throws Exception {
+  @Test public void writeOneControl() throws Exception {
     assertEquals("", XmlStringFilter.filter("\u0000"));
   }
 
-  @Test
-  public void writeManyControl() throws Exception {
+  @Test public void writeManyControl() throws Exception {
     assertEquals("", XmlStringFilter.filter("\u0000\u0000\u0000"));
   }
 
-  @Test
-  public void writeStringWithControlCharacterAtStart() throws Exception {
+  @Test public void writeStringWithControlCharacterAtStart() throws Exception {
     assertEquals("blah", XmlStringFilter.filter("\u0000blah"));
   }
 
-  @Test
-  public void writeStringWithControlCharacterInMiddle() throws Exception {
+  @Test public void writeStringWithControlCharacterInMiddle() throws Exception {
     assertEquals("blah", XmlStringFilter.filter("bl\u0000ah"));
   }
 
-  @Test
-  public void writeStringWithControlCharacterAtEnd() throws Exception {
+  @Test public void writeStringWithControlCharacterAtEnd() throws Exception {
     assertEquals("blah", XmlStringFilter.filter("blah\u0000"));
   }
 
-  @Test
-  public void writeStringWithLotsOfCharacters() throws Exception {
+  @Test public void writeStringWithLotsOfCharacters() throws Exception {
     assertEquals("The quick\nbrownfox \tjumps over\r the lazy dog.",
         XmlStringFilter.filter("\u0000The quick\nbrown\u0000\u0000\u0000fox \tjumps ov\u0000er\r the lazy dog.\u0000"));
   }

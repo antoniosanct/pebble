@@ -42,7 +42,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MarkPendingListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8860229259893198354L;
+	
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(MarkPendingListener.class);
 
   /**

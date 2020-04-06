@@ -31,12 +31,17 @@
  */
 package net.sourceforge.pebble.decorator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.decorator.ContentDecorator;
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.api.decorator.ContentDecorator;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 
 /**
  * Tests for the NoFollowDecorator class.
@@ -48,7 +53,7 @@ public class NoFollowDecoratorTest extends SingleBlogTestCase {
   private ContentDecorator decorator;
   private BlogEntry blogEntry;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     decorator = new NoFollowDecorator();
@@ -58,7 +63,7 @@ public class NoFollowDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that the rel="nofollow" link is added to comments.
    */
-  public void testNoFollowAddedToComments() throws Exception {
+  @Test public void testNoFollowAddedToComments() throws Exception {
     ContentDecoratorContext context = new ContentDecoratorContext();
     context.setView(ContentDecoratorContext.DETAIL_VIEW);
 
@@ -129,7 +134,7 @@ public class NoFollowDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that the rel="nofollow" link is added to TrackBacks.
    */
-  public void testNoFollowAddedToTrackBacks() throws Exception {
+  @Test public void testNoFollowAddedToTrackBacks() throws Exception {
     ContentDecoratorContext context = new ContentDecoratorContext();
     context.setView(ContentDecoratorContext.DETAIL_VIEW);
 

@@ -31,10 +31,11 @@
  */
 package net.sourceforge.pebble.mock;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import java.util.Enumeration;
 import java.util.Properties;
+
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 
 /**
  * A mock FilterChain implementation.

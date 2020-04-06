@@ -84,7 +84,8 @@
         <td colspan="2"><b><fmt:message key="blogentry.excerpt"/></b></td>
       </tr>
       <tr>
-        <td colspan="2"><textarea name="excerpt" class="excerptTextArea"><c:out value="${blogEntry.excerpt}" escapeXml="true"/></textarea>        <div class="small">(optional, short version of body for home/month/day pages)</div></td>
+        <td colspan="2"><textarea name="excerpt" class="excerptTextArea"><c:out value="${blogEntry.excerpt}" escapeXml="true"/></textarea>
+        <div class="small"><fmt:message key="blogentry.optional"/></div></td>
       </tr>
 
       <tr>

@@ -43,7 +43,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DisableResponseListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1683411543950931161L;
+	
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(DisableResponseListener.class);
 
   /**

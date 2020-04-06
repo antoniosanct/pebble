@@ -31,15 +31,6 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -47,6 +38,15 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * A factory class from which to look up and retrieve an instance
@@ -80,16 +80,12 @@ public class DefaultActionFactory implements ActionFactory, ApplicationContextAw
     for (Enumeration<URL> e = getClass().getClassLoader().getResources(actionMappingFileName); e.hasMoreElements();) {
       URL url = e.nextElement();
       // load the properties file containing the name -> class name mapping
-      InputStream in = null;
-      try {
-        in = url.openStream();
+      try (InputStream in = url.openStream()) {
         Properties props = new Properties();
         props.load(in);
         actions.putAll((Map) props);
       } catch (IOException ioe) {
         log.error("Error reading actions for class: " + url, ioe);
-      } finally {
-        IOUtils.closeQuietly(in);
       }
     }
   }

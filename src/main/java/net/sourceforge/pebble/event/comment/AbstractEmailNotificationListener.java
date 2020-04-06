@@ -56,6 +56,10 @@ import java.util.Map;
 public abstract class AbstractEmailNotificationListener extends CommentListenerSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 390567378116246635L;
+/**
    * a token to be replaced when sending e-mails
    */
   private static final String EMAIL_ADDRESS_TOKEN = "EMAIL_ADDRESS";

@@ -49,7 +49,12 @@ import java.util.List;
  */
 public class EmailSubscriptionListener extends BlogEntryListenerSupport {
 
-  /** a token to be replaced when sending e-mails */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1948436623183328662L;
+	
+/** a token to be replaced when sending e-mails */
   private static final String EMAIL_ADDRESS_TOKEN = "EMAIL_ADDRESS";
 
   /**

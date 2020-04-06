@@ -31,18 +31,17 @@
  */
 package net.sourceforge.pebble.event.blogentry;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.beans.PropertyChangeEvent;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 
-import java.beans.PropertyChangeEvent;
-import java.util.Iterator;
-import java.util.List;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
 
 /**
  * Runs W3C Tidy over the excerpt and body of blog entries so that
@@ -52,10 +51,12 @@ import java.io.ByteArrayOutputStream;
  */
 public class TidyListener extends BlogEntryListenerSupport {
 
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(TidyListener.class);
-
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2381491219191871745L;
+
+/**
    * Called when a blog entry has been added.
    *
    * @param event   a BlogEntryEvent instance

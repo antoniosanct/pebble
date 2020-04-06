@@ -46,7 +46,12 @@ import java.util.Collections;
  */
 public class IndexedTag extends Tag {
 
-  /** the blog entries associated with this tag */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6395290714837385572L;
+	
+/** the blog entries associated with this tag */
   private List<String> blogEntries = new ArrayList<String>();
 
   /**

@@ -52,7 +52,12 @@ import net.sourceforge.pebble.util.SecurityUtils;
  */
 public abstract class AbstractConfirmationStrategy implements CommentConfirmationStrategy, TrackBackConfirmationStrategy {
 
-  /** the name of the required override property */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2245007824692213061L;
+	
+/** the name of the required override property */
   public static final String REQUIRED_KEY = "CommentConfirmationStrategy.required";
 
   /**

@@ -31,23 +31,25 @@
  */
 package net.sourceforge.pebble.web.validation;
 
-import junit.framework.TestCase;
-import net.sourceforge.pebble.web.validation.ValidationError;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the ValidationError class.
  *
  * @author    Simon Brown
  */
-public class ValidationErrorTest extends TestCase {
+public class ValidationErrorTest {
 
   private ValidationError error;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     this.error = new ValidationError("An error message");
   }
 
-  public void testMessage() {
+  @Test public void testMessage() {
     assertEquals("An error message", error.getMessage());
   }
 

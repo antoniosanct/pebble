@@ -31,25 +31,26 @@
  */
 package net.sourceforge.pebble.web.filter;
 
+import java.io.IOException;
+import java.net.URLDecoder;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.*;
-import javax.servlet.jsp.jstl.core.Config;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.util.List;
-import java.util.Collections;
-import java.util.Locale;
-
 import net.sourceforge.pebble.Configuration;
-import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.comparator.BlogEntryComparator;
-import net.sourceforge.pebble.decorator.ContentDecoratorChain;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
-import net.sourceforge.pebble.domain.*;
+import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.domain.AbstractBlog;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogManager;
 
 /**
  * A filter respsonsible for setting up the blog object.
@@ -61,8 +62,6 @@ public class BlogLookupFilter implements Filter {
   /** the log used by this class */
   private static Log log = LogFactory.getLog(BlogLookupFilter.class);
 
-  /** the config of this filter */
-  private FilterConfig filterConfig;
 
   /**
    * Initialises this instance.
@@ -70,7 +69,7 @@ public class BlogLookupFilter implements Filter {
    * @param config    a FilterConfig instance
    */
   public void init(FilterConfig config) {
-    this.filterConfig = config;
+    // filterconfig not used.
   }
 
   /**

@@ -31,10 +31,13 @@
  */
 package net.sourceforge.pebble.api.event.trackback;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 
 /**
  * Tests for the TrackBackEvent class.
@@ -48,7 +51,7 @@ public class TrackBackEventTest extends SingleBlogTestCase {
   /**
    * Tests that a TrackBackEvent instance is correctly constructed.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     TrackBack trackback = new BlogEntry(blog).createTrackBack("Title", "Excerpt", "http://www.somedomain.com", "Some blog", "127.0.0.1");
     event = new TrackBackEvent(trackback, TrackBackEvent.TRACKBACK_ADDED);
 

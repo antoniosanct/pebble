@@ -31,14 +31,21 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.FileManager;
 import net.sourceforge.pebble.domain.FileMetaData;
 import net.sourceforge.pebble.domain.Theme;
 import net.sourceforge.pebble.web.view.ForbiddenView;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.FilesView;
-
-import java.util.List;
 
 /**
  * Tests for the ViewFilesAction class.
@@ -47,7 +54,7 @@ import java.util.List;
  */
 public class ViewFilesActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewFilesAction();
 
     super.setUp();
@@ -56,7 +63,7 @@ public class ViewFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that files can be accessed.
    */
-  public void testViewFiles() throws Exception {
+  @Test public void testViewFiles() throws Exception {
     // create some files and directories
     FileManager fileManager = new FileManager(blog, FileMetaData.BLOG_FILE);
     fileManager.createDirectory("/", "a");
@@ -109,7 +116,7 @@ public class ViewFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that files can be accessed, even when the path isn't specified.
    */
-  public void testViewFilesWhenPathNotSpecified() throws Exception {
+  @Test public void testViewFilesWhenPathNotSpecified() throws Exception {
     // create some files and directories
     FileManager fileManager = new FileManager(blog, FileMetaData.BLOG_FILE);
     fileManager.saveFile("/", "a.txt", "Some content");
@@ -140,7 +147,7 @@ public class ViewFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that the upload action is set correctly for blog images.
    */
-  public void testUploadActionForBlogImages() throws Exception {
+  @Test public void testUploadActionForBlogImages() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("type", FileMetaData.BLOG_IMAGE);
     action.process(request, response);
@@ -150,7 +157,7 @@ public class ViewFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that the upload action is set correctly for theme files.
    */
-  public void testUploadActionForThemeFiles() throws Exception {
+  @Test public void testUploadActionForThemeFiles() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("type", FileMetaData.THEME_FILE);
     Theme theme = new Theme(blog, "custom", "/some/path");
@@ -162,7 +169,7 @@ public class ViewFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that files can't be accessed outside of the root.
    */
-  public void testViewFilesReturnsForbiddenWhenOutsideOfRoot() throws Exception {
+  @Test public void testViewFilesReturnsForbiddenWhenOutsideOfRoot() throws Exception {
     request.setParameter("path", "../");
     request.setParameter("type", FileMetaData.BLOG_FILE);
 
@@ -175,7 +182,7 @@ public class ViewFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that a specific file can be selected.
    */
-  public void testSelectFile() throws Exception {
+  @Test public void testSelectFile() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("type", FileMetaData.BLOG_IMAGE);
     request.setParameter("file", "afile.txt");

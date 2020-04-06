@@ -32,13 +32,13 @@
 
 package net.sourceforge.pebble.dao.mock;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import net.sourceforge.pebble.dao.PersistenceException;
 import net.sourceforge.pebble.dao.RefererFilterDAO;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.RefererFilter;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * A mock implementation of the CategoryDAO interface that does nothing. This

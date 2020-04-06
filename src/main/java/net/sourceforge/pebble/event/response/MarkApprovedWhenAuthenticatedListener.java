@@ -44,6 +44,11 @@ import net.sourceforge.pebble.util.SecurityUtils;
 public class MarkApprovedWhenAuthenticatedListener extends BlogEntryResponseListenerSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8128860029897643576L;
+
+/**
    * Called when a comment or TrackBack has been added.
    *
    * @param response a Response

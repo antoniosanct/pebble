@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.comparator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.FileManager;
 import net.sourceforge.pebble.domain.FileMetaData;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
@@ -42,7 +46,7 @@ import net.sourceforge.pebble.domain.SingleBlogTestCase;
  */
 public class FileMetaDataComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     FileMetaDataComparator comp = new FileMetaDataComparator();
     FileManager fileManager = new FileManager(blog, FileMetaData.BLOG_FILE);
     FileMetaData f1 = fileManager.getFileMetaData("/", "a");

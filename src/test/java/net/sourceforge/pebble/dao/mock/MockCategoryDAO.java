@@ -34,9 +34,9 @@ package net.sourceforge.pebble.dao.mock;
 
 import net.sourceforge.pebble.dao.CategoryDAO;
 import net.sourceforge.pebble.dao.PersistenceException;
+import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.Category;
 import net.sourceforge.pebble.domain.CategoryBuilder;
-import net.sourceforge.pebble.domain.Blog;
 
 /**
  * A mock implementation of the CategoryDAO interface that does nothing. This

@@ -31,10 +31,13 @@
  */
 package net.sourceforge.pebble.api.event.comment;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
 
 /**
  * Tests for the CommentEvent class.
@@ -48,7 +51,7 @@ public class CommentEventTest extends SingleBlogTestCase {
   /**
    * Tests that a CommentEvent instance is correctly constructed.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     Comment comment = new BlogEntry(blog).createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
     event = new CommentEvent(comment, CommentEvent.COMMENT_ADDED);
 

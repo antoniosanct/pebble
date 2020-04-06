@@ -31,9 +31,12 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.BlogService;
 
 /**
  * Tests for the RemoveStaticPagesAction class.
@@ -42,13 +45,13 @@ import net.sourceforge.pebble.domain.BlogService;
  */
 public class RemoveStaticPagesActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new RemoveStaticPagesAction();
 
     super.setUp();
   }
 
-//  public void testProcess() throws Exception {
+//  @Test public void testProcess() throws Exception {
 //    BlogEntry page = blog.getBlogForToday().createStaticPage();
 //    page.setTitle("");
 //    page.setBody("");
@@ -66,7 +69,7 @@ public class RemoveStaticPagesActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors have access to remove a static page.
    */
-  public void testOnlyBlogContributorsHaveAccess() {
+  @Test public void testOnlyBlogContributorsHaveAccess() {
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
     assertEquals(Constants.BLOG_CONTRIBUTOR_ROLE, roles[0]);

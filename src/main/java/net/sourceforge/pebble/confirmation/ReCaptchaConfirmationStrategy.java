@@ -15,7 +15,12 @@ import org.apache.commons.logging.LogFactory;
 
 public class ReCaptchaConfirmationStrategy extends AbstractConfirmationStrategy {
 
-     private static final Log log = LogFactory.getLog(ReCaptchaConfirmationStrategy.class);
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6505857256838132842L;
+
+	private static final Log log = LogFactory.getLog(ReCaptchaConfirmationStrategy.class);
 
      private static final String RECAPTCHA_PUBLIC_KEY = "reCAPTCHA.public.key";
      private static final String RECAPTCHA_PRIVATE_KEY = "reCAPTCHA.private.key";

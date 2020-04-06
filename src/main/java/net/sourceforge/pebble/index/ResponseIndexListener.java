@@ -47,6 +47,11 @@ import net.sourceforge.pebble.api.event.trackback.TrackBackListener;
 public class ResponseIndexListener implements CommentListener, TrackBackListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7525188694744355823L;
+
+/**
    * Called when a comment has been added.
    *
    * @param event a CommentEvent instance

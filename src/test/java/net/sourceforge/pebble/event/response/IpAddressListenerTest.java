@@ -31,12 +31,18 @@
  */
 package net.sourceforge.pebble.event.response;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.event.comment.CommentEvent;
+import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 
 /**
  * Tests for the IpAddressListener class.
@@ -54,7 +60,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     listener = new IpAddressListener();
@@ -69,7 +75,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests a comment from an IP address that isn't on the whitelist
    * or blacklist.
    */
-  public void testCommentIpAddressNotOnWhitelistOrBlacklist() {
+  @Test public void testCommentIpAddressNotOnWhitelistOrBlacklist() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "");
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "");
 
@@ -81,7 +87,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment from an IP address that is on the blacklist.
    */
-  public void testCommentIpAddressOnBlacklist() {
+  @Test public void testCommentIpAddressOnBlacklist() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "");
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "127.0.0.1");
 
@@ -93,7 +99,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment from an IP address that is on the whitelist.
    */
-  public void testCommentIpAddressOnWhitelist() {
+  @Test public void testCommentIpAddressOnWhitelist() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "127.0.0.1");
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "");
 
@@ -106,7 +112,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests a TrackBack from an IP address that isn't on the whitelist
    * or blacklist.
    */
-  public void testTrackBackIpAddressNotOnWhitelistOrBlacklist() {
+  @Test public void testTrackBackIpAddressNotOnWhitelistOrBlacklist() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "");
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "");
 
@@ -118,7 +124,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack from an IP address that is on the whitelist.
    */
-  public void testTrackBackIpAddressOnWhitelist() {
+  @Test public void testTrackBackIpAddressOnWhitelist() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "127.0.0.1");
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "");
 
@@ -130,7 +136,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack from an IP address that is on the blacklist.
    */
-  public void testTrackBackIpAddressOnBlacklist() {
+  @Test public void testTrackBackIpAddressOnBlacklist() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "");
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "127.0.0.1");
 
@@ -143,7 +149,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests that, when a comment is marked as approved, its IP address is added
    * to the whitelist.
    */
-  public void testCommentIpAddressAddedToWhitelistWhenApproved() {
+  @Test public void testCommentIpAddressAddedToWhitelistWhenApproved() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "");
 
     assertEquals("", blog.getPluginProperties().getProperty(IpAddressListener.WHITELIST_KEY));
@@ -155,7 +161,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests that, when a comment is marked as rejected, its IP address is added
    * to the blacklist.
    */
-  public void testCommentIpAddressAddedToBlacklistWhenRejected() {
+  @Test public void testCommentIpAddressAddedToBlacklistWhenRejected() {
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "");
 
     assertEquals("", blog.getPluginProperties().getProperty(IpAddressListener.BLACKLIST_KEY));
@@ -167,7 +173,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests that, when a comment is marked as rejected, its IP address is removed
    * from the whitelist.
    */
-  public void testCommentIpAddressRemovedFromWhitelistWhenRejected() {
+  @Test public void testCommentIpAddressRemovedFromWhitelistWhenRejected() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "192.168.0.1,127.0.0.1,192.168.0.2");
     listener.blogEntryResponseRejected(comment);
     assertEquals("192.168.0.1,192.168.0.2", blog.getPluginProperties().getProperty(IpAddressListener.WHITELIST_KEY));
@@ -189,7 +195,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests that, when a TrackBack is marked as approved, its IP address is added
    * to the whitelist.
    */
-  public void testTrackBackIpAddressAddedToWhitelistWhenApproved() {
+  @Test public void testTrackBackIpAddressAddedToWhitelistWhenApproved() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "");
 
     assertEquals("", blog.getPluginProperties().getProperty(IpAddressListener.WHITELIST_KEY));
@@ -201,7 +207,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests that, when a TrackBack is marked as rejected, its IP address is added
    * to the blacklist.
    */
-  public void testTrackBackIpAddressAddedToBlacklistWhenRejected() {
+  @Test public void testTrackBackIpAddressAddedToBlacklistWhenRejected() {
     blog.getPluginProperties().setProperty(IpAddressListener.BLACKLIST_KEY, "");
 
     assertEquals("", blog.getPluginProperties().getProperty(IpAddressListener.BLACKLIST_KEY));
@@ -214,7 +220,7 @@ public class IpAddressListenerTest extends SingleBlogTestCase {
    * Tests that, when a TrackBack is marked as rejected, its IP address is removed
    * from the whitelist.
    */
-  public void testTrackBackIpAddressRemovedFromWhitelistWhenRejected() {
+  @Test public void testTrackBackIpAddressRemovedFromWhitelistWhenRejected() {
     blog.getPluginProperties().setProperty(IpAddressListener.WHITELIST_KEY, "192.168.0.1,127.0.0.1,192.168.0.2");
     listener.blogEntryResponseRejected(trackBack);
     assertEquals("192.168.0.1,192.168.0.2", blog.getPluginProperties().getProperty(IpAddressListener.WHITELIST_KEY));

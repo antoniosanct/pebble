@@ -49,7 +49,12 @@ import java.util.regex.Pattern;
  */
 public class ContentSpamListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8630039731428230799L;
+
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(ContentSpamListener.class);
 
   /** the default regex list */

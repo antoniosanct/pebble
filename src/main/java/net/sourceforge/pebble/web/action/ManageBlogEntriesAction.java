@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.BlogEntry;
@@ -40,12 +44,6 @@ import net.sourceforge.pebble.util.StringUtils;
 import net.sourceforge.pebble.web.security.RequireSecurityToken;
 import net.sourceforge.pebble.web.view.RedirectView;
 import net.sourceforge.pebble.web.view.View;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Allows the user to manage (currently only remove) one or more blog entries.
@@ -54,9 +52,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RequireSecurityToken
 public class ManageBlogEntriesAction extends SecureAction {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(ManageBlogEntriesAction.class);
 
   /**
    * Peforms the processing associated with this action.

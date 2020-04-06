@@ -45,7 +45,12 @@ import java.util.List;
  */
 public class ContentDecoratorChain implements ContentDecorator {
 
-  /** the blog associated with this chain */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7567224618508243129L;
+
+/** the blog associated with this chain */
   private Blog blog;
 
   /** the list of decorators */

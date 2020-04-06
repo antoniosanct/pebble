@@ -31,11 +31,14 @@
  */
 package net.sourceforge.pebble.comparator;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Day;
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Calendar;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the BlogEntryComparator class.
@@ -44,9 +47,8 @@ import java.util.Calendar;
  */
 public class BlogEntryComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     BlogEntryComparator comp = new BlogEntryComparator();
-    Day day = blog.getBlogForDay(2003, 04, 01);
 
     Calendar cal1 = blog.getCalendar();
     cal1.set(Calendar.HOUR_OF_DAY, 9);

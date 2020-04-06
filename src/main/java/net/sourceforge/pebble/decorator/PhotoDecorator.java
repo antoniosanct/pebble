@@ -31,19 +31,18 @@
  */
 package net.sourceforge.pebble.decorator;
 
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.StaticPage;
-import net.sourceforge.pebble.util.StringUtils;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.io.BufferedReader;
-import java.io.StringReader;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.StaticPage;
 
 /**
  * Takes a simple description of photos and generates boilerplate markup.
@@ -52,7 +51,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PhotoDecorator extends ContentDecoratorSupport {
 
-  private static final Log log = LogFactory.getLog(PhotoDecorator.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6163007645240893507L;
+
+private static final Log log = LogFactory.getLog(PhotoDecorator.class);
 
   private static final String PHOTOS_START_TAG = "<photos>";
   private static final String PHOTOS_END_TAG = "</photos>";

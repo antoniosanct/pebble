@@ -31,7 +31,13 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the MultiBlog class.
@@ -42,7 +48,7 @@ public class MultiBlogTest extends MultiBlogTestCase {
 
   private MultiBlog blog;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     this.blog = BlogManager.getInstance().getMultiBlog();
@@ -51,7 +57,7 @@ public class MultiBlogTest extends MultiBlogTestCase {
   /**
    * Tests that the date of the most recent blog entry can be calculated.
    */
-  public void testLastModified() throws Exception {
+  @Test public void testLastModified() throws Exception {
     assertEquals(new Date(0), blog.getLastModified());
 
     BlogService service = new BlogService();
@@ -65,7 +71,7 @@ public class MultiBlogTest extends MultiBlogTestCase {
   /**
    * Tests that the recent blog entries can be accessed.
    */
-  public void testRecentBlogEntries() throws BlogServiceException {
+  @Test public void testRecentBlogEntries() throws BlogServiceException {
     // should be no days to start with
     assertTrue(blog.getRecentBlogEntries(0).isEmpty());
 

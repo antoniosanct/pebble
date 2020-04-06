@@ -31,14 +31,20 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.domain.FileMetaData;
-import net.sourceforge.pebble.web.view.ForbiddenView;
-import net.sourceforge.pebble.web.view.RedirectView;
-import net.sourceforge.pebble.web.view.View;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.FileMetaData;
+import net.sourceforge.pebble.web.view.ForbiddenView;
+import net.sourceforge.pebble.web.view.RedirectView;
+import net.sourceforge.pebble.web.view.View;
 
 /**
  * Tests for the RemoveFilesAction class.
@@ -47,7 +53,7 @@ import java.io.FileWriter;
  */
 public class RemoveFilesActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new RemoveFilesAction();
 
     super.setUp();
@@ -56,7 +62,7 @@ public class RemoveFilesActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can be deleted.
    */
-  public void testDeleteFile() throws Exception {
+  @Test public void testDeleteFile() throws Exception {
     File file = new File(blog.getFilesDirectory(), "afile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     writer.write("Testing...");
@@ -70,14 +76,14 @@ public class RemoveFilesActionTest extends SecureActionTestCase {
     View view = action.process(request, response);
 
     // check file now exists and the right view is returned
-    assertFalse("File still exists", file.exists());
+    assertFalse(file.exists(), "File still exists");
     assertTrue(view instanceof RedirectView);
   }
 
   /**
    * Tests that a file can't be deleted from outside of the root.
    */
-  public void testDeleteFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
+  @Test public void testDeleteFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("name", new String[]{"../afile.txt"});
     request.setParameter("type", FileMetaData.BLOG_FILE);

@@ -36,17 +36,22 @@ import org.apache.xmlrpc.XmlRpcException;
 /**
  * An exception used to represent authentication problems with XML-RPC.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class XmlRpcAuthenticationException extends XmlRpcException {
 
-  /**
-   * Creates a new instance with the specified message.
-   *
-   * @param message   the message
-   */
-  public XmlRpcAuthenticationException(String message) {
-    super(0, message);
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4336663078425013248L;
+
+	/**
+	 * Creates a new instance with the specified message.
+	 *
+	 * @param message the message
+	 */
+	public XmlRpcAuthenticationException(String message) {
+		super(0, message);
+	}
 
 }

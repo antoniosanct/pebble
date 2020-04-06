@@ -59,6 +59,11 @@ import twitter4j.Twitter;
  */
 public class PostToTwitterBlogEntryListener extends BlogEntryListenerSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5807282427258935909L;
+	
 	/** the log used by this class */
 	private static final Log log = LogFactory
 			.getLog(PostToTwitterBlogEntryListener.class);

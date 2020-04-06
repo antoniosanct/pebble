@@ -32,13 +32,19 @@
 
 package net.sourceforge.pebble.permalink;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Calendar;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.permalink.PermalinkProvider;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.BlogService;
 import net.sourceforge.pebble.domain.Day;
 import net.sourceforge.pebble.domain.Month;
-
-import java.util.Calendar;
 
 /**
  * Tests for the Latin1SeoPermalinkProvider class.
@@ -59,7 +65,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a monthly blog permalink can be generated.
    */
-  public void testGetPermalinkForMonth() {
+  @Test public void testGetPermalinkForMonth() {
     Month month = blog.getBlogForMonth(2004, 01);
     assertEquals("/2004/01", permalinkProvider.getPermalink(month));
   }
@@ -67,7 +73,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a monthly blog permalink is recognised.
    */
-  public void testMonthPermalink() {
+  @Test public void testMonthPermalink() {
     assertTrue(permalinkProvider.isMonthPermalink("/2004/01"));
     assertFalse(permalinkProvider.isMonthPermalink("/2004/01/01"));
     assertFalse(permalinkProvider.isMonthPermalink("/someotherpage"));
@@ -78,7 +84,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a day permalink can be generated.
    */
-  public void testGetPermalinkForDay() {
+  @Test public void testGetPermalinkForDay() {
     Day day = blog.getBlogForDay(2004, 07, 14);
     assertEquals("/2004/07/14", permalinkProvider.getPermalink(day));
   }
@@ -86,7 +92,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a day permalink is recognised.
    */
-  public void testDayPermalink() {
+  @Test public void testDayPermalink() {
     assertTrue(permalinkProvider.isDayPermalink("/2004/01/01"));
     assertFalse(permalinkProvider.isDayPermalink("/2004/01"));
     assertFalse(permalinkProvider.isDayPermalink("/someotherpage"));
@@ -97,7 +103,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a permalink can be generated for a blog entry.
    */
-  public void testBlogEntryPermalink() throws Exception {
+  @Test public void testBlogEntryPermalink() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -179,7 +185,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
    * Tests that a permalink can be generated for a blog entry when there are
    * duplicate titles for the same day.
    */
-  public void testBlogEntryPermalinkForEntriesWithSameTitle() throws Exception {
+  @Test public void testBlogEntryPermalinkForEntriesWithSameTitle() throws Exception {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry1 = new BlogEntry(blog);
@@ -214,7 +220,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a blog entry permalink is recognised.
    */
-  public void testIsBlogEntryPermalink() {
+  @Test public void testIsBlogEntryPermalink() {
     assertTrue(permalinkProvider.isBlogEntryPermalink("/blog-entry-title"));
     assertFalse(permalinkProvider.isBlogEntryPermalink("/2010/05/01/someotherpage.html"));
     assertFalse(permalinkProvider.isBlogEntryPermalink(""));
@@ -224,7 +230,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that the correct blog entry can be found from a permalink.
    */
-  public void testGetBlogEntry() throws Exception {
+  @Test public void testGetBlogEntry() throws Exception {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry1 = new BlogEntry(blog);
@@ -256,7 +262,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that the correct aggregated blog entry can be found from a permalink.
    */
-  public void testGetAggregatedBlogEntry() throws Exception {
+  @Test public void testGetAggregatedBlogEntry() throws Exception {
     BlogService service = new BlogService();
 
     BlogEntry blogEntry = new BlogEntry(blog);
@@ -271,7 +277,7 @@ public class Latin1SeoPermalinkProviderTest extends PermalinkProviderSupportTest
   /**
    * Tests that a permalink is changed when the blog entry title changes.
    */
-  public void testBlogEntryPermalinkChangesWithTitle() throws Exception {
+  @Test public void testBlogEntryPermalinkChangesWithTitle() throws Exception {
     blog.setPermalinkProvider(new Latin1SeoPermalinkProvider());
 
     BlogService service = new BlogService();

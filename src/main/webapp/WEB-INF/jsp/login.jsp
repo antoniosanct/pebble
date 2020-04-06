@@ -13,11 +13,11 @@
           action="${url:rewrite(blogUrl)}j_spring_security_check">
       <div class="field">
         <label for="username"><fmt:message key="login.username"/></label>
-        <input autocorrect="off" autocapitalize="off" id="username" type="text" name="j_username" />
+        <input autocorrect="off" autocapitalize="off" id="username" type="text" name="username" />
       </div>
       <div class="field">
         <label for="password"><fmt:message key="login.password"/></label>
-        <input id="password" type="password" name="j_password" />
+        <input id="password" type="password" name="password" />
       </div>
       <div class="field">
          <label for="rememberMe"><fmt:message key='login.rememberMe' /></label>

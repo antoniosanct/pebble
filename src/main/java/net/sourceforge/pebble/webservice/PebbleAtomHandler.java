@@ -31,16 +31,14 @@
  */
 package net.sourceforge.pebble.webservice;
 
-import com.rometools.propono.atom.common.Categories;
-import com.rometools.propono.atom.server.AtomHandler;
-import com.rometools.propono.atom.server.AtomException;
 import com.rometools.propono.atom.common.AtomService;
+import com.rometools.propono.atom.common.Categories;
+import com.rometools.propono.atom.server.AtomException;
+import com.rometools.propono.atom.server.AtomHandler;
 import com.rometools.propono.atom.server.AtomMediaResource;
 import com.rometools.propono.atom.server.AtomRequest;
-import com.rometools.rome.feed.atom.Feed;
 import com.rometools.rome.feed.atom.Entry;
-
-import java.io.InputStream;
+import com.rometools.rome.feed.atom.Feed;
 
 /**
  * Implementation of a handler for the Atom Publishing Protocol.

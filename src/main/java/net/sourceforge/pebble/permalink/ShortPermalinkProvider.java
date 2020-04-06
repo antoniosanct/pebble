@@ -44,7 +44,12 @@ import net.sourceforge.pebble.domain.BlogServiceException;
  */
 public class ShortPermalinkProvider extends PermalinkProviderSupport {
 
-  /** the regex used to check for a blog entry permalink */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2810413087337290648L;
+	
+/** the regex used to check for a blog entry permalink */
   private static final String BLOG_ENTRY_PERMALINK_REGEX = "/\\d*.html";
 
   /**

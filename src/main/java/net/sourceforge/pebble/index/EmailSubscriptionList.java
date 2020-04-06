@@ -31,23 +31,35 @@
  */
 package net.sourceforge.pebble.index;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.Tag;
-import net.sourceforge.pebble.domain.BlogEntry;
 
-import java.util.*;
-import java.io.*;
+import net.sourceforge.pebble.domain.Blog;
 
 /**
  * Represents the tag index for a blog.
  *
  * @author    Simon Brown
  */
-public class EmailSubscriptionList {
+public class EmailSubscriptionList implements Serializable {
 
-  private static final Log log = LogFactory.getLog(EmailSubscriptionList.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1759235728917483351L;
+
+private static final Log log = LogFactory.getLog(EmailSubscriptionList.class);
 
   private Blog blog;
 

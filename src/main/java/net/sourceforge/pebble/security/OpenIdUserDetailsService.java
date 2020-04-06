@@ -32,8 +32,6 @@
 
 package net.sourceforge.pebble.security;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,8 +43,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @author    Simon Brown
  */
 public class OpenIdUserDetailsService implements UserDetailsService {
-
-  private static final Log log = LogFactory.getLog(OpenIdUserDetailsService.class);
 
   private SecurityRealm securityRealm;
 

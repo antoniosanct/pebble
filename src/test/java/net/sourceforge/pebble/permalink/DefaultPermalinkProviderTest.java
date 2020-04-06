@@ -31,12 +31,18 @@
  */
 package net.sourceforge.pebble.permalink;
 
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.api.permalink.PermalinkProvider;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.permalink.PermalinkProvider;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
 
 /**
  * Tests for the DefaultPermalinkProvider class.
@@ -57,7 +63,7 @@ public class DefaultPermalinkProviderTest extends PermalinkProviderSupportTestCa
   /**
    * Tests that a permalink can be generated for a blog entry.
    */
-  public void testBlogEntryPermalink() throws Exception {
+  @Test public void testBlogEntryPermalink() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -75,7 +81,7 @@ public class DefaultPermalinkProviderTest extends PermalinkProviderSupportTestCa
   /**
    * Tests that a blog entry permalink is recognised.
    */
-  public void testIsBlogEntryPermalink() {
+  @Test public void testIsBlogEntryPermalink() {
     assertTrue(permalinkProvider.isBlogEntryPermalink("/2004/01/01/1234567890123.html"));
     assertTrue(permalinkProvider.isBlogEntryPermalink("/2004/01/01/123456789012.html"));
     assertFalse(permalinkProvider.isBlogEntryPermalink("/1234567890123.html"));
@@ -87,7 +93,7 @@ public class DefaultPermalinkProviderTest extends PermalinkProviderSupportTestCa
   /**
    * Tests that the correct blog entry can be found from a permalink.
    */
-  public void testGetBlogEntry() throws Exception {
+  @Test public void testGetBlogEntry() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry1 = new BlogEntry(blog);
     BlogEntry blogEntry2 = new BlogEntry(blog);

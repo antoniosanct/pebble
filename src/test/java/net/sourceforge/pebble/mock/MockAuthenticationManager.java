@@ -31,25 +31,27 @@
  */
 package net.sourceforge.pebble.mock;
 
-import org.springframework.security.authentication.AbstractAuthenticationManager;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
 /**
  * A mock AuthenticationManager implementation, based upon the ships with Acegi.
  *
  * @author    Simon Brown
  */
-public class MockAuthenticationManager extends AbstractAuthenticationManager {
+public class MockAuthenticationManager implements AuthenticationManager {
     //~ Instance fields ========================================================
 
     private boolean grantAccess = true;
 
-  private GrantedAuthority[] authorities = new GrantedAuthorityImpl[] {};
+  private List<GrantedAuthority> authorities = new ArrayList<>(1);
 
     //~ Constructors ===========================================================
 
@@ -57,7 +59,7 @@ public class MockAuthenticationManager extends AbstractAuthenticationManager {
       this.grantAccess = grantAccess;
   }
 
-  public MockAuthenticationManager(boolean grantAccess, GrantedAuthority[] authorities) {
+	public MockAuthenticationManager(boolean grantAccess, List<GrantedAuthority> authorities) {
       this.grantAccess = grantAccess;
     this.authorities = authorities;
   }
@@ -68,14 +70,14 @@ public class MockAuthenticationManager extends AbstractAuthenticationManager {
 
     //~ Methods ================================================================
 
-    public Authentication doAuthentication(Authentication authentication)
-        throws AuthenticationException {
-        if (grantAccess) {
-          return new TestingAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
-        } else {
-            throw new BadCredentialsException(
-                "MockAuthenticationManager instructed to deny access");
-        }
-    }
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		if (grantAccess) {
+	          return new TestingAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
+	        } else {
+	            throw new BadCredentialsException(
+	                "MockAuthenticationManager instructed to deny access");
+	        }
+	}
 
 }

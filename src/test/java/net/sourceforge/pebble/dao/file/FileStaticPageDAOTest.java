@@ -32,13 +32,18 @@
 
 package net.sourceforge.pebble.dao.file;
 
-import net.sourceforge.pebble.dao.StaticPageDAO;
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.domain.StaticPage;
-import net.sourceforge.pebble.util.FileUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Locale;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.dao.StaticPageDAO;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.domain.StaticPage;
 
 /**
  * Tests for the FileStaticPageDAO class.
@@ -50,7 +55,7 @@ public class FileStaticPageDAOTest extends SingleBlogTestCase {
   private StaticPageDAO dao= new FileStaticPageDAO();
   private Locale defaultLocale;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     defaultLocale = Locale.getDefault();
@@ -58,13 +63,13 @@ public class FileStaticPageDAOTest extends SingleBlogTestCase {
   }
 
 
-  public void tearDown() throws Exception {
+  @Test public void tearDown() throws Exception {
     super.tearDown();
 
     Locale.setDefault(defaultLocale);
   }
 
-  public void testLoadStaticPageFomFile() throws Exception {
+  @Test public void testLoadStaticPageFomFile() throws Exception {
 
     File source = new File(TEST_RESOURCE_LOCATION, "1152083300843.xml");
     File destination = new File(blog.getRoot(), "pages/1152083300843");

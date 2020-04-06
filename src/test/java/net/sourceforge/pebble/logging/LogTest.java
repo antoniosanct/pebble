@@ -31,10 +31,16 @@
  */
 package net.sourceforge.pebble.logging;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the Log class.
@@ -45,27 +51,27 @@ public class LogTest extends SingleBlogTestCase {
 
   private Log log;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     this.log = new Log(blog, null);
   }
 
-  public void testEmptyLog() {
+  @Test public void testEmptyLog() {
     assertTrue(log.getRequests().isEmpty());
     assertTrue(log.getReferers().isEmpty());
     assertEquals(0, log.getTotalLogEntries());
     assertTrue(log.getLogEntries().isEmpty());
   }
 
-  public void testAddLogEntry() {
+  @Test public void testAddLogEntry() {
     LogEntry logEntry = new LogEntry();
     log.addLogEntry(logEntry);
     assertEquals(1, log.getTotalLogEntries());
     assertTrue(log.getLogEntries().contains(logEntry));
   }
 
-  public void testAddLogEntries() {
+  @Test public void testAddLogEntries() {
     LogEntry logEntry1 = new LogEntry();
     LogEntry logEntry2 = new LogEntry();
     LogEntry logEntry3 = new LogEntry();

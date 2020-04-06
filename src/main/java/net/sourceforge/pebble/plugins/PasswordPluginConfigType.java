@@ -31,10 +31,11 @@
  */
 package net.sourceforge.pebble.plugins;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import java.io.IOException;
 
 import javax.servlet.jsp.JspWriter;
-import java.io.IOException;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * @author James Roper
@@ -49,7 +50,7 @@ public class PasswordPluginConfigType implements PluginConfigType {
     writer.print(pluginConfig.getKey());
     writer.print("\" value=\"");
     if (value != null) {
-      writer.print(StringEscapeUtils.escapeHtml(value));
+      writer.print(StringEscapeUtils.escapeHtml4(value));
     }
     writer.print("\"/>");
   }

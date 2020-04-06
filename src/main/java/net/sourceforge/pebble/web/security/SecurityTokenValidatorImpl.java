@@ -253,7 +253,10 @@ public class SecurityTokenValidatorImpl implements SecurityTokenValidator {
         }
       }
     }
-    url.append(sep).append(PEBBLE_SECURITY_SIGNATURE_PARAMETER).append("=").append(URLEncoder.encode(hash));
+    try {
+		url.append(sep).append(PEBBLE_SECURITY_SIGNATURE_PARAMETER).append("=").append(URLEncoder.encode(hash, StandardCharsets.UTF_8.toString()));
+	} catch (UnsupportedEncodingException e) {
+	}
     return url.toString();
   }
 

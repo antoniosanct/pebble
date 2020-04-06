@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.comparator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.Day;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
@@ -41,7 +45,7 @@ import net.sourceforge.pebble.domain.SingleBlogTestCase;
  */
 public class DayComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     DayComparator comp = new DayComparator();
     Day d1 = blog.getBlogForDay(2003, 04, 01);
     Day d2 = blog.getBlogForDay(2003, 04, 01);

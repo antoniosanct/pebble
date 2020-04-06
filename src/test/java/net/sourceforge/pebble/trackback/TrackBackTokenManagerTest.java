@@ -31,18 +31,21 @@
  */
 package net.sourceforge.pebble.trackback;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the TrackBackTokenManager class.
  *
  * @author    Simon Brown
  */
-public class TrackBackTokenManagerTest extends TestCase {
+public class TrackBackTokenManagerTest {
 
   private TrackBackTokenManager manager = TrackBackTokenManager.getInstance();
 
-  public void testGenerateToken() {
+  @Test public void testGenerateToken() {
     String token1 = manager.generateToken();
     String token2 = manager.generateToken();
     String token3 = manager.generateToken();
@@ -52,7 +55,7 @@ public class TrackBackTokenManagerTest extends TestCase {
     assertFalse(token2.equals(token3));
   }
 
-  public void testIsValid() {
+  @Test public void testIsValid() {
     assertFalse(manager.isValid(null));
     assertFalse(manager.isValid(""));
 
@@ -65,7 +68,7 @@ public class TrackBackTokenManagerTest extends TestCase {
     assertTrue(manager.isValid(token));
   }
 
-  public void testExpire() {
+  @Test public void testExpire() {
     String token = manager.generateToken();
     manager.expire(token);
     assertFalse(manager.isValid(token));

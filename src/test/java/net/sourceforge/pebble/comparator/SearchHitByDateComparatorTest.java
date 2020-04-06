@@ -32,11 +32,15 @@
 
 package net.sourceforge.pebble.comparator;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.search.SearchHit;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 import java.util.Date;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.search.SearchHit;
 
 /**
  * Tests for the SearchHitByDateComparator class.
@@ -45,7 +49,7 @@ import java.util.Date;
  */
 public class SearchHitByDateComparatorTest extends SingleBlogTestCase {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     Comparator comp = new SearchHitByDateComparator();
 
     SearchHit h1 = new SearchHit(null, "", "", "", "", "", new Date(321), 1.0F);

@@ -35,13 +35,18 @@ import net.sourceforge.pebble.PebbleException;
 
 public class PersistenceException extends PebbleException {
 
-  /**
-   * Creates a new instance with the specified message.
-   *
-   * @param message   the message representing the exception
-   */
-  public PersistenceException(String message) {
-    super(message);
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7828502133354044186L;
+
+	/**
+	 * Creates a new instance with the specified message.
+	 *
+	 * @param message the message representing the exception
+	 */
+	public PersistenceException(String message) {
+		super(message);
+	}
 
 }

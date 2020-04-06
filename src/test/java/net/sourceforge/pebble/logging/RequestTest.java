@@ -31,11 +31,18 @@
  */
 package net.sourceforge.pebble.logging;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.PebbleContext;
-import net.sourceforge.pebble.permalink.TitlePermalinkProvider;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.BlogService;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.permalink.TitlePermalinkProvider;
 
 /**
  * Tests for the Request class.
@@ -46,64 +53,63 @@ public class RequestTest extends SingleBlogTestCase {
 
   private Request url;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     url = new Request("http://www.somedomain.com");
     url.addLogEntry(new LogEntry());
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertEquals("http://www.somedomain.com", url.getName());
     assertEquals("http://www.somedomain.com", url.getUrl());
     assertEquals(1, url.getCount());
   }
 
-  public void testIncrementingCount() {
+  @Test public void testIncrementingCount() {
     assertEquals(1, url.getCount());
     url.addLogEntry(new LogEntry());
     assertEquals(2, url.getCount());
   }
 
-  public void testShortUrlIsNotTruncated() {
+  @Test public void testShortUrlIsNotTruncated() {
     String s = "http://www.somedomain.com";
     url = new Request(s);
     assertEquals("http://www.somedomain.com", url.getTruncatedName());
   }
 
-  public void testLongUrlIsTruncated() {
+  @Test public void testLongUrlIsTruncated() {
     String s = "http://www.somedomain.com/here/is/a/long/url/abcdefghijklmnopqrstuvwxyz012345678012345678901234567890123456789";
     url = new Request(s);
     assertEquals(s.substring(0, Request.NAME_LENGTH_LIMIT - 3) + "...", url.getTruncatedName());
   }
 
-  public void testEmptyUrl() {
+  @Test public void testEmptyUrl() {
     url = new Request("");
     assertEquals("", url.getUrl());
     assertEquals("None", url.getName());
   }
 
-  public void testNullUrl() {
+  @Test public void testNullUrl() {
     url = new Request(null);
     assertEquals(null, url.getUrl());
     assertEquals("None", url.getName());
   }
 
-  public void testHashCode() {
+  @Test public void testHashCode() {
     url = new Request(null);
     assertEquals(0, url.hashCode());
     url = new Request("http://www.somedomain.com");
     assertEquals("http://www.somedomain.com".hashCode(), url.hashCode());
   }
 
-  public void testEquals() {
+  @Test public void testEquals() {
     Request url1 = new Request("http://www.somedomain.com");
     Request url2 = new Request("http://www.yahoo.com");
     Request url3 = new Request(null);
     Request url4 = new Request(null);
 
     assertFalse(url1.equals(null));
-    assertFalse(url1.equals("http://www.somedomain.com"));
     assertTrue(url1.equals(url1));
     assertFalse(url1.equals(url2));
     assertFalse(url2.equals(url1));
@@ -115,7 +121,7 @@ public class RequestTest extends SingleBlogTestCase {
   /**
    * Test that friendly names are used for news feeds.
    */
-  public void testFriendlyNamesForNewsFeeds() {
+  @Test public void testFriendlyNamesForNewsFeeds() {
     url = new Request("http://...rss.xml");
     assertEquals("Feed : Blog Entries", url.getName());
     url = new Request("http://...rss.xml?category=java");
@@ -142,12 +148,12 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("Feed : Blog Entries", url.getName());
   }
 
-  public void testFriendlyNamesForHomePage() throws Exception {
+  @Test public void testFriendlyNamesForHomePage() throws Exception {
     url = new Request("/", blog);
     assertEquals("Home", url.getName());
   }
 
-  public void testFriendlyNamesForBlogEntries() throws Exception {
+  @Test public void testFriendlyNamesForBlogEntries() throws Exception {
     BlogEntry be = new BlogEntry(blog);
     be.setTitle("Test blog entry");
     BlogService service = new BlogService();
@@ -157,7 +163,7 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("Blog Entry : Test blog entry", url.getName());
   }
 
-  public void testFriendlyNamesForBlogEntriesUsingDefaultPermalinkProvider() throws Exception {
+  @Test public void testFriendlyNamesForBlogEntriesUsingDefaultPermalinkProvider() throws Exception {
     BlogEntry be = new BlogEntry(blog);
     be.setTitle("Test blog entry");
     BlogService service = new BlogService();
@@ -168,7 +174,7 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("Blog Entry : Test blog entry", url.getName());
   }
 
-  public void testFriendlyNamesForTagPage() throws Exception {
+  @Test public void testFriendlyNamesForTagPage() throws Exception {
     url = new Request("/tags/", blog);
     assertEquals("Tags", url.getName());
     url = new Request("/tags", blog);
@@ -180,7 +186,7 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("Tag : java", url.getName());
   }
 
-  public void testFriendlyNamesForCategoryPage() throws Exception {
+  @Test public void testFriendlyNamesForCategoryPage() throws Exception {
     url = new Request("/categories/", blog);
     assertEquals("Categories", url.getName());
     url = new Request("/categories", blog);
@@ -192,7 +198,7 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("Category : java", url.getName());
   }
 
-  public void testFriendlyNamesForFile() throws Exception {
+  @Test public void testFriendlyNamesForFile() throws Exception {
     url = new Request("/files/", blog);
     assertEquals("Files", url.getName());
     url = new Request("/files", blog);
@@ -204,29 +210,29 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("File : directory/test.txt", url.getName());
   }
 
-  public void testFriendlyNamesForBlogEntriesByPage() throws Exception {
+  @Test public void testFriendlyNamesForBlogEntriesByPage() throws Exception {
     url = new Request("/blogentries/1.html", blog);
     assertEquals("Blog Entries : Page 1", url.getName());
   }
 
-  public void testFriendlyNamesForMonthPages() throws Exception {
+  @Test public void testFriendlyNamesForMonthPages() throws Exception {
     url = new Request("/2007/07.html", blog);
     assertEquals("Month : July 2007", url.getName());
   }
 
-  public void testFriendlyNamesForDayPages() throws Exception {
+  @Test public void testFriendlyNamesForDayPages() throws Exception {
     url = new Request("/2007/07/01.html", blog);
     assertEquals("Day : 01 July 2007", url.getName());
   }
 
-  public void testFriendlyNamesForResponsesFeed() throws Exception {
+  @Test public void testFriendlyNamesForResponsesFeed() throws Exception {
     url = new Request("/responses/rss.xml", blog);
     assertEquals("Feed : Responses", url.getName());
     url = new Request("/responses/atom.xml", blog);
     assertEquals("Feed : Responses", url.getName());
   }
 
-  public void testFriendlyNamesForCategoryFeeds() throws Exception {
+  @Test public void testFriendlyNamesForCategoryFeeds() throws Exception {
     url = new Request("/categories/java/rss.xml", blog);
     assertEquals("Feed : category=java", url.getName());
     url = new Request("/categories/java/atom.xml", blog);
@@ -238,35 +244,35 @@ public class RequestTest extends SingleBlogTestCase {
     assertEquals("Feed : category=java/junit", url.getName());
   }
 
-  public void testFriendlyNamesForTagFeeds() throws Exception {
+  @Test public void testFriendlyNamesForTagFeeds() throws Exception {
     url = new Request("/tags/java/rss.xml", blog);
     assertEquals("Feed : tag=java", url.getName());
     url = new Request("/tags/java/atom.xml", blog);
     assertEquals("Feed : tag=java", url.getName());
   }
 
-  public void testFriendlyNamesForAuthorFeeds() throws Exception {
+  @Test public void testFriendlyNamesForAuthorFeeds() throws Exception {
     url = new Request("/authors/sbrown/rss.xml", blog);
     assertEquals("Feed : author=sbrown", url.getName());
     url = new Request("/authors/sbrown/atom.xml", blog);
     assertEquals("Feed : author=sbrown", url.getName());
   }
 
-  public void testFriendlyNamesForAuthorPage() throws Exception {
+  @Test public void testFriendlyNamesForAuthorPage() throws Exception {
     url = new Request("/authors/sbrown/", blog);
     assertEquals("Author : sbrown", url.getName());
     url = new Request("/authors/sbrown", blog);
     assertEquals("Author : sbrown", url.getName());
   }
 
-  public void testFriendlyNamesForStaticPage() throws Exception {
+  @Test public void testFriendlyNamesForStaticPage() throws Exception {
     url = new Request("/pages/sbrown.html", blog);
     assertEquals("Static Page : sbrown.html", url.getName());
     url = new Request("/pages/authors/sbrown.html", blog);
     assertEquals("Static Page : authors/sbrown.html", url.getName());
   }
 
-  public void testFriendlyNamesForSearches() throws Exception {
+  @Test public void testFriendlyNamesForSearches() throws Exception {
     url = new Request("/search.action", blog);
     assertEquals("Search", url.getName());
     url = new Request("/search.action?query=java", blog);

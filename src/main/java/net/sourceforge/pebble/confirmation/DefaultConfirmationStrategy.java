@@ -41,6 +41,11 @@ import javax.servlet.http.HttpServletRequest;
 public class DefaultConfirmationStrategy extends AbstractConfirmationStrategy {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 410173642588134804L;
+
+/**
    * Called before showing the confirmation page.
    *
    * @param request the HttpServletRequest used in the confirmation

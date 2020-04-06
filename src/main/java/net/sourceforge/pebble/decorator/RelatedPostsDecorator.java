@@ -58,7 +58,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class RelatedPostsDecorator extends ContentDecoratorSupport {
 
-  private static final Log log = LogFactory.getLog(RelatedPostsDecorator.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8532578700967033901L;
+
+private static final Log log = LogFactory.getLog(RelatedPostsDecorator.class);
 
   /** the name of the max number of posts property */
   public static final String MAX_POSTS = "RelatedPostsDecorator.maxPosts";

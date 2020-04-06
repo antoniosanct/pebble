@@ -44,169 +44,174 @@ import java.util.List;
 /**
  * Superclass for blog entries, comments and TrackBacks.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public abstract class Content implements Permalinkable, Cloneable, Serializable {
 
-  /** the state of the object */
-  private State state;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3350618986562277998L;
 
-  /** flag to indicate whether events are enabled */
-  private boolean eventsEnabled = false;
+	/** the state of the object */
+	private State state;
 
-  /** the class responsible for managing property change events */
-  protected transient PropertyChangeSupport propertyChangeSupport;
+	/** flag to indicate whether events are enabled */
+	private boolean eventsEnabled = false;
 
-  /** the collection of properties that have changed since the last store */
-  private transient ArrayList propertyChangeEvents;
+	/** the class responsible for managing property change events */
+	protected transient PropertyChangeSupport propertyChangeSupport;
 
-  /** the collection of PebbleEvent instances that have been initiated */
-  private transient List<PebbleEvent> events = new ArrayList<PebbleEvent>();
+	/** the collection of properties that have changed since the last store */
+	private transient ArrayList propertyChangeEvents;
 
-  /**
-   * Default, no args constructor.
-   */
-  public Content() {
-    this.propertyChangeSupport = new PropertyChangeSupport(this);
-    this.propertyChangeEvents = new ArrayList();
-    this.propertyChangeSupport.addPropertyChangeListener(new PropertyChangeListener() {
-      public void propertyChange(PropertyChangeEvent event) {
-        if (areEventsEnabled()) {
-          Object oldValue = event.getOldValue();
-          Object newValue = event.getNewValue();
-          if ((oldValue == null && newValue == null) ||
-              (oldValue != null && newValue != null && oldValue.equals(newValue))) {
-            return;
-          } else {
-            Content.this.propertyChangeEvents.add(event);
-          }
-        }
-      }
-    });
-  }
+	/** the collection of PebbleEvent instances that have been initiated */
+	private transient List<PebbleEvent> events = new ArrayList<PebbleEvent>();
 
-  /**
-   * Gets the content of this response.
-   *
-   * @return  a String
-   */
-  public abstract String getContent();
+	/**
+	 * Default, no args constructor.
+	 */
+	public Content() {
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.propertyChangeEvents = new ArrayList();
+		this.propertyChangeSupport.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if (areEventsEnabled()) {
+					Object oldValue = event.getOldValue();
+					Object newValue = event.getNewValue();
+					if ((oldValue == null && newValue == null)
+							|| (oldValue != null && newValue != null && oldValue.equals(newValue))) {
+						return;
+					} else {
+						Content.this.propertyChangeEvents.add(event);
+					}
+				}
+			}
+		});
+	}
 
-  /**
-   * Gets the content of this response, truncated and without HTML tags.
-   *
-   * @return    the content of this response as a String
-   */
-  public String getTruncatedContent() {
-    return StringUtils.truncate(getContent());
-  }
+	/**
+	 * Gets the content of this response.
+	 *
+	 * @return a String
+	 */
+	public abstract String getContent();
 
-  /**
-   * Gets the state of this comment.
-   *
-   * @return  a State instance (APPROVED, REJECTED or PENDING)
-   */
-  public State getState() {
-    return this.state;
-  }
+	/**
+	 * Gets the content of this response, truncated and without HTML tags.
+	 *
+	 * @return the content of this response as a String
+	 */
+	public String getTruncatedContent() {
+		return StringUtils.truncate(getContent());
+	}
 
-  /**
-   * Sets the state of this comment.
-   */
-  void setState(State state) {
-    this.state = state;
-  }
+	/**
+	 * Gets the state of this comment.
+	 *
+	 * @return a State instance (APPROVED, REJECTED or PENDING)
+	 */
+	public State getState() {
+		return this.state;
+	}
 
-  /**
-   * Sets whether events are enabled.
-   *
-   * @param b   true to enable events, false otherwise
-   */
-  void setEventsEnabled(boolean b) {
-    this.eventsEnabled = b;
-  }
+	/**
+	 * Sets the state of this comment.
+	 */
+	void setState(State state) {
+		this.state = state;
+	}
 
-  /**
-   * Determines whether events are enabled.
-   *
-   * @return  true if events are enabled, false otherwise
-   */
-  boolean areEventsEnabled() {
-    return this.eventsEnabled;
-  }
+	/**
+	 * Sets whether events are enabled.
+	 *
+	 * @param b true to enable events, false otherwise
+	 */
+	void setEventsEnabled(boolean b) {
+		this.eventsEnabled = b;
+	}
 
-  /**
-   * Clears existing property change events.
-   */
-  public void clearPropertyChangeEvents() {
-    this.propertyChangeEvents = new ArrayList();
-  }
+	/**
+	 * Determines whether events are enabled.
+	 *
+	 * @return true if events are enabled, false otherwise
+	 */
+	boolean areEventsEnabled() {
+		return this.eventsEnabled;
+	}
 
-  /**
-   * Determines whether this class has had properties changed since it
-   * was last persisted.
-   *
-   * @return  true if properties have changed, false otherwise
-   */
-  public boolean isDirty() {
-    return !propertyChangeEvents.isEmpty();
-  }
+	/**
+	 * Clears existing property change events.
+	 */
+	public void clearPropertyChangeEvents() {
+		this.propertyChangeEvents = new ArrayList();
+	}
 
-  /**
-   * Gets the list of property change events.
-   *
-   * @return  a List of PropertyChangeEvent instances
-   */
-  public List getPropertyChangeEvents() {
-    return (List)propertyChangeEvents.clone();
-  }
+	/**
+	 * Determines whether this class has had properties changed since it was last
+	 * persisted.
+	 *
+	 * @return true if properties have changed, false otherwise
+	 */
+	public boolean isDirty() {
+		return !propertyChangeEvents.isEmpty();
+	}
 
-  /**
-   * Adds an event to the list.
-   *
-   * @param event   a PebbleEvent instance
-   */
-  synchronized void addEvent(PebbleEvent event) {
-    events.add(event);
-  }
+	/**
+	 * Gets the list of property change events.
+	 *
+	 * @return a List of PropertyChangeEvent instances
+	 */
+	public List getPropertyChangeEvents() {
+		return (List) propertyChangeEvents.clone();
+	}
 
-  /**
-   * Inserts an event to the list into the front of the list.
-   *
-   * @param event   a PebbleEvent instance
-   */
-  synchronized void insertEvent(PebbleEvent event) {
-    events.add(0, event);
-  }
+	/**
+	 * Adds an event to the list.
+	 *
+	 * @param event a PebbleEvent instance
+	 */
+	synchronized void addEvent(PebbleEvent event) {
+		events.add(event);
+	}
 
-  /**
-   * Determines whether this object has outstanding events.
-   *
-   * @return    true if events are outstanding, false otherwise
-   */
-  public synchronized boolean hasEvents() {
-    return !events.isEmpty();
-  }
+	/**
+	 * Inserts an event to the list into the front of the list.
+	 *
+	 * @param event a PebbleEvent instance
+	 */
+	synchronized void insertEvent(PebbleEvent event) {
+		events.add(0, event);
+	}
 
-  /**
-   * Gets the next event to be handled.
-   *
-   * @return  a PebbleEvent instance, or null if no more events
-   */
-  public synchronized PebbleEvent nextEvent() {
-    if (hasEvents()) {
-      return events.remove(0);
-    } else {
-      return null;
-    }
-  }
+	/**
+	 * Determines whether this object has outstanding events.
+	 *
+	 * @return true if events are outstanding, false otherwise
+	 */
+	public synchronized boolean hasEvents() {
+		return !events.isEmpty();
+	}
 
-  synchronized void clearEvents() {
-    events = new ArrayList<PebbleEvent>();
-  }
+	/**
+	 * Gets the next event to be handled.
+	 *
+	 * @return a PebbleEvent instance, or null if no more events
+	 */
+	public synchronized PebbleEvent nextEvent() {
+		if (hasEvents()) {
+			return events.remove(0);
+		} else {
+			return null;
+		}
+	}
 
-  public synchronized List<PebbleEvent> getEvents() {
-    return new ArrayList<PebbleEvent>(events);
-  }
+	synchronized void clearEvents() {
+		events = new ArrayList<PebbleEvent>();
+	}
+
+	public synchronized List<PebbleEvent> getEvents() {
+		return new ArrayList<PebbleEvent>(events);
+	}
 
 }

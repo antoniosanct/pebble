@@ -31,10 +31,20 @@
  */
 package net.sourceforge.pebble.decorator;
 
-import net.sourceforge.pebble.domain.*;
-import net.sourceforge.pebble.util.SecurityUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.decorator.ContentDecorator;
 import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.domain.TrackBack;
+import net.sourceforge.pebble.util.SecurityUtils;
 
 /**
  * Tests for the HideUnapprovedResponsesDecorator class.
@@ -45,7 +55,7 @@ public class HideUnapprovedResponsesDecoratorTest extends SingleBlogTestCase {
 
   private ContentDecorator decorator;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     decorator = new HideUnapprovedResponsesDecorator();
@@ -54,7 +64,7 @@ public class HideUnapprovedResponsesDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that unapproved comments and TrackBacks are removed.
    */
-  public void testUnapprovedResponsesRemovedWhenNotLoggedIn() throws Exception {
+  @Test public void testUnapprovedResponsesRemovedWhenNotLoggedIn() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     Comment comment1 = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     comment1.setPending();
@@ -85,7 +95,7 @@ public class HideUnapprovedResponsesDecoratorTest extends SingleBlogTestCase {
    * Tests that unapproved comments and TrackBacks are removed when logged in,
    * but not a blog contributor.
    */
-  public void testUnapprovedResponsesRemovedWhenLoggedIn() throws Exception {
+  @Test public void testUnapprovedResponsesRemovedWhenLoggedIn() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     comment.setPending();
@@ -107,7 +117,7 @@ public class HideUnapprovedResponsesDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that unapproved comments and TrackBacks are not removed.
    */
-  public void testUnapprovedResponsesNotRemovedWhenLoggedIn() throws Exception {
+  @Test public void testUnapprovedResponsesNotRemovedWhenLoggedIn() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     Comment comment = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     comment.setPending();
@@ -126,7 +136,7 @@ public class HideUnapprovedResponsesDecoratorTest extends SingleBlogTestCase {
     assertEquals(1, blogEntry.getTrackBacks().size());
   }
 
-  public void testUnapprovedNestedResponsesRemovedWhenNotLoggedIn() throws Exception {
+  @Test public void testUnapprovedNestedResponsesRemovedWhenNotLoggedIn() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     Comment comment1 = blogEntry.createComment("title", "body", "author", "email", "website", "avatar", "127.0.0.1");
     comment1.setPending();

@@ -48,7 +48,12 @@ import java.util.regex.Pattern;
  */
 public class EscapeMarkupDecorator extends ContentDecoratorSupport {
 
-  private static final String ESCAPE_START_TAG = "<escape>";
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3626578810958913645L;
+	
+private static final String ESCAPE_START_TAG = "<escape>";
   private static final String ESCAPE_END_TAG = "</escape>";
 
   /**

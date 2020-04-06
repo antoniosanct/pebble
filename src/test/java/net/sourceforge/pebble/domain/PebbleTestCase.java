@@ -31,24 +31,23 @@
  */
 package net.sourceforge.pebble.domain;
 
-import junit.framework.TestCase;
-import net.sourceforge.pebble.util.FileUtils;
-import net.sourceforge.pebble.PebbleContext;
-import net.sourceforge.pebble.Configuration;
+import java.io.File;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.io.File;
+import net.sourceforge.pebble.Configuration;
+import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.util.FileUtils;
 
 /**
  * Superclass for all Pebble unit test cases.
  *
  * @author    Simon Brown
  */
-public abstract class PebbleTestCase extends TestCase {
+public abstract class PebbleTestCase {
 
   protected static final File TEST_BLOG_LOCATION;
   protected static final File TEST_RESOURCE_LOCATION;
@@ -60,8 +59,7 @@ public abstract class PebbleTestCase extends TestCase {
 
   protected StaticApplicationContext testApplicationContext;
 
-  protected void setUp() throws Exception {
-    super.setUp();
+  @BeforeEach protected void setUp() throws Exception {
 
     // Make sure we aren't logged in
     SecurityContextHolder.getContext().setAuthentication(null);
@@ -70,7 +68,9 @@ public abstract class PebbleTestCase extends TestCase {
     new File(TEST_BLOG_LOCATION, "blogs").mkdir();
 
     testApplicationContext = new StaticApplicationContext();
-
+    testApplicationContext.registerBean("passwordEncoder", 
+    		org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.class);
+    
     Configuration config = new Configuration();
     config.setUrl("http://www.yourdomain.com/blog/");
     config.setDataDirectory(TEST_BLOG_LOCATION.getAbsolutePath());
@@ -80,8 +80,6 @@ public abstract class PebbleTestCase extends TestCase {
 
   protected void tearDown() throws Exception {
     FileUtils.deleteFile(TEST_BLOG_LOCATION);
-
-    super.tearDown();
   }
 
   protected void addComponents(Object... components) {

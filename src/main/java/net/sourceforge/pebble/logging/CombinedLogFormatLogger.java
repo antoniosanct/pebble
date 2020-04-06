@@ -49,7 +49,12 @@ import java.util.List;
  */
 public class CombinedLogFormatLogger extends AbstractLogger {
 
-  private static final String REFERER_HEADER = "Referer";
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2143275383609635522L;
+	
+private static final String REFERER_HEADER = "Referer";
   private static final String USER_AGENT_HEADER = "User-Agent";
   private static final int FLUSH_SIZE = 0;
 
@@ -135,9 +140,8 @@ public class CombinedLogFormatLogger extends AbstractLogger {
       }
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-      return buf.toString();
     }
+    return buf.toString();
   }
 
   /**
@@ -166,9 +170,8 @@ public class CombinedLogFormatLogger extends AbstractLogger {
       }
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-      return new Log(blog, logEntries);
     }
+    return new Log(blog, logEntries);
   }
 
   /**
@@ -202,7 +205,7 @@ public class CombinedLogFormatLogger extends AbstractLogger {
       e.printStackTrace();
     }
 
-    return new LogSummaryItem(blog, cal.getTime(), totalRequests);
+    return new LogSummaryItem(cal.getTime(), totalRequests);
   }
 
   /**

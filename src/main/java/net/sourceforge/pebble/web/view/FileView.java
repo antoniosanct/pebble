@@ -31,20 +31,23 @@
  */
 package net.sourceforge.pebble.web.view;
 
-import net.sourceforge.pebble.util.FileUtils;
-import net.sourceforge.pebble.domain.AbstractBlog;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.FileMetaData;
-import net.sourceforge.pebble.Constants;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.AbstractBlog;
+import net.sourceforge.pebble.util.FileUtils;
 
 /**
  * Represents a binary view component and prepares the model for display.

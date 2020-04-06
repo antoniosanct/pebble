@@ -31,13 +31,20 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.util.SecurityUtils;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.CommentConfirmationView;
 import net.sourceforge.pebble.web.view.impl.ConfirmCommentView;
-import net.sourceforge.pebble.util.SecurityUtils;
 
 /**
  * Tests for the SaveCommentAction class.
@@ -46,13 +53,13 @@ import net.sourceforge.pebble.util.SecurityUtils;
  */
 public class SaveCommentActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new SaveCommentAction();
 
     super.setUp();
   }
 
-  public void testProcessAsBlogContributorWhenReplyingToBlogEntry() throws Exception {
+  @Test public void testProcessAsBlogContributorWhenReplyingToBlogEntry() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -82,7 +89,7 @@ public class SaveCommentActionTest extends SingleBlogActionTestCase {
     assertEquals("http://www.somedomain.com/avatar", comment.getAvatar());
   }
 
-  public void testProcessAsBlogContributorWhenReplyingToComment() throws Exception {
+  @Test public void testProcessAsBlogContributorWhenReplyingToComment() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -117,7 +124,7 @@ public class SaveCommentActionTest extends SingleBlogActionTestCase {
     assertEquals(comment1.getId(), comment2.getParent().getId());
   }
 
-  public void testProcessAsBlogContributorWhenReplyingToCommentThatDoesntExist() throws Exception {
+  @Test public void testProcessAsBlogContributorWhenReplyingToCommentThatDoesntExist() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -148,7 +155,7 @@ public class SaveCommentActionTest extends SingleBlogActionTestCase {
     assertNull(comment.getParent());
   }
 
-  public void testProcessAsAnonymousUser() throws Exception {
+  @Test public void testProcessAsAnonymousUser() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -169,7 +176,7 @@ public class SaveCommentActionTest extends SingleBlogActionTestCase {
     assertEquals(0, blogEntry.getComments().size());
   }
 
-  public void testProcessWhenCommentsDisabled() throws Exception {
+  @Test public void testProcessWhenCommentsDisabled() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setCommentsEnabled(false);

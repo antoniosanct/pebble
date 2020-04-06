@@ -36,7 +36,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.xmlrpc.XmlRpcException;
 
 import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.domain.Blog;
@@ -49,10 +54,6 @@ import net.sourceforge.pebble.domain.FileManager;
 import net.sourceforge.pebble.domain.FileMetaData;
 import net.sourceforge.pebble.domain.IllegalFileAccessException;
 import net.sourceforge.pebble.domain.Tag;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.xmlrpc.XmlRpcException;
 
 /**
  * A handler for the MetaWeblog API (accessed via XML-RPC).
@@ -207,7 +208,10 @@ public class MetaWeblogAPIHandler extends AbstractAPIHandler {
     BlogEntry entry;
     while (it.hasNext()) {
       entry = (BlogEntry)it.next();
-      posts.add(adaptBlogEntry(entry));
+      final Map<String, Object> table = adaptBlogEntry(entry);
+      if (null != table) {
+    	  posts.add(table);
+      }
     }
 
     return posts;
@@ -336,6 +340,9 @@ public class MetaWeblogAPIHandler extends AbstractAPIHandler {
    * @return  a Hashtable representing the major properties of the entry
    */
   private Hashtable adaptBlogEntry(BlogEntry entry) {
+	if (null == entry) {
+		return null;
+	}
     Hashtable post = new Hashtable();
     post.put(TITLE, entry.getTitle());
     post.put(PERMALINK, entry.getPermalink());

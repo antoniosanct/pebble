@@ -31,21 +31,23 @@
  */
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the utilities in the ExceptionUtils class.
  *
  * @author    Simon Brown
  */
-public class ExceptionUtilsTest extends TestCase {
+public class ExceptionUtilsTest {
 
-  public void testGetStackTraceAsString() {
+  @Test public void testGetStackTraceAsString() {
     Exception e = new Exception();
     assertNotNull(ExceptionUtils.getStackTraceAsString(e));
   }
 
-  public void testGetStackTraceAsStringWithNull() {
+  @Test public void testGetStackTraceAsStringWithNull() {
     assertNotNull(ExceptionUtils.getStackTraceAsString(null));
   }
 

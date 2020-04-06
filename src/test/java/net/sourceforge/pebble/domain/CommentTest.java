@@ -31,11 +31,20 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.comment.CommentListener;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.event.comment.CommentEvent;
+import net.sourceforge.pebble.api.event.comment.CommentListener;
 
 /**
  * Tests for the Comment class.
@@ -47,7 +56,7 @@ public class CommentTest extends SingleBlogTestCase {
   private BlogEntry blogEntry;
   private Comment comment;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     blogEntry = new BlogEntry(blog);
@@ -58,7 +67,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Test that a Comment instance can be created correctly.
    */
-  public void testConstructionOfSimpleInstance() {
+  @Test public void testConstructionOfSimpleInstance() {
     assertNotNull(comment);
     assertEquals("Title", comment.getTitle());
     assertEquals("Body", comment.getBody());
@@ -77,7 +86,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that the author name is properly escaped and set.
    */
-  public void testAuthor() {
+  @Test public void testAuthor() {
     assertEquals("Author", comment.getAuthor());
 
     // blank or null author name defaults to "Anonymous"
@@ -95,7 +104,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that the e-mail address is properly escaped and set.
    */
-  public void testEmailAddress() {
+  @Test public void testEmailAddress() {
     assertEquals("me@somedomain.com", comment.getEmail());
 
     // blank or null e-mail defaults to null
@@ -112,7 +121,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that the website is properly escaped and set.
    */
-  public void testWebsite() {
+  @Test public void testWebsite() {
     assertEquals("http://www.google.com", comment.getWebsite());
 
     // blank or null website name defaults to null
@@ -143,7 +152,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that the avatar is properly escaped and set.
    */
-  public void testAvatar() {
+  @Test public void testAvatar() {
     assertEquals("http://graph.facebook.com/user/picture", comment.getAvatar());
 
     // blank or null avatar name defaults to null
@@ -173,7 +182,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests the body.
    */
-  public void testBody() {
+  @Test public void testBody() {
     comment.setBody("");
     assertEquals(null, comment.getBody());
     comment.setBody(null);
@@ -186,7 +195,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that the date can never be null.
    */
-  public void testDate() {
+  @Test public void testDate() {
     assertNotNull(comment.getDate());
 
     comment.setDate(new Date());
@@ -199,7 +208,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that the title is set when an owning blog entry is present.
    */
-  public void testTitleTakenFromOwningBlogEntryWhenNotSpecified() {
+  @Test public void testTitleTakenFromOwningBlogEntryWhenNotSpecified() {
     BlogEntry entry = new BlogEntry(blog);
     entry.setTitle("My blog entry title");
     comment = entry.createComment(null, "", "", "", "", "", "");
@@ -211,14 +220,14 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests the number of parents is 0 by default.
    */
-  public void testNumberOfParentsIsZeroByDefault() {
+  @Test public void testNumberOfParentsIsZeroByDefault() {
     assertEquals(0, comment.getNumberOfParents());
   }
 
   /**
    * Tests that the number of parents is correct when comments are nested.
    */
-  public void testNumberOfParentsIsCorrectWhenNested() {
+  @Test public void testNumberOfParentsIsCorrectWhenNested() {
     comment.setParent(new BlogEntry(blog).createComment("", "", "", "", "", "", ""));
     assertEquals(1, comment.getNumberOfParents());
   }
@@ -226,21 +235,21 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that adding a null comment doesn't cause an NPE.
    */
-  public void testAddingNullCommentDoesntCauseException() {
+  @Test public void testAddingNullCommentDoesntCauseException() {
     comment.addComment(null);
   }
 
   /**
    * Tests that removing a null comment doesn't cause an NPE.
    */
-  public void testRemovingNullCommentDoesntCauseException() {
+  @Test public void testRemovingNullCommentDoesntCauseException() {
     comment.removeComment(null);
   }
 
   /**
    * Tests for the truncated body.
    */
-  public void testTruncatedBody() {
+  @Test public void testTruncatedBody() {
     comment.setBody(null);
     assertEquals("", comment.getTruncatedBody());
 
@@ -276,7 +285,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that a comment can be cloned.
    */
-  public void testClone() {
+  @Test public void testClone() {
     Comment clonedComment = (Comment)comment.clone();
 
     assertEquals(comment.getTitle(), clonedComment.getTitle());
@@ -295,7 +304,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Test the equals() method.
    */
-  public void testEquals() {
+  @Test public void testEquals() {
     assertTrue(comment.equals(comment));
 
     Calendar cal = blog.getCalendar();
@@ -308,7 +317,7 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests the various states for a comment.
    */
-  public void testStates() {
+  @Test public void testStates() {
     // the default is approved
     assertEquals(State.APPROVED, comment.getState());
     assertTrue(comment.isApproved());
@@ -331,22 +340,27 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that listeners are not fired when a comment is marked as pending.
    */
-  public void testListenersFiredWhenCommentMarkedAsPending() {
+  @Test public void testListenersFiredWhenCommentMarkedAsPending() {
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         fail();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         fail();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -358,44 +372,54 @@ public class CommentTest extends SingleBlogTestCase {
   /**
    * Tests that a CommentEvent can be vetoed.
    */
-  public void commentEventCanBeVetoed() {
+  @Test public void commentEventCanBeVetoed() {
     // create 2 listeners, veto the event in the first and
     // fail if the second receives the event
 
     comment.setPending();
 
     CommentListener listener1 = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         fail();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         event.veto();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
 
     CommentListener listener2 = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         fail();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         fail();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -411,24 +435,29 @@ public class CommentTest extends SingleBlogTestCase {
    * Why? Because manipulating comments from a blog entry decorator will
    * generate excess events if not disabled.
    */
-  public void testListenersNotFiredWhenCommentApprovedOnClone() {
+  @Test public void testListenersNotFiredWhenCommentApprovedOnClone() {
     comment.setPending();
     comment = (Comment)comment.clone();
 
     CommentListener listener = new CommentListener() {
-      public void commentAdded(CommentEvent event) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Test public void commentAdded(CommentEvent event) {
         fail();
       }
 
-      public void commentRemoved(CommentEvent event) {
+      @Test public void commentRemoved(CommentEvent event) {
         fail();
       }
 
-      public void commentApproved(CommentEvent event) {
+      @Test public void commentApproved(CommentEvent event) {
         fail();
       }
 
-      public void commentRejected(CommentEvent event) {
+      @Test public void commentRejected(CommentEvent event) {
         fail();
       }
     };
@@ -437,7 +466,7 @@ public class CommentTest extends SingleBlogTestCase {
     comment.setApproved();
   }
 
-  public void testNestedCommentsAreUnindexedWhenParentDeleted() throws Exception {
+  @Test public void testNestedCommentsAreUnindexedWhenParentDeleted() throws Exception {
     BlogService service = new BlogService();
     Comment comment2 = blogEntry.createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");
     Comment comment3 = blogEntry.createComment("Title", "Body", "Author", "me@somedomain.com", "http://www.google.com", "http://graph.facebook.com/user/picture", "127.0.0.1");

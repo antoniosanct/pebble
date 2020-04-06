@@ -31,16 +31,19 @@
  */
 package net.sourceforge.pebble.service;
 
-import net.sourceforge.pebble.mock.MockHttpServletRequest;
-import net.sourceforge.pebble.mock.MockHttpServletResponse;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.mock.MockHttpServletRequest;
+import net.sourceforge.pebble.mock.MockHttpServletResponse;
 
 /**
  * @author James Roper
@@ -52,8 +55,8 @@ public class DefaultLastModifiedServiceTest {
   private MockHttpServletResponse response;
   private SimpleDateFormat httpFormat;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  @Test public void setUp() {
     service = new DefaultLastModifiedService();
     request = new MockHttpServletRequest();
     response = new MockHttpServletResponse();
@@ -61,41 +64,35 @@ public class DefaultLastModifiedServiceTest {
     httpFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
 
-  @Test
-  public void testResponseHeaders() {
+  @Test public void testResponseHeaders() {
     assertFalse(service.checkAndProcessLastModified(request, response, new Date(10000000), null));
     assertEquals(httpFormat.format(new Date(10000000)), response.getHeader("Last-Modified"));
     assertEquals("\"" + httpFormat.format(new Date(10000000)) + "\"", response.getHeader("ETag"));
   }
 
-  @Test
-  public void testIfModifiedSinceMatch() {
+  @Test public void testIfModifiedSinceMatch() {
     request.setHeader("If-Modified-Since", httpFormat.format(new Date(10000000)));
     assertTrue(service.checkAndProcessLastModified(request, response, new Date(10000000), null));
   }
 
-  @Test
-  public void testIfModifiedSinceNotMatch() {
+  @Test public void testIfModifiedSinceNotMatch() {
     request.setHeader("If-Modified-Since", httpFormat.format(new Date(5000000)));
     assertFalse(service.checkAndProcessLastModified(request, response, new Date(10000000), null));
     assertEquals(httpFormat.format(new Date(10000000)), response.getHeader("Last-Modified"));
   }
 
-  @Test
-  public void testIfNoneMatchMatch() {
+  @Test public void testIfNoneMatchMatch() {
     request.setHeader("If-None-Match", "\"" + httpFormat.format(new Date(10000000)) + "\"");
     assertTrue(service.checkAndProcessLastModified(request, response, new Date(10000000), null));
   }
 
-  @Test
-  public void testIfNoneMatchNotMatch() {
+  @Test public void testIfNoneMatchNotMatch() {
     request.setHeader("If-None-Match", "\"" + httpFormat.format(new Date(5000000)) + "\"");
     assertFalse(service.checkAndProcessLastModified(request, response, new Date(10000000), null));
     assertEquals("\"" + httpFormat.format(new Date(10000000)) + "\"", response.getHeader("ETag"));
   }
 
-  @Test
-  public void testExpires() {
+  @Test public void testExpires() {
     assertFalse(service.checkAndProcessLastModified(request, response, new Date(10000000), new Date(999999999)));
     assertEquals(httpFormat.format(new Date(999999999)), response.getHeader("Expires"));
   }

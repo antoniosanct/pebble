@@ -31,9 +31,12 @@
  */
 package net.sourceforge.pebble.api.event.blogentry;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
 
 /**
  * Tests for the BlogEntryEvent class.
@@ -47,7 +50,7 @@ public class BlogEntryEventTest extends SingleBlogTestCase {
   /**
    * Tests that a BlogEntryEvent instance is correctly constructed.
    */
-  public void testConstruction() {
+  @Test public void testConstruction() {
     BlogEntry blogEntry = new BlogEntry(blog);
     event = new BlogEntryEvent(blogEntry, BlogEntryEvent.BLOG_ENTRY_ADDED);
 

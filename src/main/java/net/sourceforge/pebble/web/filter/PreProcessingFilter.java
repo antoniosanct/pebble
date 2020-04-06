@@ -31,29 +31,39 @@
  */
 package net.sourceforge.pebble.web.filter;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.jstl.core.Config;
+
 import net.sourceforge.pebble.Configuration;
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.comparator.BlogByLastModifiedDateComparator;
+import net.sourceforge.pebble.comparator.BlogEntryComparator;
+import net.sourceforge.pebble.decorator.ContentDecoratorChain;
+import net.sourceforge.pebble.domain.AbstractBlog;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogManager;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.Response;
+import net.sourceforge.pebble.domain.TrackBack;
 import net.sourceforge.pebble.security.PebbleUserDetails;
 import net.sourceforge.pebble.util.HttpsURLRewriter;
 import net.sourceforge.pebble.util.SecurityUtils;
 import net.sourceforge.pebble.util.UrlRewriter;
 import net.sourceforge.pebble.util.Utilities;
-import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
-import net.sourceforge.pebble.comparator.BlogEntryComparator;
-import net.sourceforge.pebble.comparator.BlogByLastModifiedDateComparator;
-import net.sourceforge.pebble.decorator.ContentDecoratorChain;
-import net.sourceforge.pebble.domain.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.jstl.core.Config;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * A filter respsonsible for setting up common objects.
@@ -61,9 +71,6 @@ import java.util.Locale;
  * @author    Simon Brown
  */
 public class PreProcessingFilter implements Filter {
-
-  /** the log used by this class */
-  private static Log log = LogFactory.getLog(PreProcessingFilter.class);
 
   /**
    * Initialises this instance.

@@ -31,6 +31,12 @@
  */
 package net.sourceforge.pebble.web.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.mock.MockFilterConfig;
@@ -50,7 +56,7 @@ public class DispatchingFilterTest extends SingleBlogTestCase {
   private MockHttpServletRequest request;
   private MockHttpServletResponse response;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     filter = new DispatchingFilter();
@@ -63,13 +69,13 @@ public class DispatchingFilterTest extends SingleBlogTestCase {
     response = new MockHttpServletResponse();
   }
 
-  public void tearDown() throws Exception {
+  @Test public void tearDown() throws Exception {
     super.tearDown();
 
     filter.destroy();
   }
 
-  public void testRequestDispatched() throws Exception {
+  @Test public void testRequestDispatched() throws Exception {
     request.setAttribute(Constants.INTERNAL_URI, "/viewHomePage.action");
     filter.doFilter(request, response, null);
     MockRequestDispatcher dispatcher = (MockRequestDispatcher)request.getRequestDispatcher();

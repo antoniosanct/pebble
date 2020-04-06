@@ -71,14 +71,14 @@ public class BloggerAPIHandler extends AbstractAPIHandler {
    * @return  a Hashtable containing user information
    * @throws XmlRpcException    if something goes wrong, including an authentication error
    */
-  public Hashtable getUserInfo(String appkey, String username, String password) throws XmlRpcException {
+  public Map<String, String> getUserInfo(String appkey, String username, String password) throws XmlRpcException {
     log.debug("BloggerAPI.getUserInfo(" +
         appkey + ", " +
         username + ", " +
         "********)");
 
     authenticate((Blog)null, username, password);
-    Hashtable ht = new Hashtable();
+    Map<String, String> ht = new Hashtable<>();
     ht.put("userid", username);
 
     return ht;
@@ -94,19 +94,19 @@ public class BloggerAPIHandler extends AbstractAPIHandler {
    * @return  a Vector of Hashtables (an array of structs) representing blogs
    * @throws XmlRpcException    if something goes wrong, including an authentication error
    */
-  public Vector getUsersBlogs(String appkey, String username, String password) throws XmlRpcException {
+  public List<Map<String, String>> getUsersBlogs(String appkey, String username, String password) throws XmlRpcException {
     log.debug("BloggerAPI.getUsersBlogs(" +
         appkey + ", " +
         username + ", " +
         "********)");
 
     Collection<Blog> blogs = BlogManager.getInstance().getBlogs();
-    Vector usersBlogs = new Vector();
+    List<Map<String, String>> usersBlogs = new ArrayList<>();
 
     for (Blog blog : blogs) {
       try {
         authenticate(blog, username, password);
-        Hashtable blogInfo = new Hashtable();
+        Map<String, String> blogInfo = new Hashtable<>();
         blogInfo.put(URL, blog.getUrl());
         blogInfo.put(BLOG_ID, blog.getId());
         blogInfo.put(BLOG_NAME, blog.getName());
@@ -131,7 +131,7 @@ public class BloggerAPIHandler extends AbstractAPIHandler {
    * @return  a Vector of Hashtables (an array of structs) representing blog entries
    * @throws XmlRpcException    if something goes wrong, including an authentication error
    */
-  public Vector getRecentPosts(String appkey, String blogid, String username, String password, int numberOfPosts) throws XmlRpcException {
+  public List<Map<String, Object>> getRecentPosts(String appkey, String blogid, String username, String password, int numberOfPosts) throws XmlRpcException {
     log.debug("BloggerAPI.getRecentPosts(" +
         appkey + ", " +
         blogid + ", " +
@@ -141,14 +141,17 @@ public class BloggerAPIHandler extends AbstractAPIHandler {
     Blog blog = getBlogWithBlogId(blogid);
     authenticate(blog, username, password);
 
-    Vector posts = new Vector();
-    Collection coll = blog.getRecentBlogEntries(numberOfPosts);
+    List<Map<String, Object>> posts = new ArrayList<>();
+    Collection<BlogEntry> coll = blog.getRecentBlogEntries(numberOfPosts);
 
-    Iterator it = coll.iterator();
+    Iterator<BlogEntry> it = coll.iterator();
     BlogEntry entry;
     while (it.hasNext()) {
-      entry = (BlogEntry)it.next();
-      posts.add(adaptBlogEntry(entry));
+      entry = it.next();
+      final Map<String, Object> entries = adaptBlogEntry(entry);
+      if (null != entries) {
+        posts.add(entries);
+      }
     }
 
     return posts;
@@ -164,7 +167,7 @@ public class BloggerAPIHandler extends AbstractAPIHandler {
    * @return  a Hashtable representing a blog entry
    * @throws XmlRpcException    if something goes wrong, including an authentication error
    */
-  public Hashtable getPost(String appkey, String postid, String username, String password) throws XmlRpcException {
+  public Map<String, Object> getPost(String appkey, String postid, String username, String password) throws XmlRpcException {
     log.debug("BloggerAPI.getPost(" +
         appkey + ", " +
         postid + ", " +
@@ -316,22 +319,27 @@ public class BloggerAPIHandler extends AbstractAPIHandler {
    * @param entry   the BlogEntry to adapt
    * @return  a Hashtable representing the major properties of the entry
    */
-  private Hashtable adaptBlogEntry(BlogEntry entry) {
-    Hashtable post = new Hashtable();
-    String categories = "";
-    Iterator it = entry.getCategories().iterator();
-    while (it.hasNext()) {
-      Category category = (Category)it.next();
-      categories += category.getId();
-      if (it.hasNext()) {
-        categories += ",";
+  private Map<String, Object> adaptBlogEntry(BlogEntry entry) {
+    Map<String, Object> post = new Hashtable<>();
+    if (null == entry) {
+    	return null;
+    }
+    StringBuilder categories = new StringBuilder("");
+    if (null != entry.getCategories()) {
+      Iterator<Category> it = entry.getCategories().iterator();
+      while (it.hasNext()) {
+        Category category = it.next();
+        categories.append(category.getId());
+        if (it.hasNext()) {
+          categories.append(",");
+        }
       }
     }
     post.put(DATE_CREATED, entry.getDate());
     post.put(USER_ID, entry.getAuthor());
     post.put(POST_ID, formatPostId(entry.getBlog().getId(), entry.getId()));
     post.put(CONTENT, TITLE_START_DELIMITER + entry.getTitle() + TITLE_END_DELIMITER
-        + CATEGORY_START_DELIMITER + categories + CATEGORY_END_DELIMITER + entry.getBody());
+        + CATEGORY_START_DELIMITER + categories.toString() + CATEGORY_END_DELIMITER + entry.getBody());
 
     return post;
   }

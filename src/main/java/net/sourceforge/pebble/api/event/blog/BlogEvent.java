@@ -41,29 +41,34 @@ import net.sourceforge.pebble.api.event.PebbleEvent;
  */
 public class BlogEvent extends PebbleEvent {
 
-  /** constant representing blog started type */
-  public static final int BLOG_STARTED = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2083426118527645126L;
 
-  /** constant representing blog stopped type */
-  public static final int BLOG_STOPPED = 1;
+	/** constant representing blog started type */
+	public static final int BLOG_STARTED = 0;
 
-  /**
-   * Creates a new instance with the specified source and type.
-   *
-   * @param blog    the blog that created this event
-   * @param type    the type of this event
-   */
-  public BlogEvent(Blog blog, int type) {
-    super(blog, type);
-  }
+	/** constant representing blog stopped type */
+	public static final int BLOG_STOPPED = 1;
 
-  /**
-   * Gets the blog that is the source of this event.
-   *
-   * @return  a Blog instance
-   */
-  public Blog getBlog() {
-    return (Blog)getSource();
-  }
+	/**
+	 * Creates a new instance with the specified source and type.
+	 *
+	 * @param blog the blog that created this event
+	 * @param type the type of this event
+	 */
+	public BlogEvent(Blog blog, int type) {
+		super(blog, type);
+	}
+
+	/**
+	 * Gets the blog that is the source of this event.
+	 *
+	 * @return a Blog instance
+	 */
+	public Blog getBlog() {
+		return (Blog) getSource();
+	}
 
 }

@@ -31,6 +31,11 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.FourZeroThreeView;
 
@@ -41,7 +46,7 @@ import net.sourceforge.pebble.web.view.impl.FourZeroThreeView;
  */
 public class FourZeroThreeActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new FourZeroThreeAction();
 
     super.setUp();
@@ -50,7 +55,7 @@ public class FourZeroThreeActionTest extends SingleBlogActionTestCase {
   /**
    * Tests that the resulting view is of the correct type.
    */
-  public void testViewFeeds() throws Exception {
+  @Test public void testViewFeeds() throws Exception {
     View view = action.process(request, response);
     assertTrue(view instanceof FourZeroThreeView);
   }

@@ -32,13 +32,12 @@
 
 package net.sourceforge.pebble.web.tagext;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+
+import org.apache.commons.codec.binary.Hex;
 
 /**
  * @author James Roper

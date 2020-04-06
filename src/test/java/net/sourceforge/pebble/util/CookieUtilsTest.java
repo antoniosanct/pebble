@@ -32,18 +32,21 @@
 
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import javax.servlet.http.Cookie;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the utilities in the CookieUtils class.
  *
  * @author    Simon Brown
  */
-public class CookieUtilsTest extends TestCase {
+public class CookieUtilsTest {
 
-  public void testGetCookie() {
+  @Test public void testGetCookie() {
     Cookie cookies[] = new Cookie[3];
     cookies[0] = new Cookie("name1", "value1");
     cookies[1] = new Cookie("name2", "value2");
@@ -52,7 +55,7 @@ public class CookieUtilsTest extends TestCase {
     assertSame(cookies[1], CookieUtils.getCookie(cookies, "name2"));
   }
 
-  public void testGetCookieFromNullArray() {
+  @Test public void testGetCookieFromNullArray() {
     assertNull(CookieUtils.getCookie(null, "name"));
   }
 

@@ -31,27 +31,31 @@
  */
 package net.sourceforge.pebble.logging;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the LogEntry class.
  *
  * @author Simon Brown
  */
-public class LogEntryTest extends TestCase {
+public class LogEntryTest {
 
-  private LogEntry logEntry;
+  private static LogEntry logEntry;
 
-  protected void setUp() throws Exception {
-    this.logEntry = new LogEntry();
+  @BeforeAll
+  protected static void setUp() throws Exception {
+    logEntry = new LogEntry();
   }
 
   /**
    * Tests the host property.
    */
-  public void testHost() {
+  @Test public void testHost() {
     logEntry.setHost("192.168.0.1");
     assertEquals("192.168.0.1", logEntry.getHost());
   }
@@ -59,7 +63,7 @@ public class LogEntryTest extends TestCase {
   /**
    * Tests the date property.
    */
-  public void testDate() {
+  @Test public void testDate() {
     Date d = new Date();
     logEntry.setDate(d);
     assertEquals(d, logEntry.getDate());
@@ -68,7 +72,7 @@ public class LogEntryTest extends TestCase {
   /**
    * Tests the request property.
    */
-  public void testRequest() {
+  @Test public void testRequest() {
     logEntry.setRequest("GET /blog/");
     assertEquals("GET /blog/", logEntry.getRequest());
     assertEquals("GET", logEntry.getRequestMethod());
@@ -78,7 +82,7 @@ public class LogEntryTest extends TestCase {
   /**
    * Tests the status code property.
    */
-  public void testStatusCode() {
+  @Test public void testStatusCode() {
     logEntry.setStatusCode(200);
     assertEquals(200, logEntry.getStatusCode());
   }
@@ -86,7 +90,7 @@ public class LogEntryTest extends TestCase {
   /**
    * Tests the referer property.
    */
-  public void testReferer() {
+  @Test public void testReferer() {
     logEntry.setReferer("http://www.simongbrown.com/blog/");
     assertEquals("http://www.simongbrown.com/blog/", logEntry.getReferer());
   }
@@ -94,7 +98,7 @@ public class LogEntryTest extends TestCase {
   /**
    * Tests the agent property.
    */
-  public void testAgent() {
+  @Test public void testAgent() {
     logEntry.setAgent("Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.4 (KHTML, like Gecko) Safari/125.9");
     assertEquals("Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.4 (KHTML, like Gecko) Safari/125.9", logEntry.getAgent());
   }

@@ -31,10 +31,20 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the FileManager class.
@@ -45,7 +55,7 @@ public class FileManagerTest extends SingleBlogTestCase {
 
   private FileManager fileManager;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     fileManager = new FileManager(blog, FileMetaData.BLOG_FILE);
@@ -54,7 +64,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file manager for blog images can be created.
    */
-  public void testCreateFileManagerForBlogImages() {
+  @Test public void testCreateFileManagerForBlogImages() {
     fileManager = new FileManager(blog, FileMetaData.BLOG_IMAGE);
     assertEquals(new File(blog.getImagesDirectory()), fileManager.getRootDirectory());
   }
@@ -62,7 +72,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file manager for blog files can be created.
    */
-  public void testCreateFileManagerForBlogFiles() {
+  @Test public void testCreateFileManagerForBlogFiles() {
     fileManager = new FileManager(blog, FileMetaData.BLOG_FILE);
     assertEquals(new File(blog.getFilesDirectory()), fileManager.getRootDirectory());
   }
@@ -70,7 +80,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file manager for theme files can be created.
    */
-  public void testCreateFileManagerForThemeFiles() {
+  @Test public void testCreateFileManagerForThemeFiles() {
     Theme theme = new Theme(blog, "custom", "/some/path");
     blog.setEditableTheme(theme);
     fileManager = new FileManager(blog, FileMetaData.THEME_FILE);
@@ -80,7 +90,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file manager for blog data can be created.
    */
-  public void testCreateFileManagerForBlogData() {
+  @Test public void testCreateFileManagerForBlogData() {
     fileManager = new FileManager(blog, FileMetaData.BLOG_DATA);
     assertEquals(new File(blog.getRoot()), fileManager.getRootDirectory());
   }
@@ -89,7 +99,7 @@ public class FileManagerTest extends SingleBlogTestCase {
    * Tests that a information about a file can be retrieved using an
    * absolute path.
    */
-  public void testGetFileMetaDataWithAbsolutePath() {
+  @Test public void testGetFileMetaDataWithAbsolutePath() {
     FileMetaData file = fileManager.getFileMetaData("/afile.zip");
     assertFalse(file.isDirectory());
     assertEquals("/", file.getPath());
@@ -105,7 +115,7 @@ public class FileManagerTest extends SingleBlogTestCase {
    * Tests that a information about a file can be retrieved using a
    * path and name.
    */
-  public void testGetFileMetaDataWithPathAndName() {
+  @Test public void testGetFileMetaDataWithPathAndName() {
     FileMetaData file = fileManager.getFileMetaData("/", "afile.zip");
     assertFalse(file.isDirectory());
     assertEquals("/", file.getPath());
@@ -120,7 +130,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a java.io.File reference to a path can be created.
    */
-  public void testGetFileFromAbsolutePath() {
+  @Test public void testGetFileFromAbsolutePath() {
     File file = fileManager.getFile("/afile.zip");
     assertEquals(new File(blog.getFilesDirectory(), "afile.zip"), file);
   }
@@ -128,7 +138,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a java.io.File reference to a path can be created.
    */
-  public void testGetFileFromRelativePath() throws Exception {
+  @Test public void testGetFileFromRelativePath() throws Exception {
     File file = fileManager.getFile("afile.zip");
     assertEquals(new File(blog.getFilesDirectory(), "afile.zip"), file);
 
@@ -139,7 +149,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests whether whether a file is underneath the root directory.
    */
-  public void testFileIsUnderneathRootDirectory() {
+  @Test public void testFileIsUnderneathRootDirectory() {
     File file = fileManager.getFile("/afile.zip");
     assertTrue(fileManager.isUnderneathRootDirectory(file));
   }
@@ -147,7 +157,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests whether whether a file is underneath the root directory.
    */
-  public void testFileIsNotUnderneathRootDirectory() {
+  @Test public void testFileIsNotUnderneathRootDirectory() {
     File file = fileManager.getFile("../afile.zip");
     assertFalse(fileManager.isUnderneathRootDirectory(file));
   }
@@ -155,7 +165,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a directory can be created.
    */
-  public void testCreateDirectory() throws Exception {
+  @Test public void testCreateDirectory() throws Exception {
     File newDirectory = fileManager.createDirectory("/", "asubdirectory");
     assertEquals(new File(blog.getFilesDirectory(), "asubdirectory"), newDirectory);
     assertTrue(newDirectory.exists());
@@ -167,7 +177,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a directory can't be created outside of the root.
    */
-  public void testCreateDirectoryThrowsExceptionWhenOutsideOfRoot() {
+  @Test public void testCreateDirectoryThrowsExceptionWhenOutsideOfRoot() {
     try {
       fileManager.createDirectory("/", "../asubdirectory");
       fail("Creating a directory outside of the root isn't allowed");
@@ -178,7 +188,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file isn't copied when no name is specified.
    */
-  public void testFileNotCopiedWhenNoNameGiven() throws Exception {
+  @Test public void testFileNotCopiedWhenNoNameGiven() throws Exception {
     assertNull(fileManager.copyFile("/", "afile.txt", null));
     assertNull(fileManager.copyFile("/", "afile.txt", ""));
   }
@@ -186,7 +196,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file isn't copied when the same name is specified.
    */
-  public void testFileNotCopiedWhenSameNameGiven() throws Exception {
+  @Test public void testFileNotCopiedWhenSameNameGiven() throws Exception {
     assertNull(fileManager.copyFile("/", "afile.txt", "afile.txt"));
   }
 
@@ -194,7 +204,7 @@ public class FileManagerTest extends SingleBlogTestCase {
    * Tests that a file can't be copied when the original file is outside of
    * the root.
    */
-  public void testCopyFileThrowsExceptionWhenOriginalFileOutsideOfRoot() throws Exception {
+  @Test public void testCopyFileThrowsExceptionWhenOriginalFileOutsideOfRoot() throws Exception {
     try {
       assertNull(fileManager.copyFile("/", "../afile.txt", "afile.txt"));
       fail("Copying a file outside of the root isn't allowed");
@@ -206,7 +216,7 @@ public class FileManagerTest extends SingleBlogTestCase {
    * Tests that a file can't be copied when the new file is outside of
    * the root.
    */
-  public void testCopyFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
+  @Test public void testCopyFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
     try {
       assertNull(fileManager.copyFile("/", "afile.txt", "../afile.txt"));
       fail("Copying a file outside of the root isn't allowed");
@@ -217,7 +227,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can be copied.
    */
-  public void testCopyFile() throws Exception {
+  @Test public void testCopyFile() throws Exception {
     File file = fileManager.getFile("/afile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     writer.write("Testing...");
@@ -237,7 +247,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file isn't renamed when no name is specified.
    */
-  public void testFileNotRenamedWhenNoNameGiven() throws Exception {
+  @Test public void testFileNotRenamedWhenNoNameGiven() throws Exception {
     assertNull(fileManager.renameFile("/", "afile.txt", null));
     assertNull(fileManager.renameFile("/", "afile.txt", ""));
   }
@@ -245,7 +255,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file isn't renamed when the same name is specified.
    */
-  public void testFileNotRenamedWhenSameNameGiven() throws Exception {
+  @Test public void testFileNotRenamedWhenSameNameGiven() throws Exception {
     assertNull(fileManager.renameFile("/", "afile.txt", "afile.txt"));
   }
 
@@ -253,7 +263,7 @@ public class FileManagerTest extends SingleBlogTestCase {
    * Tests that a file can't be renamed when the original file is outside of
    * the root.
    */
-  public void testRenameFileThrowsExceptionWhenOriginalFileOutsideOfRoot() throws Exception {
+  @Test public void testRenameFileThrowsExceptionWhenOriginalFileOutsideOfRoot() throws Exception {
     try {
       assertNull(fileManager.renameFile("/", "../afile.txt", "afile.txt"));
       fail("Renaming a file outside of the root isn't allowed");
@@ -265,7 +275,7 @@ public class FileManagerTest extends SingleBlogTestCase {
    * Tests that a file can't be renamed when the new file is outside of
    * the root.
    */
-  public void testRenameFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
+  @Test public void testRenameFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
     try {
       assertNull(fileManager.renameFile("/", "afile.txt", "../afile.txt"));
       fail("Renaming a file outside of the root isn't allowed");
@@ -276,7 +286,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can be renamed.
    */
-  public void testRenameFile() throws Exception {
+  @Test public void testRenameFile() throws Exception {
     File file = fileManager.getFile("/afile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     writer.write("Testing...");
@@ -297,7 +307,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can't be deleted outside of the root.
    */
-  public void testDeleteFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
+  @Test public void testDeleteFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
     try {
       fileManager.deleteFile("/", "../afile.txt");
       fail("Deleting a file outside of the root isn't allowed");
@@ -308,7 +318,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can be loaded.
    */
-  public void testLoadFile() throws Exception {
+  @Test public void testLoadFile() throws Exception {
     File file = fileManager.getFile("/afile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     writer.write("First line");
@@ -332,7 +342,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can't be loaded from outside of the root.
    */
-  public void testLoadFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
+  @Test public void testLoadFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
     try {
       fileManager.loadFile("/", "../afile.txt");
       fail("Loading a file outside of the root isn't allowed");
@@ -343,7 +353,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can be saved.
    */
-  public void testSaveFile() throws Exception {
+  @Test public void testSaveFile() throws Exception {
     StringBuffer content = new StringBuffer();
     content.append("First line");
     content.append(System.getProperty("line.separator"));
@@ -360,7 +370,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a file can't be saved outside of the root.
    */
-  public void testSaveFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
+  @Test public void testSaveFileThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
     try {
       fileManager.saveFile("/", "../afile.txt", "some content");
       fail("Saving a file outside of the root isn't allowed");
@@ -371,7 +381,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that files can be accessed.
    */
-  public void testGetFiles() throws Exception {
+  @Test public void testGetFiles() throws Exception {
     // create some files and directories
     fileManager.createDirectory("/", "a");
     fileManager.createDirectory("/", "z");
@@ -410,7 +420,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that files can be accessed recursively.
    */
-  public void testGetFilesRecursively() throws Exception {
+  @Test public void testGetFilesRecursively() throws Exception {
     // create some files and directories
     fileManager.createDirectory("/", "a");
     fileManager.saveFile("/a", "a.txt", "Some content");
@@ -443,7 +453,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that files can be accessed when directory is empty.
    */
-  public void testGetFilesFromEmptyDirectory() throws Exception {
+  @Test public void testGetFilesFromEmptyDirectory() throws Exception {
     List files = fileManager.getFiles("/");
     assertEquals(0, files.size());
   }
@@ -451,7 +461,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that files can be accessed from a non-existent directory.
    */
-  public void testGetFilesFromNonExistentDirectory() throws Exception {
+  @Test public void testGetFilesFromNonExistentDirectory() throws Exception {
     // the theme path "/some/path" doesn't exist
     Theme theme = new Theme(blog, "custom", "/some/path");
     blog.setEditableTheme(theme);
@@ -463,7 +473,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that files can't be accessed outside of the root.
    */
-  public void testGetFilesThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
+  @Test public void testGetFilesThrowsExceptionWhenNewFileOutsideOfRoot() throws Exception {
     try {
       fileManager.getFiles("../");
       fail("Accessing files outside of the root isn't allowed");
@@ -474,7 +484,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that the URLs for blog files are set correctly.
    */
-  public void testUrlForBlogFile() throws Exception {
+  @Test public void testUrlForBlogFile() throws Exception {
     fileManager = new FileManager(blog, FileMetaData.BLOG_FILE);
     fileManager.saveFile("/", "a.txt", "Some content");
 
@@ -489,7 +499,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that the URLs for blog images are set correctly.
    */
-  public void testUrlForBlogImage() throws Exception {
+  @Test public void testUrlForBlogImage() throws Exception {
     fileManager = new FileManager(blog, FileMetaData.BLOG_IMAGE);
     fileManager.saveFile("/", "a.txt", "Some content");
 
@@ -504,7 +514,7 @@ public class FileManagerTest extends SingleBlogTestCase {
   /**
    * Tests that the URLs for theme files are set correctly.
    */
-  public void testUrlForThemeFile() throws Exception {
+  @Test public void testUrlForThemeFile() throws Exception {
     Theme theme = new Theme(blog, "theme", blog.getRoot());
     File themeDirectory = new File(blog.getThemeDirectory());
     themeDirectory.mkdir();

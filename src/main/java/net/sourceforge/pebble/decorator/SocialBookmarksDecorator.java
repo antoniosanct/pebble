@@ -48,6 +48,11 @@ import net.sourceforge.pebble.util.I18n;
  */
 public class SocialBookmarksDecorator extends ContentDecoratorSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7233443800297001199L;
+	
 	private static final String TITLE = "&amp;title=";
 	private static final String TITLE_FURL_YAHOO = "&amp;t=";
 

@@ -31,7 +31,11 @@
  */
 package net.sourceforge.pebble.dao.mock;
 
-import net.sourceforge.pebble.dao.*;
+import net.sourceforge.pebble.dao.BlogEntryDAO;
+import net.sourceforge.pebble.dao.CategoryDAO;
+import net.sourceforge.pebble.dao.DAOFactory;
+import net.sourceforge.pebble.dao.RefererFilterDAO;
+import net.sourceforge.pebble.dao.StaticPageDAO;
 
 /**
  * Represents a strategy used to load and store blog entries

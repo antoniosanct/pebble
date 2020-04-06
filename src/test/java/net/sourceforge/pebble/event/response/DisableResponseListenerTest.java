@@ -31,12 +31,17 @@
  */
 package net.sourceforge.pebble.event.response;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.event.comment.CommentEvent;
+import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Comment;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.api.event.comment.CommentEvent;
-import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
 
 /**
  * Tests for the DisableResponseListener class.
@@ -55,7 +60,7 @@ public class DisableResponseListenerTest extends SingleBlogTestCase {
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     listener = new DisableResponseListener();
@@ -69,7 +74,7 @@ public class DisableResponseListenerTest extends SingleBlogTestCase {
   /**
    * Tests a comment.
    */
-  public void testCommentIsDeleted() {
+  @Test public void testCommentIsDeleted() {
     blogEntry.addComment(comment);
     assertEquals(1, blogEntry.getComments().size());
     listener.commentAdded(commentEvent);
@@ -79,7 +84,7 @@ public class DisableResponseListenerTest extends SingleBlogTestCase {
   /**
    * Tests a TrackBack.
    */
-  public void testTrackBackIsDeleted() {
+  @Test public void testTrackBackIsDeleted() {
     blogEntry.addTrackBack(trackBack);
     assertEquals(1, blogEntry.getTrackBacks().size());
     listener.trackBackAdded(trackBackEvent);

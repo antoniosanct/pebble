@@ -32,28 +32,39 @@
 
 package net.sourceforge.pebble.index;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sourceforge.pebble.comparator.ReverseResponseIdComparator;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.Response;
 import net.sourceforge.pebble.domain.State;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Collection;
 
 /**
  * Keeps an index of all responses.
  *
  * @author    Simon Brown
  */
-public class ResponseIndex {
+public class ResponseIndex implements Serializable {
 
-  private static final Log log = LogFactory.getLog(ResponseIndex.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7567146641834141987L;
+
+private static final Log log = LogFactory.getLog(ResponseIndex.class);
 
   private Blog blog;
 

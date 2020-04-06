@@ -32,12 +32,8 @@
 
 package net.sourceforge.pebble.decorator;
 
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.StaticPage;
 import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
-
-import java.util.ResourceBundle;
+import net.sourceforge.pebble.domain.BlogEntry;
 
 /**
  * Allow to export current blog entry as PDF document
@@ -46,6 +42,11 @@ import java.util.ResourceBundle;
  */
 public class EntryToPdfDecorator extends ContentDecoratorSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -530286950806033091L;
+	
 	private static final String PDF_IMG = "<img src=\"common/images/pdf_logo.gif\" alt=\"Export this post as PDF document\" align=\"bottom\" border=\"0\" />";
 
 	/**

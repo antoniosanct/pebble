@@ -31,10 +31,11 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.impl.PublishBlogEntryView;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 
 /**
@@ -44,7 +45,7 @@ import net.sourceforge.pebble.Constants;
  */
 public class ManageStaticPageActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ManageStaticPageAction();
 
     super.setUp();
@@ -53,7 +54,7 @@ public class ManageStaticPageActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors can remove static pages.
    */
-  public void testBlogContributorsCanEditRemovePages() {
+  @Test public void testBlogContributorsCanEditRemovePages() {
     request.setParameter("submit", "Remove");
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);
@@ -63,7 +64,7 @@ public class ManageStaticPageActionTest extends SecureActionTestCase {
   /**
    * Test that only blog contributors can remove static pages.
    */
-  public void testBlogContributorsCanEditStaticPages() {
+  @Test public void testBlogContributorsCanEditStaticPages() {
     request.setParameter("submit", "Edit");
     String roles[] = action.getRoles(request);
     assertEquals(1, roles.length);

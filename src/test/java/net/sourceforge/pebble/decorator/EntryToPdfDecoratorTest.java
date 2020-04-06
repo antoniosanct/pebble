@@ -31,14 +31,15 @@
  */
 package net.sourceforge.pebble.decorator;
 
-import java.util.Date;
-import net.sourceforge.pebble.domain.Blog;
-import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Category;
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.decorator.ContentDecorator;
 import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the EntryToPdfDecorator class.
@@ -53,7 +54,7 @@ public class EntryToPdfDecoratorTest extends SingleBlogTestCase {
 
   private static final String PDF_IMG = "<img src=\"common/images/pdf_logo.gif\" alt=\"Export this post as PDF document\" align=\"bottom\" border=\"0\" />";
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     blogEntryOne = new BlogEntry(blog);
     decorator = new EntryToPdfDecorator();
@@ -63,7 +64,7 @@ public class EntryToPdfDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry gets a link offers to export it as PDF
    */
-  public void testBlogEntryNoRelatedPostsAndMediaIsHtml() throws Exception {
+  @Test public void testBlogEntryNoRelatedPostsAndMediaIsHtml() throws Exception {
   
 	context.setMedia(ContentDecoratorContext.HTML_PAGE);
 

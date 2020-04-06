@@ -31,7 +31,13 @@
  */
 package net.sourceforge.pebble.api.decorator;
 
-import net.sourceforge.pebble.domain.*;
+import java.io.Serializable;
+
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.StaticPage;
+import net.sourceforge.pebble.domain.TrackBack;
 
 /**
  * Interface implemented by content decorators. Decorators are created on a
@@ -40,7 +46,7 @@ import net.sourceforge.pebble.domain.*;
  *
  * @author    Simon Brown
  */
-public interface ContentDecorator {
+public interface ContentDecorator extends Serializable {
 
   /**
    * Decorates the specified blog entry.

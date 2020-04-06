@@ -41,35 +41,40 @@ import net.sourceforge.pebble.api.event.PebbleEvent;
  */
 public class CommentEvent extends PebbleEvent {
 
-  /** constant representing comment added type */
-  public static final int COMMENT_ADDED = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7672403642116835691L;
 
-  /** constant representing comment removed type */
-  public static final int COMMENT_REMOVED = 1;
+	/** constant representing comment added type */
+	public static final int COMMENT_ADDED = 0;
 
-  /** constant representing comment approved type */
-  public static final int COMMENT_APPROVED = 2;
+	/** constant representing comment removed type */
+	public static final int COMMENT_REMOVED = 1;
 
-  /** constant representing comment rejected type */
-  public static final int COMMENT_REJECTED = 3;
+	/** constant representing comment approved type */
+	public static final int COMMENT_APPROVED = 2;
 
-  /**
-   * Creates a new instance with the specified source and type.
-   *
-   * @param comment   the comment that initiated this event
-   * @param type        the type of this event
-   */
-  public CommentEvent(Comment comment, int type) {
-    super(comment, type);
-  }
+	/** constant representing comment rejected type */
+	public static final int COMMENT_REJECTED = 3;
 
-  /**
-   * Gets the Comment that is the source of this event.
-   *
-   * @return  a Comment instance
-   */
-  public Comment getComment() {
-    return (Comment)getSource();
-  }
+	/**
+	 * Creates a new instance with the specified source and type.
+	 *
+	 * @param comment the comment that initiated this event
+	 * @param type    the type of this event
+	 */
+	public CommentEvent(Comment comment, int type) {
+		super(comment, type);
+	}
+
+	/**
+	 * Gets the Comment that is the source of this event.
+	 *
+	 * @return a Comment instance
+	 */
+	public Comment getComment() {
+		return (Comment) getSource();
+	}
 
 }

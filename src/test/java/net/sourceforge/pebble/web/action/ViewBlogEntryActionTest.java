@@ -32,13 +32,20 @@
 
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.NotFoundView;
-import net.sourceforge.pebble.web.view.impl.BlogEntryView;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.util.SecurityUtils;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.util.SecurityUtils;
+import net.sourceforge.pebble.web.view.NotFoundView;
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.BlogEntryView;
 
 /**
  * Tests for the ViewBlogEntryAction class.
@@ -47,26 +54,26 @@ import net.sourceforge.pebble.domain.BlogService;
  */
 public class ViewBlogEntryActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewBlogEntryAction();
 
     super.setUp();
   }
 
-  public void testViewBlogEntryWithNullId() throws Exception {
+  @Test public void testViewBlogEntryWithNullId() throws Exception {
     View view = action.process(request, response);
 
     assertTrue(view instanceof NotFoundView);
   }
 
-  public void testViewNonExistentBlogEntry() throws Exception {
+  @Test public void testViewNonExistentBlogEntry() throws Exception {
     request.setParameter("entry", "1234567890123");
     View view = action.process(request, response);
 
     assertTrue(view instanceof NotFoundView);
   }
 
-  public void testPublishedViewBlogEntry() throws Exception {
+  @Test public void testPublishedViewBlogEntry() throws Exception {
     BlogEntry blogEntry1 = new BlogEntry(blog);
     blogEntry1.setPublished(true);
     BlogService service = new BlogService();
@@ -81,7 +88,7 @@ public class ViewBlogEntryActionTest extends SingleBlogActionTestCase {
     assertTrue(view instanceof BlogEntryView);
   }
 
-  public void testUnpublishedViewBlogEntryAsAnonymousUser() throws Exception {
+  @Test public void testUnpublishedViewBlogEntryAsAnonymousUser() throws Exception {
     BlogEntry blogEntry1 = new BlogEntry(blog);
     blogEntry1.setPublished(false);
     BlogService service = new BlogService();
@@ -96,7 +103,7 @@ public class ViewBlogEntryActionTest extends SingleBlogActionTestCase {
     assertTrue(view instanceof NotFoundView);
   }
 
-  public void testUnpublishedViewBlogEntryAsUserThatIsAuthorisedForBlog() throws Exception {
+  @Test public void testUnpublishedViewBlogEntryAsUserThatIsAuthorisedForBlog() throws Exception {
     BlogEntry blogEntry1 = new BlogEntry(blog);
     blogEntry1.setPublished(false);
     BlogService service = new BlogService();

@@ -31,14 +31,20 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.domain.FileMetaData;
-import net.sourceforge.pebble.web.view.ForbiddenView;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.impl.FileFormView;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.FileMetaData;
+import net.sourceforge.pebble.web.view.ForbiddenView;
+import net.sourceforge.pebble.web.view.View;
+import net.sourceforge.pebble.web.view.impl.FileFormView;
 
 /**
  * Tests for the EditFileAction class.
@@ -47,7 +53,7 @@ import java.io.FileWriter;
  */
 public class EditFileActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new EditFileAction();
 
     super.setUp();
@@ -56,7 +62,7 @@ public class EditFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can be loaded for editing.
    */
-  public void testEditFile() throws Exception {
+  @Test public void testEditFile() throws Exception {
     File file = new File(blog.getFilesDirectory(), "afile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     writer.write("Testing...");
@@ -84,7 +90,7 @@ public class EditFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can't be loaded for editing from outside of the root.
    */
-  public void testEditFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
+  @Test public void testEditFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("name", "../afile.txt");
     request.setParameter("type", FileMetaData.BLOG_FILE);

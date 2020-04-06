@@ -31,6 +31,8 @@
  */
 package net.sourceforge.pebble.api.confirmation;
 
+import java.io.Serializable;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -38,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author    Simon Brown
  */
-public interface ConfirmationStrategy {
+public interface ConfirmationStrategy extends Serializable {
 
   /**
    * Called before showing the confirmation page.

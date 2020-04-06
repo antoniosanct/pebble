@@ -45,6 +45,11 @@ import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
 public class RelativeUriDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4104796844882837650L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

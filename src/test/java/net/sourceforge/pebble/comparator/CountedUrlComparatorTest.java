@@ -31,19 +31,22 @@
  */
 package net.sourceforge.pebble.comparator;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.logging.CountedUrl;
-import net.sourceforge.pebble.logging.Referer;
 import net.sourceforge.pebble.logging.LogEntry;
+import net.sourceforge.pebble.logging.Referer;
 
 /**
  * Tests for the CountedUrlByCountComparator class.
  *
  * @author    Simon Brown
  */
-public class CountedUrlComparatorTest extends TestCase {
+public class CountedUrlComparatorTest {
 
-  public void testCompare() {
+  @Test public void testCompare() {
     CountedUrlByCountComparator comp = new CountedUrlByCountComparator();
     CountedUrl c1 = new Referer("http://www.google.com");
     CountedUrl c2 = new Referer("http://www.yahoo.com");

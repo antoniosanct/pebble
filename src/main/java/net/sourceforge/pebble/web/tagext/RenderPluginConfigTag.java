@@ -31,56 +31,52 @@
  */
 package net.sourceforge.pebble.web.tagext;
 
-import net.sourceforge.pebble.plugins.Plugin;
-import net.sourceforge.pebble.plugins.PluginConfig;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Properties;
+
+import net.sourceforge.pebble.plugins.PluginConfig;
 
 /**
  * Given a Collection or array, this tag produces a HTML select (dropdown) list
  * based upon the items contained within.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class RenderPluginConfigTag extends TagSupport {
 
-  /** the plugin config to render */
-  private PluginConfig pluginConfig;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1536513379766172101L;
 
-  /** The current value of the plugin config item */
-  private Properties properties;
+	/** the plugin config to render */
+	private PluginConfig pluginConfig;
 
-  /**
-   * Called when the starting tag is encountered.
-   */
-  public int doStartTag() throws JspException {
-    try
-    {
-      pluginConfig.getType().render(pageContext.getOut(), pluginConfig,
-              properties.getProperty(pluginConfig.getKey()));
-    }
-    catch (IOException ioe)
-    {
-      throw new JspException(ioe);
-    }
-    // and skip the body
-    return SKIP_BODY;
-  }
+	/** The current value of the plugin config item */
+	private Properties properties;
 
-  public void setPluginConfig(PluginConfig pluginConfig) {
-    this.pluginConfig = pluginConfig;
-  }
+	/**
+	 * Called when the starting tag is encountered.
+	 */
+	public int doStartTag() throws JspException {
+		try {
+			pluginConfig.getType().render(pageContext.getOut(), pluginConfig,
+					properties.getProperty(pluginConfig.getKey()));
+		} catch (IOException ioe) {
+			throw new JspException(ioe);
+		}
+		// and skip the body
+		return SKIP_BODY;
+	}
 
-  public void setProperties(Properties properties) {
-    this.properties = properties;
-  }
+	public void setPluginConfig(PluginConfig pluginConfig) {
+		this.pluginConfig = pluginConfig;
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
 }

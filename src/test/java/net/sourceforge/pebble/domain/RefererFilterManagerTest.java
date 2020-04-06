@@ -31,11 +31,17 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.logging.Referer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.logging.Referer;
 
 /**
  * Tests for the RefererFilterManager class.
@@ -46,7 +52,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
 
   private RefererFilterManager refererFilterManager;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
     refererFilterManager = new RefererFilterManager(blog);
   }
@@ -54,7 +60,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a collection of all filters can be obtained.
    */
-  public void testGetFilters() {
+  @Test public void testGetFilters() {
     Collection filters = refererFilterManager.getFilters();
     assertEquals(0, filters.size());
   }
@@ -62,7 +68,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a filter can be added.
    */
-  public void testAddFilter() {
+  @Test public void testAddFilter() {
     RefererFilter filter = new RefererFilter("A new filter");
     refererFilterManager.addFilter(filter);
     assertTrue(refererFilterManager.getFilters().contains(filter));
@@ -72,7 +78,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a duplicate filter can be added.
    */
-  public void testAddDuplicateFilter() {
+  @Test public void testAddDuplicateFilter() {
     RefererFilter filter1 = new RefererFilter("A new filter");
     RefererFilter filter2 = new RefererFilter("A new filter");
     refererFilterManager.addFilter(filter1);
@@ -88,7 +94,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
   /**
    * Tests that a list of referers is filtered correctly.
    */
-  public void testFilter() {
+  @Test public void testFilter() {
     List referers = new ArrayList();
     Referer url1 = new Referer("http://www.google.com");
     referers.add(url1);
@@ -101,7 +107,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
 
   /** todo
    * Tests that a filter can be removed.
-  public void testRemoveFilterThatExists() {
+  @Test public void testRemoveFilterThatExists() {
     RefererFilter filter = new RefererFilter("A new filter");
     refererFilterManager.addFilter(filter);
     assertEquals(1, refererFilterManager.getFilters().size());
@@ -113,7 +119,7 @@ public class RefererFilterManagerTest extends SingleBlogTestCase {
 
   /** todo
    * Tests that a filter can be removed.
-  public void testRemoveFilterThatDoesntExists() {
+  @Test public void testRemoveFilterThatDoesntExists() {
     RefererFilter filter = new RefererFilter("A new filter");
     refererFilterManager.addFilter(filter);
     assertEquals(1, refererFilterManager.getFilters().size());

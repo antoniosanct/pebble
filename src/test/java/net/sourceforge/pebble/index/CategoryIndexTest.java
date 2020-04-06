@@ -31,7 +31,16 @@
  */
 package net.sourceforge.pebble.index;
 
-import net.sourceforge.pebble.domain.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the CategoryIndex class.
@@ -43,7 +52,7 @@ public class CategoryIndexTest extends SingleBlogTestCase {
   private CategoryIndex index;
   private Category javaCategory;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     this.index = new CategoryIndex(blog);
@@ -54,7 +63,7 @@ public class CategoryIndexTest extends SingleBlogTestCase {
   /**
    * Tests that a single blog entry can be indexed.
    */
-  public void testIndexBlogEntry() throws Exception {
+  @Test public void testIndexBlogEntry() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.addCategory(javaCategory);
     blogEntry.setPublished(true);
@@ -67,7 +76,7 @@ public class CategoryIndexTest extends SingleBlogTestCase {
   /**
    * Tests that a single blog entry can be unindexed.
    */
-  public void testUnindexBlogEntry() throws Exception {
+  @Test public void testUnindexBlogEntry() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.addCategory(javaCategory);
     index.index(blogEntry);
@@ -82,7 +91,7 @@ public class CategoryIndexTest extends SingleBlogTestCase {
 //  /**
 //   * Tests that category/tag statistics are updated.
 //   */
-//  public void testCategoryAndTagStatisticsUpdated() throws Exception {
+//  @Test public void testCategoryAndTagStatisticsUpdated() throws Exception {
 //    CategoryBuilder builder = new CategoryBuilder(blog);
 //    Category java = new Category("/java", "Java");
 //    builder.addCategory(java);

@@ -41,361 +41,371 @@ import java.util.List;
 /**
  * Represents a blog comment.
  *
- * @author    Simon Brown
+ * @author Simon Brown
  */
 public class Comment extends Response {
 
-  /** the body of the comment */
-  private String body;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4321621476615217500L;
 
-  /** the name of the author */
-  private String author;
+	/** the body of the comment */
+	private String body;
 
-  /** the author's e-mail address */
-  private String email;
+	/** the name of the author */
+	private String author;
 
-  /** the author's website */
-  private String website;
+	/** the author's e-mail address */
+	private String email;
 
-  /** the parent comment, if applicable */
-  private Comment parent;
+	/** the author's website */
+	private String website;
 
-  /** the URL of the avatar */
-  private String avatar;
+	/** the parent comment, if applicable */
+	private Comment parent;
 
-  /** the collection of nested comments */
-  private List comments = new ArrayList();
+	/** the URL of the avatar */
+	private String avatar;
 
-  /** a flag to indicate whether the user was authenticated when the comment was left */
-  private boolean authenticated = false;
+	/** the collection of nested comments */
+	private List comments = new ArrayList();
 
-  public Comment() {
-  }
+	/**
+	 * a flag to indicate whether the user was authenticated when the comment was
+	 * left
+	 */
+	private boolean authenticated = false;
 
-  /**
-   * Creates a new comment with the specified properties.
-   *
-   * @param title        the comment title
-   * @param body        the comment body
-   * @param author      the name of the author
-   * @param website     the author's website
-   * @param ipAddress the IP address of the author
-   * @param date        the date that this comment was left
-   * @param state       the state of the comment
-   * @param blogEntry   the owning blog entry
-   */
-  Comment(String title, String body, String author, String email, String website, String avatar, String ipAddress, Date date, State state, BlogEntry blogEntry) {
-    super(title, ipAddress, date, state, blogEntry);
+	public Comment() {
+	}
 
-    setBody(body);
-    setAuthor(author);
-    setEmail(email);
-    setWebsite(website);
-    setAvatar(avatar);
-  }
+	/**
+	 * Creates a new comment with the specified properties.
+	 *
+	 * @param title     the comment title
+	 * @param body      the comment body
+	 * @param author    the name of the author
+	 * @param website   the author's website
+	 * @param ipAddress the IP address of the author
+	 * @param date      the date that this comment was left
+	 * @param state     the state of the comment
+	 * @param blogEntry the owning blog entry
+	 */
+	Comment(String title, String body, String author, String email, String website, String avatar, String ipAddress,
+			Date date, State state, BlogEntry blogEntry) {
+		super(title, ipAddress, date, state, blogEntry);
 
-  /**
-   * Gets the body of this comment.
-   *
-   * @return    the body of this comment as a String
-   */
-  public String getBody() {
-    return body;
-  }
+		setBody(body);
+		setAuthor(author);
+		setEmail(email);
+		setWebsite(website);
+		setAvatar(avatar);
+	}
 
-  /**
-   * Gets the content of this response.
-   *
-   * @return a String
-   */
-  public String getContent() {
-    return getBody();
-  }
+	/**
+	 * Gets the body of this comment.
+	 *
+	 * @return the body of this comment as a String
+	 */
+	public String getBody() {
+		return body;
+	}
 
-  /**
-   * Gets the body of this comment, truncated and without HTML tags.
-   *
-   * @return    the body of this comment as a String
-   */
-  public String getTruncatedBody() {
-    return this.getTruncatedContent();
-  }
+	/**
+	 * Gets the content of this response.
+	 *
+	 * @return a String
+	 */
+	public String getContent() {
+		return getBody();
+	}
 
-  /**
-   * Sets the title of this comment.
-   *
-   * @param   title    the title of this comment as a String
-   */
-  public void setTitle(String title) {
-    if (title == null || title.length() == 0) {
-      if (blogEntry != null) {
-        this.title = "Re: " + blogEntry.getTitle();
-      } else {
-        this.title = "Comment";
-      }
-    } else {
-      this.title = title;
-    }
-  }
+	/**
+	 * Gets the body of this comment, truncated and without HTML tags.
+	 *
+	 * @return the body of this comment as a String
+	 */
+	public String getTruncatedBody() {
+		return this.getTruncatedContent();
+	}
 
-  /**
-   * Sets the body of this comment.
-   *
-   * @param   body    the body of this comment as a String
-   */
-  public void setBody(String body) {
-    if (body == null || body.length() == 0) {
-      this.body = null;
-    } else {
-      this.body = body;
-    }
-  }
+	/**
+	 * Sets the title of this comment.
+	 *
+	 * @param title the title of this comment as a String
+	 */
+	public void setTitle(String title) {
+		if (title == null || title.length() == 0) {
+			if (blogEntry != null) {
+				this.title = "Re: " + blogEntry.getTitle();
+			} else {
+				this.title = "Comment";
+			}
+		} else {
+			this.title = title;
+		}
+	}
 
-  /**
-   * Gets the name of the author.
-   *
-   * @return    the name of the author as a String
-   */
-  public String getAuthor() {
-    return author;
-  }
+	/**
+	 * Sets the body of this comment.
+	 *
+	 * @param body the body of this comment as a String
+	 */
+	public void setBody(String body) {
+		if (body == null || body.length() == 0) {
+			this.body = null;
+		} else {
+			this.body = body;
+		}
+	}
 
-  /**
-   * Gets the name of the source of this response.
-   *
-   * @return a String
-   */
-  public String getSourceName() {
-    return getAuthor();
-  }
+	/**
+	 * Gets the name of the author.
+	 *
+	 * @return the name of the author as a String
+	 */
+	public String getAuthor() {
+		return author;
+	}
 
-  /**
-   * Sets the author of this blog comment. If an author isn't specified,
-   * the author is set to be "Anonymous".
-   *
-   * @param author    the name of the author
-   */
-  public void setAuthor(String author) {
-    if (author == null || author.length() == 0) {
-      this.author = "Anonymous";
-    } else {
-      this.author = author;
-    }
-  }
+	/**
+	 * Gets the name of the source of this response.
+	 *
+	 * @return a String
+	 */
+	public String getSourceName() {
+		return getAuthor();
+	}
 
-  /**
-   * Gets the author's e-mail address.
-   *
-   * @return    the author's e-mail address as a String
-   */
-  public String getEmail() {
-    return email;
-  }
+	/**
+	 * Sets the author of this blog comment. If an author isn't specified, the
+	 * author is set to be "Anonymous".
+	 *
+	 * @param author the name of the author
+	 */
+	public void setAuthor(String author) {
+		if (author == null || author.length() == 0) {
+			this.author = "Anonymous";
+		} else {
+			this.author = author;
+		}
+	}
 
-  /**
-   * Sets the author's e-mail address.
-   *
-   * @param email   the e-mail address
-   */
-  public void setEmail(String email) {
-    if (email == null || email.length() == 0) {
-      this.email = null;
-    } else {
-      this.email = StringUtils.transformHTML(email);
-    }
-  }
+	/**
+	 * Gets the author's e-mail address.
+	 *
+	 * @return the author's e-mail address as a String
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-  /**
-   * Gets the author's website.
-   *
-   * @return    the author's website as a String
-   */
-  public String getWebsite() {
-    return website;
-  }
+	/**
+	 * Sets the author's e-mail address.
+	 *
+	 * @param email the e-mail address
+	 */
+	public void setEmail(String email) {
+		if (email == null || email.length() == 0) {
+			this.email = null;
+		} else {
+			this.email = StringUtils.transformHTML(email);
+		}
+	}
 
-  /**
-   * Gets the link to the source of this response.
-   *
-   * @return a String
-   */
-  public String getSourceLink() {
-    return getWebsite();
-  }
+	/**
+	 * Gets the author's website.
+	 *
+	 * @return the author's website as a String
+	 */
+	public String getWebsite() {
+		return website;
+	}
 
-  /**
-   * Sets the author's website.
-   *
-   * @param website   the website url
-   */
-  public void setWebsite(String website) {
-    this.website = StringUtils.validateUrl(StringUtils.filterHTML(website));
-  }
+	/**
+	 * Gets the link to the source of this response.
+	 *
+	 * @return a String
+	 */
+	public String getSourceLink() {
+		return getWebsite();
+	}
 
-  /**
-   * Gets the permalink for this comment.
-   *
-   * @return  a URL as a String
-   */
-  public String getPermalink() {
-    if (blogEntry != null) {
-      return blogEntry.getLocalPermalink() + "#comment" + getId();
-    } else {
-      return "";
-    }
-  }
+	/**
+	 * Sets the author's website.
+	 *
+	 * @param website the website url
+	 */
+	public void setWebsite(String website) {
+		this.website = StringUtils.validateUrl(StringUtils.filterHTML(website));
+	}
 
-  /**
-   * Gets the avatar URL
-   *
-   * @return a URL as a String
-   */
-  public String getAvatar() {
-    return avatar;
-  }
+	/**
+	 * Gets the permalink for this comment.
+	 *
+	 * @return a URL as a String
+	 */
+	public String getPermalink() {
+		if (blogEntry != null) {
+			return blogEntry.getLocalPermalink() + "#comment" + getId();
+		} else {
+			return "";
+		}
+	}
 
-  /**
-   * Sets the avatar URL
-   *
-   * @param avatar a URL as a String
-   */
-  public void setAvatar(String avatar) {
-    this.avatar = StringUtils.validateUrl(StringUtils.filterHTML(avatar));
-  }
+	/**
+	 * Gets the avatar URL
+	 *
+	 * @return a URL as a String
+	 */
+	public String getAvatar() {
+		return avatar;
+	}
 
-  /**
-   * Gets the owning comment, if this comment is nested.
-   *
-   * @return    a Comment instance, or null if this comment isn't nested
-   */
-  public Comment getParent() {
-    return this.parent;
-  }
+	/**
+	 * Sets the avatar URL
+	 *
+	 * @param avatar a URL as a String
+	 */
+	public void setAvatar(String avatar) {
+		this.avatar = StringUtils.validateUrl(StringUtils.filterHTML(avatar));
+	}
 
-  /**
-   * Sets the owning comment.
-   *
-   * @param parent    the owning Comment instance
-   */
-  public void setParent(Comment parent) {
-    this.parent = parent;
-  }
+	/**
+	 * Gets the owning comment, if this comment is nested.
+	 *
+	 * @return a Comment instance, or null if this comment isn't nested
+	 */
+	public Comment getParent() {
+		return this.parent;
+	}
 
-  /**
-   * Gets the number of parents that this comment has.
-   *
-   * @return  the number of parents as an int
-   */
-  public int getNumberOfParents() {
-    int count = 0;
-    Comment c = getParent();
-    while (c != null) {
-      count++;
-      c = c.getParent();
-    }
+	/**
+	 * Sets the owning comment.
+	 *
+	 * @param parent the owning Comment instance
+	 */
+	public void setParent(Comment parent) {
+		this.parent = parent;
+	}
 
-    return count;
-  }
+	/**
+	 * Gets the number of parents that this comment has.
+	 *
+	 * @return the number of parents as an int
+	 */
+	public int getNumberOfParents() {
+		int count = 0;
+		Comment c = getParent();
+		while (c != null) {
+			count++;
+			c = c.getParent();
+		}
 
-  /**
-   * Adds a child comment.
-   *
-   * @param comment   the Comment to add
-   */
-  void addComment(Comment comment) {
-    if (comment != null && !comments.contains(comment)) {
-      comments.add(comment);
-      comment.setParent(this);
-    }
-  }
+		return count;
+	}
 
-  /**
-   * Removes a child comment.
-   *
-   * @param comment   the Comment to be removed
-   */
-  void removeComment(Comment comment) {
-    if (comment != null && comments.contains(comment)) {
-      // remove all children
-      for (Comment child : getComments()) {
-        comment.removeComment(child);
-      }
+	/**
+	 * Adds a child comment.
+	 *
+	 * @param comment the Comment to add
+	 */
+	void addComment(Comment comment) {
+		if (comment != null && !comments.contains(comment)) {
+			comments.add(comment);
+			comment.setParent(this);
+		}
+	}
 
-      // then remove the comment itself
-      comments.remove(comment);
-      comment.setParent(null);
+	/**
+	 * Removes a child comment.
+	 *
+	 * @param comment the Comment to be removed
+	 */
+	void removeComment(Comment comment) {
+		if (comment != null && comments.contains(comment)) {
+			// remove all children
+			for (Comment child : getComments()) {
+				comment.removeComment(child);
+			}
 
-      if (areEventsEnabled()) {
-        getBlogEntry().addEvent(new CommentEvent(comment, CommentEvent.COMMENT_REMOVED));
-      }
-    }
-  }
+			// then remove the comment itself
+			comments.remove(comment);
+			comment.setParent(null);
 
-  /**
-   * Gets a list of comments, in the order that they were left.
-   *
-   * @return  a List of Comment instances
-   */
-  public List<Comment> getComments() {
-    return new ArrayList<Comment>(comments);
-  }
+			if (areEventsEnabled()) {
+				getBlogEntry().addEvent(new CommentEvent(comment, CommentEvent.COMMENT_REMOVED));
+			}
+		}
+	}
 
-  /**
-   * Creates and returns a copy of this object.
-   *
-   * @return a clone of this instance.
-   * @see Cloneable
-   */
-  public Object clone() {
-    Comment comment = new Comment(title, body, author, email, website, avatar, ipAddress, date, getState(), blogEntry);
-    comment.setParent(parent);
-    comment.setAuthenticated(authenticated);
-    return comment;
-  }
+	/**
+	 * Gets a list of comments, in the order that they were left.
+	 *
+	 * @return a List of Comment instances
+	 */
+	public List<Comment> getComments() {
+		return new ArrayList<Comment>(comments);
+	}
 
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
+	/**
+	 * Creates and returns a copy of this object.
+	 *
+	 * @return a clone of this instance.
+	 * @see Cloneable
+	 */
+	public Object clone() {
+		Comment comment = new Comment(title, body, author, email, website, avatar, ipAddress, date, getState(),
+				blogEntry);
+		comment.setParent(parent);
+		comment.setAuthenticated(authenticated);
+		return comment;
+	}
 
-    if (!(o instanceof Comment)) {
-      return false;
-    }
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
 
-    Comment comment = (Comment)o;
-    return (getId() == comment.getId() && blogEntry.getId().equals(comment.getBlogEntry().getId()));
-  }
+		if (!(o instanceof Comment)) {
+			return false;
+		}
 
-  public int hashCode() {
-    return ("" + getId()).hashCode();
-  }
+		Comment comment = (Comment) o;
+		return (getId() == comment.getId() && blogEntry.getId().equals(comment.getBlogEntry().getId()));
+	}
 
-  /**
-   * Sets the state of this comment.
-   */
-  void setState(State s) {
-    State previousState = getState();
-    super.setState(s);
+	public int hashCode() {
+		return ("" + getId()).hashCode();
+	}
 
-    if (areEventsEnabled()) {
-      if (isApproved() && previousState != State.APPROVED) {
-        getBlogEntry().addEvent(new CommentEvent(this, CommentEvent.COMMENT_APPROVED));
-      } else if (isRejected() && previousState != State.REJECTED) {
-        getBlogEntry().addEvent(new CommentEvent(this, CommentEvent.COMMENT_REJECTED));
-      }
-    }
-  }
+	/**
+	 * Sets the state of this comment.
+	 */
+	void setState(State s) {
+		State previousState = getState();
+		super.setState(s);
 
-  public boolean isAuthenticated() {
-    return authenticated;
-  }
+		if (areEventsEnabled()) {
+			if (isApproved() && previousState != State.APPROVED) {
+				getBlogEntry().addEvent(new CommentEvent(this, CommentEvent.COMMENT_APPROVED));
+			} else if (isRejected() && previousState != State.REJECTED) {
+				getBlogEntry().addEvent(new CommentEvent(this, CommentEvent.COMMENT_REJECTED));
+			}
+		}
+	}
 
-  public void setAuthenticated(boolean authenticated) {
-    this.authenticated = authenticated;
-  }
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
 
-  @Override
-  public boolean isHasEmail() {
-    return true;
-  }
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+
+	@Override
+	public boolean isHasEmail() {
+		return true;
+	}
 }

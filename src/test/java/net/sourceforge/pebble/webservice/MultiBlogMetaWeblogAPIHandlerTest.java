@@ -31,15 +31,28 @@
  */
 package net.sourceforge.pebble.webservice;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.*;
-import net.sourceforge.pebble.mock.MockAuthenticationManager;
-import org.apache.xmlrpc.XmlRpcException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Vector;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import net.sourceforge.pebble.Constants;
+import net.sourceforge.pebble.domain.Blog;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.BlogService;
+import net.sourceforge.pebble.domain.Category;
+import net.sourceforge.pebble.domain.MultiBlogTestCase;
+import net.sourceforge.pebble.mock.MockAuthenticationManager;
 
 /**
  * Tests for the MetaWeblogAPIHandler class, when using a composite blog.
@@ -50,17 +63,18 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
 
   private MetaWeblogAPIHandler handler = new MetaWeblogAPIHandler();
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
-    handler.setAuthenticationManager(new net.sourceforge.pebble.mock.MockAuthenticationManager(true, new GrantedAuthority[] {new GrantedAuthorityImpl(Constants.BLOG_CONTRIBUTOR_ROLE)}));
+    handler.setAuthenticationManager(new MockAuthenticationManager(true,
+    		Arrays.asList(new GrantedAuthority[] {new SimpleGrantedAuthority(Constants.BLOG_CONTRIBUTOR_ROLE)})));
     blog1.setProperty(Blog.BLOG_CONTRIBUTORS_KEY, "username");
   }
 
   /**
    * Tests that authentication fails properly.
    */
-  public void testAuthenticationFailure() {
+  @Test public void testAuthenticationFailure() {
     handler.setAuthenticationManager(new MockAuthenticationManager(false));
     try {
       handler.getCategories("blog1/123", "username", "password");
@@ -101,7 +115,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
   /**
    * Tests that authentication works properly.
    */
-  public void testAuthenticationSuccess() {
+  @Test public void testAuthenticationSuccess() {
     try {
       handler.getCategories("blog1/123", "username", "password");
     } catch (XmlRpcAuthenticationException xmlrpcae) {
@@ -134,7 +148,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetRecentPostsFromEmptyBlog() {
+  @Test public void testGetRecentPostsFromEmptyBlog() {
     try {
       Vector posts = handler.getRecentPosts("blog1", "username", "password", 3);
       assertTrue(posts.isEmpty());
@@ -144,7 +158,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetRecentPosts() {
+  @Test public void testGetRecentPosts() {
     try {
       BlogService service = new BlogService();
 
@@ -190,7 +204,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPost() {
+  @Test public void testGetPost() {
     try {
       Category category = new Category("/aCategory", "A Category");
       blog1.addCategory(category);
@@ -218,7 +232,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPostWithIdThatDoesntExist() {
+  @Test public void testGetPostWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.getPost("blog1/" + postid, "username", "password");
@@ -228,7 +242,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetPostWithNullId() {
+  @Test public void testGetPostWithNullId() {
     try {
       handler.getPost("blog1/", "username", "password");
       fail();
@@ -237,7 +251,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testNewPost() {
+  @Test public void testNewPost() {
     try {
       Category category = new Category("/aCategory", "A Category");
       blog1.addCategory(category);
@@ -268,7 +282,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
    * Tests that non-existent categories are just ignored and no error
    * is produced.
    */
-  public void testNewPostWithCategoryThatDoesntExist() {
+  @Test public void testNewPostWithCategoryThatDoesntExist() {
     try {
       Hashtable struct = new Hashtable();
       struct.put(MetaWeblogAPIHandler.TITLE, "Title");
@@ -293,7 +307,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testEditPost() {
+  @Test public void testEditPost() {
     try {
       BlogService service = new BlogService();
       BlogEntry entry = new BlogEntry(blog1);
@@ -318,7 +332,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testEditPostWithNullId() {
+  @Test public void testEditPostWithNullId() {
     try {
       handler.editPost("blog1/", "username", "password", new Hashtable(), true);
       fail();
@@ -327,7 +341,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testEditPostWithIdThatDoesntExist() {
+  @Test public void testEditPostWithIdThatDoesntExist() {
     String postid = "1234567890123";
     try {
       handler.editPost("blog1/" + postid, "username", "password", new Hashtable(), true);
@@ -337,7 +351,7 @@ public class MultiBlogMetaWeblogAPIHandlerTest extends MultiBlogTestCase {
     }
   }
 
-  public void testGetCategories() throws Exception {
+  @Test public void testGetCategories() throws Exception {
     Hashtable categories = handler.getCategories("blog1", "username", "password");
     assertEquals(0, categories.size());
 

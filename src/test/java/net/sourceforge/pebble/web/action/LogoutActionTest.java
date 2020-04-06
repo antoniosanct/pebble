@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.mock.MockHttpSession;
 import net.sourceforge.pebble.web.view.RedirectView;
@@ -42,13 +49,13 @@ import net.sourceforge.pebble.web.view.RedirectView;
  */
 public class LogoutActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new LogoutAction();
 
     super.setUp();
   }
 
-  public void testUserLoggedOutAndRedirectedToBlogHomePage() throws Exception {
+  @Test public void testUserLoggedOutAndRedirectedToBlogHomePage() throws Exception {
     request.setParameter("redirectUrl", blog.getUrl());
     RedirectView view = (RedirectView)action.process(request, response);
     assertEquals("/blog/", view.getUri());

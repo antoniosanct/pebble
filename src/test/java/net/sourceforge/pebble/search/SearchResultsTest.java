@@ -31,19 +31,25 @@
  */
 package net.sourceforge.pebble.search;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the SearchResults class.
  *
  * @author    Simon Brown
  */
-public class SearchResultsTest extends TestCase {
+public class SearchResultsTest {
 
   private SearchResults results;
 
+  @BeforeEach
   protected void setUp() {
     results = new SearchResults();
   }
@@ -51,7 +57,7 @@ public class SearchResultsTest extends TestCase {
   /**
    * Tests the query property.
    */
-  public void testQuery() {
+  @Test public void testQuery() {
     results.setQuery("some query");
     assertEquals("some query", results.getQuery());
   }
@@ -59,7 +65,7 @@ public class SearchResultsTest extends TestCase {
   /**
    * Tests the message property.
    */
-  public void testMessage() {
+  @Test public void testMessage() {
     results.setMessage("A message");
     assertEquals("A message", results.getMessage());
   }
@@ -67,7 +73,7 @@ public class SearchResultsTest extends TestCase {
   /**
    * Tests the hits.
    */
-  public void testHits() {
+  @Test public void testHits() {
     assertEquals(0, results.getNumberOfHits());
     assertTrue(results.getHits().isEmpty());
 
@@ -87,7 +93,7 @@ public class SearchResultsTest extends TestCase {
     assertEquals(hit2, results.getHits().get(1));
   }
 
-  public void testSortByScore() {
+  @Test public void testSortByScore() {
     SearchHit hit1 = new SearchHit(null, "id1", "alink1", "A Title1", "A Title1", "An excerpt1", new Date(), 0.123f);
     results.add(hit1);
     SearchHit hit2 = new SearchHit(null, "id2", "alink2", "A Title2", "A Subtitle2", "An excerpt2", new Date(), 0.456f);
@@ -101,7 +107,7 @@ public class SearchResultsTest extends TestCase {
     assertEquals(hit1, results.getHits().get(2));
   }
 
-  public void testSortByDate() {
+  @Test public void testSortByDate() {
     SearchHit hit1 = new SearchHit(null, "id1", "alink1", "A Title1", "A Subtitle1", "An excerpt1", new Date(123), 0.123f);
     results.add(hit1);
     SearchHit hit2 = new SearchHit(null, "id2", "alink2", "A Title2", "A Subtitle2", "An excerpt2", new Date(456), 0.456f);

@@ -41,7 +41,12 @@ import java.util.*;
  */
 public class Month extends TimePeriod implements Permalinkable {
 
-  /** the parent, Year instance */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3981572939927536115L;
+
+/** the parent, Year instance */
   private Year year;
 
   /** an integer representing the month that this Month is for */

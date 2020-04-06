@@ -33,6 +33,7 @@
 package net.sourceforge.pebble.domain;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -51,6 +52,14 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 
 import net.sourceforge.pebble.BlogCompanion;
 import net.sourceforge.pebble.Configuration;
@@ -101,20 +110,17 @@ import net.sourceforge.pebble.logging.CombinedLogFormatLogger;
 import net.sourceforge.pebble.permalink.DefaultPermalinkProvider;
 import net.sourceforge.pebble.util.StringUtils;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
-
 /**
  * Represents a blog.
  *
  * @author    Simon Brown
  */
-public class Blog extends AbstractBlog {
+public class Blog extends AbstractBlog implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4098883872769879058L;
 
   private static final Log log = LogFactory.getLog(Blog.class);
 
@@ -497,7 +503,7 @@ public class Blog extends AbstractBlog {
     defaultProperties.setProperty(RECENT_RESPONSES_ON_HOME_PAGE_KEY, "3");
     defaultProperties.setProperty(THEME_KEY, "default");
     defaultProperties.setProperty(PRIVATE_KEY, FALSE);
-    defaultProperties.setProperty(LUCENE_ANALYZER_KEY, "org.apache.lucene.analysis.SimpleAnalyzer");
+    defaultProperties.setProperty(LUCENE_ANALYZER_KEY, "org.apache.lucene.analysis.standard.StandardAnalyzer");
     defaultProperties.setProperty(CONTENT_DECORATORS_KEY,
         "net.sourceforge.pebble.decorator.RadeoxDecorator\n" +
         "net.sourceforge.pebble.decorator.HtmlDecorator\n" +

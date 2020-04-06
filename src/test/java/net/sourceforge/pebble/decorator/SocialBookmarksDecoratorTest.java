@@ -31,12 +31,17 @@
  */
 package net.sourceforge.pebble.decorator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Date;
-import net.sourceforge.pebble.domain.BlogEntry;
-import net.sourceforge.pebble.domain.Category;
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.decorator.ContentDecorator;
 import net.sourceforge.pebble.api.decorator.ContentDecoratorContext;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
 /**
  * Tests for the SocialBookmarksDecorator class.
@@ -49,7 +54,7 @@ public class SocialBookmarksDecoratorTest extends SingleBlogTestCase {
   private BlogEntry blogEntry;
   private ContentDecoratorContext context;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     blogEntry = new BlogEntry(blog);
@@ -60,7 +65,7 @@ public class SocialBookmarksDecoratorTest extends SingleBlogTestCase {
   /**
    * Tests that a blog entry with bookmarks gets modified, when output to a HTML page.
    */
-  public void testBlogEntryHasBookmarksAndMediaIsHtml() throws Exception {
+  @Test public void testBlogEntryHasBookmarksAndMediaIsHtml() throws Exception {
     Date date = new Date();
 	long now = 1;
 	date.setTime(now);

@@ -31,20 +31,19 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.Constants;
-import net.sourceforge.pebble.domain.Blog;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.logging.Log;
 import net.sourceforge.pebble.logging.LogEntry;
 import net.sourceforge.pebble.logging.UserAgentConsolidator;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.UserAgentsView;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Gets the user agent information for the specified time period.
@@ -61,7 +60,6 @@ public class ViewUserAgentsAction extends AbstractLogAction {
    * @return the name of the next view
    */
   public View process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-    Blog blog = (Blog)getModel().get(Constants.BLOG_KEY);
     Log log = getLog(request, response);
 
     Map<String, Integer> userAgents = new TreeMap<String, Integer>(new Comparator<String>() {

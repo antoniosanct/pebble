@@ -31,9 +31,15 @@
  */
 package net.sourceforge.pebble.permalink;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.api.permalink.PermalinkProvider;
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.BlogService;
-import net.sourceforge.pebble.api.permalink.PermalinkProvider;
 
 /**
  * Tests for the DefaultPermalinkProvider class.
@@ -54,7 +60,7 @@ public class ShortPermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that a permalink can be generated for a blog entry.
    */
-  public void testBlogEntryPermalink() throws Exception {
+  @Test public void testBlogEntryPermalink() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry = new BlogEntry(blog);
     service.putBlogEntry(blogEntry);
@@ -65,7 +71,7 @@ public class ShortPermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that a blog entry permalink is recognised.
    */
-  public void testIsBlogEntryPermalink() {
+  @Test public void testIsBlogEntryPermalink() {
     assertTrue(permalinkProvider.isBlogEntryPermalink("/1234567890123.html"));
     assertFalse(permalinkProvider.isBlogEntryPermalink("/2004/01/1234567890123.html"));
     assertFalse(permalinkProvider.isBlogEntryPermalink("/someotherpage.html"));
@@ -76,7 +82,7 @@ public class ShortPermalinkProviderTest extends PermalinkProviderSupportTestCase
   /**
    * Tests that the correct blog entry can be found from a permalink.
    */
-  public void testGetBlogEntry() throws Exception {
+  @Test public void testGetBlogEntry() throws Exception {
     BlogService service = new BlogService();
     BlogEntry blogEntry1 = new BlogEntry(blog);
     BlogEntry blogEntry2 = new BlogEntry(blog);

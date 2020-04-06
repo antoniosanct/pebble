@@ -31,11 +31,10 @@
  */
 package net.sourceforge.pebble.dao;
 
+import java.util.Collection;
+
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.BlogEntry;
-
-import java.util.List;
-import java.util.Collection;
 
 public interface BlogEntryDAO {
 

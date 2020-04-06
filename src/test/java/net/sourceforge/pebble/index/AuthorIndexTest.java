@@ -31,6 +31,13 @@
  */
 package net.sourceforge.pebble.index;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.domain.BlogEntry;
 import net.sourceforge.pebble.domain.SingleBlogTestCase;
 
@@ -43,7 +50,7 @@ public class AuthorIndexTest extends SingleBlogTestCase {
 
   private AuthorIndex index;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     this.index = new AuthorIndex(blog);
@@ -52,7 +59,7 @@ public class AuthorIndexTest extends SingleBlogTestCase {
   /**
    * Tests that a single published blog entry can be indexed.
    */
-  public void testIndexPublishedBlogEntry() throws Exception {
+  @Test public void testIndexPublishedBlogEntry() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setAuthor("sbrown");
     blogEntry.setPublished(true);
@@ -66,7 +73,7 @@ public class AuthorIndexTest extends SingleBlogTestCase {
   /**
    * Tests that a single unpublished blog entry isn't indexed.
    */
-  public void testIndexUnpublishedBlogEntry() throws Exception {
+  @Test public void testIndexUnpublishedBlogEntry() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setAuthor("sbrown");
     blogEntry.setPublished(false);
@@ -79,7 +86,7 @@ public class AuthorIndexTest extends SingleBlogTestCase {
   /**
    * Tests that a single blog entry can be unindexed.
    */
-  public void testUnindexBlogEntry() throws Exception {
+  @Test public void testUnindexBlogEntry() throws Exception {
     BlogEntry blogEntry = new BlogEntry(blog);
     blogEntry.setAuthor("sbrown");
     blogEntry.setPublished(true);

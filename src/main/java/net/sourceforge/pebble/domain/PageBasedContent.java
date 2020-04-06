@@ -50,405 +50,407 @@ import java.util.*;
  */
 public abstract class PageBasedContent extends Content {
 
-  private static final Log log = LogFactory.getLog(PageBasedContent.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5161627368384196801L;
 
-  public static final String TITLE_PROPERTY = "title";
-  public static final String SUBTITLE_PROPERTY = "subtitle";
-  public static final String BODY_PROPERTY = "body";
-  public static final String AUTHOR_PROPERTY = "author";
-  public static final String DATE_PROPERTY = "date";
-  public static final String ORIGINAL_PERMALINK_PROPERTY = "originalPermalink";
-  public static final String TAGS_PROPERTY = "tags";
+	private static final Log log = LogFactory.getLog(PageBasedContent.class);
 
-  /**
-   * the id
-   */
-  private String id;
+	public static final String TITLE_PROPERTY = "title";
+	public static final String SUBTITLE_PROPERTY = "subtitle";
+	public static final String BODY_PROPERTY = "body";
+	public static final String AUTHOR_PROPERTY = "author";
+	public static final String DATE_PROPERTY = "date";
+	public static final String ORIGINAL_PERMALINK_PROPERTY = "originalPermalink";
+	public static final String TAGS_PROPERTY = "tags";
 
-  /**
-   * the title
-   */
-  private String title = "";
+	/**
+	 * the id
+	 */
+	private String id;
 
-  /**
-   * the subtitle
-   */
-  private String subtitle = "";
+	/**
+	 * the title
+	 */
+	private String title = "";
 
-  /**
-   * the body
-   */
-  private String body = "";
+	/**
+	 * the subtitle
+	 */
+	private String subtitle = "";
 
-  /**
-   * the date that the content was created
-   */
-  private Date date;
+	/**
+	 * the body
+	 */
+	private String body = "";
 
-  /**
-   * the author of the blog entry
-   */
-  private String author = "";
+	/**
+	 * the date that the content was created
+	 */
+	private Date date;
 
-  /** the enriched user details */
-  private PebbleUserDetails user;
+	/**
+	 * the author of the blog entry
+	 */
+	private String author = "";
 
-  /**
-   * the alternative permalink for this blog entry
-   */
-  private String originalPermalink;
+	/** the enriched user details */
+	private PebbleUserDetails user;
 
-  /** the list of tags for this blog entry */
-  private String tags = "";
+	/**
+	 * the alternative permalink for this blog entry
+	 */
+	private String originalPermalink;
 
-  /** the List of tags for this blog entry */
-  private List<Tag> tagsAsList = new LinkedList<Tag>();
+	/** the list of tags for this blog entry */
+	private String tags = "";
 
-  /** the tags, comma separated */
-  private String tagsAsCommaSeparated = "";
+	/** the List of tags for this blog entry */
+	private List<Tag> tagsAsList = new LinkedList<Tag>();
 
-  /** the owning blog */
-  private Blog blog;
+	/** the tags, comma separated */
+	private String tagsAsCommaSeparated = "";
 
-  private boolean persistent = false;
-  private String lockedBy = null;
+	/** the owning blog */
+	private Blog blog;
 
-  /**
-   * Creates a new blog entry.
-   *
-   * @param blog    the owning Blog
-   */
-  public PageBasedContent(Blog blog) {
-    this.blog = blog;
-    setDate(new Date());
-  }
+	private boolean persistent = false;
+	private String lockedBy = null;
 
-  /**
-   * Gets the unique id of this blog entry.
-   *
-   * @return the id as a String
-   */
-  public String getId() {
-    return id;
-  }
+	/**
+	 * Creates a new blog entry.
+	 *
+	 * @param blog the owning Blog
+	 */
+	public PageBasedContent(Blog blog) {
+		this.blog = blog;
+		setDate(new Date());
+	}
 
-  /**
-   * Gets the title of this blog entry.
-   *
-   * @return the title as a String
-   */
-  public String getTitle() {
-    return title;
-  }
+	/**
+	 * Gets the unique id of this blog entry.
+	 *
+	 * @return the id as a String
+	 */
+	public String getId() {
+		return id;
+	}
 
-  /**
-   * Sets the title of this blog entry.
-   *
-   * @param newTitle  the title as a String
-   */
-  public void setTitle(String newTitle) {
-	newTitle = newTitle;
-    propertyChangeSupport.firePropertyChange(TITLE_PROPERTY, title, newTitle);
-    this.title = newTitle;
-  }
+	/**
+	 * Gets the title of this blog entry.
+	 *
+	 * @return the title as a String
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-  /**
-   * Gets the subtitle of this blog entry.
-   *
-   * @return the subtitle as a String
-   */
-  public String getSubtitle() {
-    return subtitle;
-  }
+	/**
+	 * Sets the title of this blog entry.
+	 *
+	 * @param newTitle the title as a String
+	 */
+	public void setTitle(String newTitle) {
+		propertyChangeSupport.firePropertyChange(TITLE_PROPERTY, title, newTitle);
+		this.title = newTitle;
+	}
 
-  /**
-   * Sets the subtitle of this blog entry.
-   *
-   * @param newSubtitle  the subtitle as a String
-   */
-  public void setSubtitle(String newSubtitle) {
-	//newSubtitle = StringUtils.transformHTML(newSubtitle);
-    propertyChangeSupport.firePropertyChange(SUBTITLE_PROPERTY, subtitle, newSubtitle);
-    this.subtitle = newSubtitle;
-  }
+	/**
+	 * Gets the subtitle of this blog entry.
+	 *
+	 * @return the subtitle as a String
+	 */
+	public String getSubtitle() {
+		return subtitle;
+	}
 
-  /**
-   * Gets the body of this blog entry.
-   *
-   * @return the body as a String
-   */
-  public String getBody() {
-    return body;
-  }
+	/**
+	 * Sets the subtitle of this blog entry.
+	 *
+	 * @param newSubtitle the subtitle as a String
+	 */
+	public void setSubtitle(String newSubtitle) {
+		// newSubtitle = StringUtils.transformHTML(newSubtitle);
+		propertyChangeSupport.firePropertyChange(SUBTITLE_PROPERTY, subtitle, newSubtitle);
+		this.subtitle = newSubtitle;
+	}
 
-  /**
-   * Gets the content of this response.
-   *
-   * @return a String
-   */
-  public String getContent() {
-    return body;
-  }
+	/**
+	 * Gets the body of this blog entry.
+	 *
+	 * @return the body as a String
+	 */
+	public String getBody() {
+		return body;
+	}
 
-  /**
-   * Gets the thumbnail of this content.
-   *
-   * @return a String
-   */
-  public String getThumbnailURL() {
-    return StringUtils.findThumbnailUrl(getContent());
-  }
+	/**
+	 * Gets the content of this response.
+	 *
+	 * @return a String
+	 */
+	public String getContent() {
+		return body;
+	}
 
-  
-  
-  /**
-   * Sets the body of this blog entry.
-   *
-   * @param newBody the body as a String
-   */
-  public void setBody(String newBody) {
-    propertyChangeSupport.firePropertyChange(BODY_PROPERTY, body, newBody);
-    this.body = newBody;
-  }
+	/**
+	 * Gets the thumbnail of this content.
+	 *
+	 * @return a String
+	 */
+	public String getThumbnailURL() {
+		return StringUtils.findThumbnailUrl(getContent());
+	}
 
-  /**
-   * Gets the date that this blog entry was created.
-   *
-   * @return a java.util.Date instance
-   */
-  public Date getDate() {
-    return date;
-  }
+	/**
+	 * Sets the body of this blog entry.
+	 *
+	 * @param newBody the body as a String
+	 */
+	public void setBody(String newBody) {
+		propertyChangeSupport.firePropertyChange(BODY_PROPERTY, body, newBody);
+		this.body = newBody;
+	}
 
-  /**
-   * Gets the date that this blog entry was last updated.
-   *
-   * @return  a Date instance representing the time of the last comment/TrackBack
-   */
-  public Date getLastModified() {
-    return date;
-  }
+	/**
+	 * Gets the date that this blog entry was created.
+	 *
+	 * @return a java.util.Date instance
+	 */
+	public Date getDate() {
+		return date;
+	}
 
-  /**
-   * Sets the date that this blog entry was created.
-   *
-   * @param newDate a java.util.Date instance
-   */
-  public void setDate(Date newDate) {
-    propertyChangeSupport.firePropertyChange(DATE_PROPERTY, date, newDate);
-    this.date = newDate;
-    this.id = "" + this.date.getTime();
-  }
+	/**
+	 * Gets the date that this blog entry was last updated.
+	 *
+	 * @return a Date instance representing the time of the last comment/TrackBack
+	 */
+	public Date getLastModified() {
+		return date;
+	}
 
-  /**
-   * Gets the author of this blog entry.
-   *
-   * @return the author as a String
-   */
-  public String getAuthor() {
-    return author;
-  }
+	/**
+	 * Sets the date that this blog entry was created.
+	 *
+	 * @param newDate a java.util.Date instance
+	 */
+	public void setDate(Date newDate) {
+		propertyChangeSupport.firePropertyChange(DATE_PROPERTY, date, newDate);
+		this.date = newDate;
+		this.id = "" + this.date.getTime();
+	}
 
-  /**
-   * Gets full user details about the author including name, email-address, etc.
-   *
-   * @return  a PebbleUserDetails instance
-   */
-  public PebbleUserDetails getUser() {
-    if (this.user == null) {
-      SecurityRealm realm = PebbleContext.getInstance().getConfiguration().getSecurityRealm();
-      try {
-        this.user = realm.getUser(getAuthor());
-      } catch (SecurityRealmException e) {
-        log.error("Exception encountered", e);
-      }
-    }
+	/**
+	 * Gets the author of this blog entry.
+	 *
+	 * @return the author as a String
+	 */
+	public String getAuthor() {
+		return author;
+	}
 
-    return this.user;
-  }
+	/**
+	 * Gets full user details about the author including name, email-address, etc.
+	 *
+	 * @return a PebbleUserDetails instance
+	 */
+	public PebbleUserDetails getUser() {
+		if (this.user == null) {
+			SecurityRealm realm = PebbleContext.getInstance().getConfiguration().getSecurityRealm();
+			try {
+				this.user = realm.getUser(getAuthor());
+			} catch (SecurityRealmException e) {
+				log.error("Exception encountered", e);
+			}
+		}
 
-  /**
-   * Sets the author of this blog entry.
-   *
-   * @param newAuthor the author as a String
-   */
-  public void setAuthor(String newAuthor) {
-    this.author = StringUtils.transformHTML(newAuthor);
-  }
+		return this.user;
+	}
 
-  /**
-   * Gets the tags associated with this category.
-   *
-   * @return  a list of tags
-   */
-  public String getTags() {
-    return this.tags;
-  }
+	/**
+	 * Sets the author of this blog entry.
+	 *
+	 * @param newAuthor the author as a String
+	 */
+	public void setAuthor(String newAuthor) {
+		this.author = StringUtils.transformHTML(newAuthor);
+	}
 
-  /**
-   * Gets the tags associated with this category, as a List.
-   *
-   * @return  a List of tags
-   */
-  public List<Tag> getTagsAsList() {
-    return this.tagsAsList;
-  }
+	/**
+	 * Gets the tags associated with this category.
+	 *
+	 * @return a list of tags
+	 */
+	public String getTags() {
+		return this.tags;
+	}
 
-  /**
-   * Gets a list of all tags, as a comma separated string.
-   *
-   * @return    a comma separated String of tags
-   */
-  public String getTagsAsCommaSeparated() {
-    return this.tagsAsCommaSeparated;
-  }
+	/**
+	 * Gets the tags associated with this category, as a List.
+	 *
+	 * @return a List of tags
+	 */
+	public List<Tag> getTagsAsList() {
+		return this.tagsAsList;
+	}
 
-  /**
-   * Gets a list of all tags.
-   *
-   * @return  a List of tags
-   */
-  public abstract List<Tag> getAllTags();
+	/**
+	 * Gets a list of all tags, as a comma separated string.
+	 *
+	 * @return a comma separated String of tags
+	 */
+	public String getTagsAsCommaSeparated() {
+		return this.tagsAsCommaSeparated;
+	}
 
-  /**
-   * Sets the set of tags associated with this category.
-   *
-   * @param newTags    a set of tags
-   */
-  public void setTags(String newTags) {
-    if (newTags != null && newTags.indexOf(",") > -1) {
-      // if the tags have been comma separated, convert them to
-      // whitespace separated by
-      // - remove whitespace
-      // - convert commas to whitespace
-      newTags = newTags.replaceAll(" ", "").replaceAll(",", " ");
-    }
-    propertyChangeSupport.firePropertyChange(TAGS_PROPERTY, tags, newTags);
-    this.tags = newTags;
-    this.tagsAsList = Tag.parse(getBlog(), tags);
-    this.tagsAsCommaSeparated = Tag.format(getAllTags());
-  }
+	/**
+	 * Gets a list of all tags.
+	 *
+	 * @return a List of tags
+	 */
+	public abstract List<Tag> getAllTags();
 
-  /**
-   * Determines whether this blog entry has been aggregated from another
-   * source. An aggregated blog entry will have a specified permalink.
-   *
-   * @return true if this blog entry has been aggegrated, false otherwise
-   */
-  public boolean isAggregated() {
-    return (originalPermalink != null);
-  }
+	/**
+	 * Sets the set of tags associated with this category.
+	 *
+	 * @param newTags a set of tags
+	 */
+	public void setTags(String newTags) {
+		if (newTags != null && newTags.indexOf(",") > -1) {
+			// if the tags have been comma separated, convert them to
+			// whitespace separated by
+			// - remove whitespace
+			// - convert commas to whitespace
+			newTags = newTags.replaceAll(" ", "").replaceAll(",", " ");
+		}
+		propertyChangeSupport.firePropertyChange(TAGS_PROPERTY, tags, newTags);
+		this.tags = newTags;
+		this.tagsAsList = Tag.parse(getBlog(), tags);
+		this.tagsAsCommaSeparated = Tag.format(getAllTags());
+	}
 
-  /**
-   * Gets the alternative permalink for this blog entry.
-   *
-   * @return an absolute URL as a String
-   */
-  public String getOriginalPermalink() {
-    return this.originalPermalink;
-  }
+	/**
+	 * Determines whether this blog entry has been aggregated from another source.
+	 * An aggregated blog entry will have a specified permalink.
+	 *
+	 * @return true if this blog entry has been aggegrated, false otherwise
+	 */
+	public boolean isAggregated() {
+		return (originalPermalink != null);
+	}
 
-  /**
-   * Sets the alternative permalink for this blog entry.
-   *
-   * @param newPermalink an absolute URL as a String
-   */
-  public void setOriginalPermalink(String newPermalink) {
-	newPermalink = StringUtils.transformHTML(newPermalink);
-    if (newPermalink == null || newPermalink.length() == 0) {
-      propertyChangeSupport.firePropertyChange(ORIGINAL_PERMALINK_PROPERTY, originalPermalink, null);
-      this.originalPermalink = null;
-    } else {
-      propertyChangeSupport.firePropertyChange(ORIGINAL_PERMALINK_PROPERTY, originalPermalink, newPermalink);
-      this.originalPermalink = newPermalink;
-    }
-  }
+	/**
+	 * Gets the alternative permalink for this blog entry.
+	 *
+	 * @return an absolute URL as a String
+	 */
+	public String getOriginalPermalink() {
+		return this.originalPermalink;
+	}
 
-  /**
-   * Gets a permalink for this blog entry.
-   *
-   * @return an absolute URL as a String
-   */
-  public String getPermalink() {
-    if (isAggregated()) {
-      return getOriginalPermalink();
-    } else {
-      return getLocalPermalink();
-    }
-  }
+	/**
+	 * Sets the alternative permalink for this blog entry.
+	 *
+	 * @param newPermalink an absolute URL as a String
+	 */
+	public void setOriginalPermalink(String newPermalink) {
+		newPermalink = StringUtils.transformHTML(newPermalink);
+		if (newPermalink == null || newPermalink.length() == 0) {
+			propertyChangeSupport.firePropertyChange(ORIGINAL_PERMALINK_PROPERTY, originalPermalink, null);
+			this.originalPermalink = null;
+		} else {
+			propertyChangeSupport.firePropertyChange(ORIGINAL_PERMALINK_PROPERTY, originalPermalink, newPermalink);
+			this.originalPermalink = newPermalink;
+		}
+	}
 
-  /**
-   * Gets a permalink for this blog entry that is local to the blog. In other
-   * words, it doesn't take into account the original permalink for
-   * aggregated content.
-   *
-   * @return an absolute URL as a String
-   */
-  public abstract String getLocalPermalink();
+	/**
+	 * Gets a permalink for this blog entry.
+	 *
+	 * @return an absolute URL as a String
+	 */
+	public String getPermalink() {
+		if (isAggregated()) {
+			return getOriginalPermalink();
+		} else {
+			return getLocalPermalink();
+		}
+	}
 
-  /**
-   * Helper method to get the owning Blog instance.
-   *
-   * @return the overall owning Blog instance
-   */
-  public Blog getBlog() {
-    return this.blog;
-  }
+	/**
+	 * Gets a permalink for this blog entry that is local to the blog. In other
+	 * words, it doesn't take into account the original permalink for aggregated
+	 * content.
+	 *
+	 * @return an absolute URL as a String
+	 */
+	public abstract String getLocalPermalink();
 
-  /**
-   * Gets a string representation of this object.
-   *
-   * @return  a String
-   */
-  public String toString() {
-    return getBlog().getId() + "/" + getTitle();
-  }
+	/**
+	 * Helper method to get the owning Blog instance.
+	 *
+	 * @return the overall owning Blog instance
+	 */
+	public Blog getBlog() {
+		return this.blog;
+	}
 
-  public boolean isPersistent() {
-    return persistent;
-  }
+	/**
+	 * Gets a string representation of this object.
+	 *
+	 * @return a String
+	 */
+	public String toString() {
+		return getBlog().getId() + "/" + getTitle();
+	}
 
-  public void setPersistent(boolean persistent) {
-    this.persistent = persistent;
-  }
+	public boolean isPersistent() {
+		return persistent;
+	}
 
-  /**
-   * Determines whether this content is published.
-   *
-   * @return  true if the state is published, false otherwise
-   */
-  public boolean isPublished() {
-    return getState().equals(State.PUBLISHED);
-  }
+	public void setPersistent(boolean persistent) {
+		this.persistent = persistent;
+	}
 
-  /**
-   * Determines whether this content is unpublished.
-   *
-   * @return  true if the state is unpublished, false otherwise
-   */
-  public boolean isUnpublished() {
-    return getState().equals(State.UNPUBLISHED);
-  }
+	/**
+	 * Determines whether this content is published.
+	 *
+	 * @return true if the state is published, false otherwise
+	 */
+	public boolean isPublished() {
+		return getState().equals(State.PUBLISHED);
+	}
 
-  /**
-   * Sets the state of this content.
-   *
-   * @param published   true if this content is published, false if unpublished
-   */
-  public void setPublished(boolean published) {
-    if (published) {
-      setState(State.PUBLISHED);
-    } else {
-      setState(State.UNPUBLISHED);
-    }
-  }
+	/**
+	 * Determines whether this content is unpublished.
+	 *
+	 * @return true if the state is unpublished, false otherwise
+	 */
+	public boolean isUnpublished() {
+		return getState().equals(State.UNPUBLISHED);
+	}
 
-  public String getLockedBy() {
-    return lockedBy;
-  }
+	/**
+	 * Sets the state of this content.
+	 *
+	 * @param published true if this content is published, false if unpublished
+	 */
+	public void setPublished(boolean published) {
+		if (published) {
+			setState(State.PUBLISHED);
+		} else {
+			setState(State.UNPUBLISHED);
+		}
+	}
 
-  public void setLockedBy(String lockedBy) {
-    this.lockedBy = lockedBy;
-  }
+	public String getLockedBy() {
+		return lockedBy;
+	}
+
+	public void setLockedBy(String lockedBy) {
+		this.lockedBy = lockedBy;
+	}
 
 }

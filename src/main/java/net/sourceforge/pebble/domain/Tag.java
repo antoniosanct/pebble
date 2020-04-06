@@ -31,24 +31,26 @@
  */
 package net.sourceforge.pebble.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.sourceforge.pebble.util.StringUtils;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.util.*;
 
 /**
  * Represents a tag.
  *
  * @author    Simon Brown
  */
-public class Tag implements Permalinkable, Comparable {
+public class Tag implements Permalinkable, Comparable, Serializable {
 
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(Tag.class);
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5565898080038833610L;
 
-  /** the owning blog */
+/** the owning blog */
   private Blog blog;
 
   /** the name of the tag */

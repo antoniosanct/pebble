@@ -31,6 +31,10 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.PebbleContext;
 import net.sourceforge.pebble.security.PebbleUserDetails;
@@ -44,12 +48,6 @@ import net.sourceforge.pebble.web.view.ForbiddenView;
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.ChangePasswordView;
 import net.sourceforge.pebble.web.view.impl.PasswordChangedView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Changes the user's password.
@@ -58,9 +56,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RequireSecurityToken(ChangePasswordAction.ChangePasswordCondition.class)
 public class ChangePasswordAction extends SecureAction {
-
-  /** the log used by this class */
-  private static final Log log = LogFactory.getLog(ChangePasswordAction.class);
 
   /**
    * Peforms the processing associated with this action.

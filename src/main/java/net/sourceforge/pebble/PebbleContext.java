@@ -31,17 +31,17 @@
  */
 package net.sourceforge.pebble;
 
-import net.sourceforge.pebble.security.SecurityRealm;
-import net.sourceforge.pebble.util.RelativeDate;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
+
+import net.sourceforge.pebble.util.RelativeDate;
 
 /**
  * A bean representing the Pebble context.
@@ -58,9 +58,6 @@ public class PebbleContext {
 
   private String buildVersion;
   private String buildDate;
-
-  private static final String BUILD_VERSION_KEY = "build.version";
-  private static final String BUILD_DATE_KEY = "build.date";
 
   /** the time that Pebble was started */
   private Date startTime;

@@ -49,6 +49,11 @@ import java.util.List;
 public class HideUnapprovedResponsesDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1556934692069990489L;
+
+/**
    * Decorates the specified blog entry.
    *
    * @param context   the context in which the decoration is running

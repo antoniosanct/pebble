@@ -126,10 +126,14 @@ public class GZIPResponseWrapper extends HttpServletResponseWrapper {
     super.setStatus(sc);
   }
 
+  /**
+   * @deprecated
+   */
   @Override
+  @Deprecated
   public void setStatus(int sc, String sm) {
     this.status = sc;
-    super.setStatus(sc, sm);
+//    super.setStatus(sc, sm);
   }
 
   @Override

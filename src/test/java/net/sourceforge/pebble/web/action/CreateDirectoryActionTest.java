@@ -31,12 +31,18 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.domain.FileMetaData;
-import net.sourceforge.pebble.web.view.ForbiddenView;
-import net.sourceforge.pebble.web.view.View;
-import net.sourceforge.pebble.web.view.RedirectView;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.FileMetaData;
+import net.sourceforge.pebble.web.view.ForbiddenView;
+import net.sourceforge.pebble.web.view.RedirectView;
+import net.sourceforge.pebble.web.view.View;
 
 /**
  * Tests for the CreateDirectoryAction class.
@@ -45,7 +51,7 @@ import java.io.File;
  */
 public class CreateDirectoryActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new CreateDirectoryAction();
 
     super.setUp();
@@ -54,9 +60,9 @@ public class CreateDirectoryActionTest extends SecureActionTestCase {
   /**
    * Tests that a new directory can be created.
    */
-  public void testCreateDirectory() throws Exception {
+  @Test public void testCreateDirectory() throws Exception {
     File file = new File(blog.getImagesDirectory(), "newdirectory");
-    assertFalse("File already exists", file.exists());
+    assertFalse(file.exists(), "File already exists");
 
     request.setParameter("path", "/");
     request.setParameter("name", "newdirectory");
@@ -66,7 +72,7 @@ public class CreateDirectoryActionTest extends SecureActionTestCase {
 
     // check file now exists and the right view is returned
     file = new File(blog.getImagesDirectory(), "newdirectory");
-    assertTrue("File doesn't exist", file.exists());
+    assertTrue(file.exists(), "File doesn't exist");
     assertTrue(view instanceof RedirectView);
 
     // and clean up
@@ -76,7 +82,7 @@ public class CreateDirectoryActionTest extends SecureActionTestCase {
   /**
    * Tests that a new directory can't be created when it is outside of the root.
    */
-  public void testCreateDirectoryReturnsForbiddenWheOutsideOfRoot() throws Exception {
+  @Test public void testCreateDirectoryReturnsForbiddenWheOutsideOfRoot() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("name", "../newdirectory");
     request.setParameter("type", FileMetaData.BLOG_IMAGE);

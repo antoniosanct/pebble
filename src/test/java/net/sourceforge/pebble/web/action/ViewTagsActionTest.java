@@ -32,6 +32,11 @@
 
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.web.view.View;
 import net.sourceforge.pebble.web.view.impl.TagsView;
 
@@ -42,13 +47,13 @@ import net.sourceforge.pebble.web.view.impl.TagsView;
  */
 public class ViewTagsActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewTagsAction();
 
     super.setUp();
   }
 
-  public void testViewTags() throws Exception {
+  @Test public void testViewTags() throws Exception {
     View view = action.process(request, response);
 
     assertTrue(view instanceof TagsView);

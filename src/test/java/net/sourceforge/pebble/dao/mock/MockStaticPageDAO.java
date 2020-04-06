@@ -32,14 +32,14 @@
 
 package net.sourceforge.pebble.dao.mock;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sourceforge.pebble.dao.PersistenceException;
 import net.sourceforge.pebble.dao.StaticPageDAO;
 import net.sourceforge.pebble.domain.Blog;
 import net.sourceforge.pebble.domain.StaticPage;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This is a mock implementation of StaticPageDAO that is used when performing

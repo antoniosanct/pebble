@@ -48,7 +48,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class IpAddressListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3367795134499263483L;
+
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(IpAddressListener.class);
 
   /** the name of the whitelist property */

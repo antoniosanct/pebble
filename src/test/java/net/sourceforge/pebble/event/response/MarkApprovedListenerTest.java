@@ -32,12 +32,17 @@
 
 package net.sourceforge.pebble.event.response;
 
-import net.sourceforge.pebble.domain.SingleBlogTestCase;
-import net.sourceforge.pebble.domain.Comment;
-import net.sourceforge.pebble.domain.TrackBack;
-import net.sourceforge.pebble.domain.BlogEntry;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.api.event.comment.CommentEvent;
 import net.sourceforge.pebble.api.event.trackback.TrackBackEvent;
+import net.sourceforge.pebble.domain.BlogEntry;
+import net.sourceforge.pebble.domain.Comment;
+import net.sourceforge.pebble.domain.SingleBlogTestCase;
+import net.sourceforge.pebble.domain.TrackBack;
 
 /**
  * Tests for the MarkApprovedListener class.
@@ -55,7 +60,7 @@ public class MarkApprovedListenerTest extends SingleBlogTestCase {
   /**
    * Common setup code.
    */
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     listener = new MarkApprovedListener();
@@ -68,7 +73,7 @@ public class MarkApprovedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the commentAdded() method.
    */
-  public void testCommentAdded() {
+  @Test public void testCommentAdded() {
     assertTrue(comment.isApproved());
     listener.commentAdded(commentEvent);
     assertTrue(comment.isApproved());
@@ -77,7 +82,7 @@ public class MarkApprovedListenerTest extends SingleBlogTestCase {
   /**
    * Tests the trackBackAdded() method.
    */
-  public void testTrackBackAdded() {
+  @Test public void testTrackBackAdded() {
     assertTrue(trackBack.isApproved());
     listener.trackBackAdded(trackBackEvent);
     assertTrue(trackBack.isApproved());

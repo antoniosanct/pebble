@@ -47,7 +47,12 @@ import java.util.regex.Pattern;
  */
 public class NoFollowDecorator extends ContentDecoratorSupport {
 
-  /** the regex used to find HTML links */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2546366773286374987L;
+	
+/** the regex used to find HTML links */
   private static Pattern HTML_LINK_PATTERN = Pattern.compile("<a.*?href=.*?>", Pattern.CASE_INSENSITIVE);
 
   /**

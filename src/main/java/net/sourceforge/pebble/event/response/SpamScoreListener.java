@@ -45,7 +45,12 @@ import org.apache.commons.logging.LogFactory;
  */
 public class SpamScoreListener extends BlogEntryResponseListenerSupport {
 
-  /** the log used by this class */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5357281287022833757L;
+
+/** the log used by this class */
   private static final Log log = LogFactory.getLog(SpamScoreListener.class);
 
   /** the default threshold for the spam score */

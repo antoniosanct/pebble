@@ -59,7 +59,12 @@ import net.sourceforge.pebble.domain.Day;
  */
 public class TitlePermalinkProvider extends PermalinkProviderSupport {
 
-  /** the regex used to check for a blog entry permalink */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2716622527153039543L;
+	
+/** the regex used to check for a blog entry permalink */
   private static final String BLOG_ENTRY_PERMALINK_REGEX = "/\\d\\d\\d\\d/\\d\\d/\\d\\d/[\\w]*.html";
 
   /**

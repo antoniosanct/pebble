@@ -55,7 +55,6 @@ public class PubSubHubBubFeedDecorator implements FeedDecorator {
   private static final Log log = LogFactory.getLog(PubSubHubBubFeedDecorator.class);
 
   public static final String HUBS_PROPERTY = "pubsubhubbub.hubs";
-  private volatile Boolean listenerEnabled;
 
   public void decorate(SyndFeed feed, Blog blog) {
     if (checkListenerEnabled(blog)) {

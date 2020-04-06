@@ -45,6 +45,11 @@ import net.sourceforge.pebble.util.StringUtils;
 public class HtmlDecorator extends ContentDecoratorSupport {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3945269005000293157L;
+
+/**
    * Decorates the specified comment.
    *
    * @param context the context in which the decoration is running

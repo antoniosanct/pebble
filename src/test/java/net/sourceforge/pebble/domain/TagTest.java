@@ -31,7 +31,13 @@
  */
 package net.sourceforge.pebble.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,33 +49,33 @@ public class TagTest extends SingleBlogTestCase {
 
   private Tag tag;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     tag = new Tag("java", blog);
   }
 
-  public void testConstruction() {
+  @Test public void testConstruction() {
     assertEquals("java", tag.getName());
 
     assertEquals("http://www.yourdomain.com/blog/tags/java/", tag.getPermalink());
   }
 
-  public void testNameWithSpaces() {
+  @Test public void testNameWithSpaces() {
     tag.setName("automated+unit+testing");
     assertEquals("automated unit testing", tag.getName());
 
     assertEquals("http://www.yourdomain.com/blog/tags/automated unit testing/", tag.getPermalink());
   }
 
-  public void testNameWithMixedCase() {
+  @Test public void testNameWithMixedCase() {
     tag.setName("automatedUnitTesting");
     assertEquals("automatedunittesting", tag.getName());
 
     assertEquals("http://www.yourdomain.com/blog/tags/automatedunittesting/", tag.getPermalink());
   }
 
-  public void testParse() {
+  @Test public void testParse() {
     assertTrue(Tag.parse(blog, null).isEmpty());
 
     List tags = Tag.parse(blog, "java junit automated+unit+testing java");
@@ -79,14 +85,14 @@ public class TagTest extends SingleBlogTestCase {
     assertTrue(tags.contains(blog.getTag("automated unit testing")));
   }
 
-  public void testFormat() {
+  @Test public void testFormat() {
     assertEquals("", Tag.format(null));
 
     List tags = Tag.parse(blog, "java junit automatedunittesting java");
     assertEquals("java, junit, automatedunittesting", Tag.format(tags));
   }
 
-  public void testEncode() {
+  @Test public void testEncode() {
     assertEquals("", Tag.encode(null));
     assertEquals("sometag", Tag.encode("sometag"));
     assertEquals("sometag", Tag.encode(" sometag "));

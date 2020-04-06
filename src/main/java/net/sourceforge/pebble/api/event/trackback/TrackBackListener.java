@@ -31,12 +31,14 @@
  */
 package net.sourceforge.pebble.api.event.trackback;
 
+import java.io.Serializable;
+
 /**
  * Implemented by classes wanting to be notified of TrackBack events.
  *
  * @author Simon Brown
  */
-public interface TrackBackListener {
+public interface TrackBackListener extends Serializable {
 
   /**
    * Called when a TrackBack has been added.

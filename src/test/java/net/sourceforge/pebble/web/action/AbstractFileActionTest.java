@@ -31,6 +31,11 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.domain.FileMetaData;
 
@@ -41,7 +46,7 @@ import net.sourceforge.pebble.domain.FileMetaData;
  */
 public class AbstractFileActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewFilesAction();
 
     super.setUp();
@@ -50,7 +55,7 @@ public class AbstractFileActionTest extends SecureActionTestCase {
   /**
    * Tests that only blog contributors can manage blog images.
    */
-  public void testSecurityRolesForBlogImages() {
+  @Test public void testSecurityRolesForBlogImages() {
     request.setParameter("type", FileMetaData.BLOG_IMAGE);
     String roles[] = action.getRoles(request);
 
@@ -61,7 +66,7 @@ public class AbstractFileActionTest extends SecureActionTestCase {
   /**
    * Tests that only blog contributors can manage blog files.
    */
-  public void testSecurityRolesForBlogFiles() {
+  @Test public void testSecurityRolesForBlogFiles() {
     request.setParameter("type", FileMetaData.BLOG_FILE);
     String roles[] = action.getRoles(request);
 
@@ -72,7 +77,7 @@ public class AbstractFileActionTest extends SecureActionTestCase {
   /**
    * Tests that only blog owners can manage theme files.
    */
-  public void testSecurityRolesForThemeFiles() {
+  @Test public void testSecurityRolesForThemeFiles() {
     request.setParameter("type", FileMetaData.THEME_FILE);
     String roles[] = action.getRoles(request);
 
@@ -84,7 +89,7 @@ public class AbstractFileActionTest extends SecureActionTestCase {
   /**
    * Tests that only blog owners can manage blog data.
    */
-  public void testSecurityRolesForBlogData() {
+  @Test public void testSecurityRolesForBlogData() {
     request.setParameter("type", FileMetaData.BLOG_DATA);
     String roles[] = action.getRoles(request);
 
@@ -96,7 +101,7 @@ public class AbstractFileActionTest extends SecureActionTestCase {
   /**
    * Tests that no roles are returned if the type is unknown.
    */
-  public void testSecurityRolesForNonExistentFIleType() {
+  @Test public void testSecurityRolesForNonExistentFIleType() {
     request.setParameter("type", "something");
     String roles[] = action.getRoles(request);
 

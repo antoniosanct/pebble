@@ -99,8 +99,6 @@ public class ConfirmCommentAction extends AbstractCommentAction {
 
     CommentConfirmationStrategy strategy = blog.getCommentConfirmationStrategy();
 
-    Comment clonedComment = (Comment)comment.clone();
-
     if (strategy.isConfirmed(request)) {
       try {
         saveComment(request, response, blogEntry, comment);

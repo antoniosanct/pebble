@@ -31,11 +31,16 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.service.LastModifiedService;
 import net.sourceforge.pebble.web.view.NotModifiedView;
 import net.sourceforge.pebble.web.view.impl.FeedView;
-
-import static org.mockito.Mockito.*;
 
 /**
  * Tests for the FeedAction class.
@@ -46,7 +51,7 @@ public class SingleBlogFeedActionTest extends SingleBlogActionTestCase {
 
   private LastModifiedService lastModifiedService;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     lastModifiedService = mock(LastModifiedService.class);
     action = new FeedAction();
     ((FeedAction) action).setLastModifiedService(lastModifiedService);
@@ -54,11 +59,11 @@ public class SingleBlogFeedActionTest extends SingleBlogActionTestCase {
     super.setUp();
   }
 
-  public void testStatusIsOkay() throws Exception {
+  @Test public void testStatusIsOkay() throws Exception {
     assertTrue(action.process(request, response) instanceof FeedView);
   }
 
-  public void testStatusIsNotModifiedWhenBlogNotChanged() throws Exception {
+  @Test public void testStatusIsNotModifiedWhenBlogNotChanged() throws Exception {
     when(lastModifiedService.checkAndProcessLastModified(request, response, blog.getLastModified(), null)).thenReturn(true);
     assertTrue(action.process(request, response) instanceof NotModifiedView);
   }

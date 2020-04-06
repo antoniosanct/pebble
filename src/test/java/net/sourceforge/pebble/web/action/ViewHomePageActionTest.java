@@ -31,6 +31,12 @@
  */
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 import net.sourceforge.pebble.web.model.Model;
 import net.sourceforge.pebble.web.view.View;
@@ -43,7 +49,7 @@ import net.sourceforge.pebble.web.view.impl.BlogEntriesView;
  */
 public class ViewHomePageActionTest extends SingleBlogActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new ViewBlogEntriesByPageAction();
 
     super.setUp();
@@ -53,7 +59,7 @@ public class ViewHomePageActionTest extends SingleBlogActionTestCase {
    * Tests what happens when the default home page is requested.
    * @throws Exception
    */
-  public void testViewHomePage() throws Exception {
+  @Test public void testViewHomePage() throws Exception {
     View view = action.process(request, response);
 
     Model model = action.getModel();

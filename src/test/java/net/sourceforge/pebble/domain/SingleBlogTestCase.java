@@ -31,15 +31,16 @@
  */
 package net.sourceforge.pebble.domain;
 
-import net.sourceforge.pebble.dao.DAOFactory;
-import net.sourceforge.pebble.dao.mock.MockDAOFactory;
+import java.io.File;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 import net.sourceforge.pebble.Configuration;
 import net.sourceforge.pebble.PebbleContext;
+import net.sourceforge.pebble.dao.DAOFactory;
+import net.sourceforge.pebble.dao.mock.MockDAOFactory;
 import net.sourceforge.pebble.security.MockSecurityRealm;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.StaticApplicationContext;
-
-import java.io.File;
 
 /**
  * Superclass for test cases that make uses of simple blogs.
@@ -50,7 +51,7 @@ public abstract class SingleBlogTestCase extends PebbleTestCase {
 
   protected Blog blog;
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     super.setUp();
 
     DAOFactory.setConfiguredFactory(new MockDAOFactory());
@@ -75,6 +76,7 @@ public abstract class SingleBlogTestCase extends PebbleTestCase {
     blog.start();
   }
 
+  @AfterEach
   protected void tearDown() throws Exception {
     blog.stop();
     BlogManager.getInstance().removeAllBlogs();

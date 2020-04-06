@@ -174,7 +174,6 @@ public class StaticPageService {
     ContentCache cache = ContentCache.getInstance();
     DAOFactory factory = DAOFactory.getConfiguredFactory();
     StaticPageDAO dao = factory.getStaticPageDAO();
-    Blog blog = staticPage.getBlog();
 
     try {
       dao.removeStaticPage(staticPage);

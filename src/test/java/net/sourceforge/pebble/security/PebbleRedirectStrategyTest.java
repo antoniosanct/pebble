@@ -32,22 +32,22 @@
 
 package net.sourceforge.pebble.security;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PebbleRedirectStrategyTest {
   @Mock
   private HttpServletRequest request;
@@ -56,7 +56,7 @@ public class PebbleRedirectStrategyTest {
 
   private PebbleRedirectStrategy strategy = new PebbleRedirectStrategy();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     when(request.getContextPath()).thenReturn("/context");
     when(response.encodeRedirectURL(anyString())).thenAnswer(new Answer<Object>() {
@@ -66,26 +66,22 @@ public class PebbleRedirectStrategyTest {
     });
   }
 
-  @Test
-  public void absoluteUrlShouldBeMadeRelative() throws Exception {
+  @Test public void absoluteUrlShouldBeMadeRelative() throws Exception {
     strategy.sendRedirect(request, response, "http://attacker.com/some/url");
     verify(response).sendRedirect("/some/url");
   }
 
-  @Test
-  public void absoluteUrlWithQueryStringShouldBeMadeRelative() throws Exception {
+  @Test public void absoluteUrlWithQueryStringShouldBeMadeRelative() throws Exception {
     strategy.sendRedirect(request, response, "http://attacker.com/some/url?foo=bar");
     verify(response).sendRedirect("/some/url?foo=bar");
   }
 
-  @Test
-  public void schemeRelativeUrlShouldBeMadeRelative() throws Exception {
+  @Test public void schemeRelativeUrlShouldBeMadeRelative() throws Exception {
     strategy.sendRedirect(request, response, "//attacker.com/some/url");
     verify(response).sendRedirect("/some/url");
   }
 
-  @Test
-  public void relativeUrlShouldHaveContextAdded() throws Exception {
+  @Test public void relativeUrlShouldHaveContextAdded() throws Exception {
     strategy.sendRedirect(request, response, "/some/url");
     verify(response).sendRedirect("/context/some/url");
   }

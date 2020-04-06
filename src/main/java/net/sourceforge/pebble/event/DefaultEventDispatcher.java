@@ -52,6 +52,11 @@ import java.util.Iterator;
 public class DefaultEventDispatcher extends EventDispatcher {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4869755627899919258L;
+
+/**
    * Fires a blog event to registered listeners.
    *
    * @param event   the BlogEvent instance

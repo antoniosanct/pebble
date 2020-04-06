@@ -31,14 +31,21 @@
  */
 package net.sourceforge.pebble.web.action;
 
-import net.sourceforge.pebble.domain.FileMetaData;
-import net.sourceforge.pebble.web.view.ForbiddenView;
-import net.sourceforge.pebble.web.view.RedirectView;
-import net.sourceforge.pebble.web.view.View;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.sourceforge.pebble.domain.FileMetaData;
+import net.sourceforge.pebble.web.view.ForbiddenView;
+import net.sourceforge.pebble.web.view.RedirectView;
+import net.sourceforge.pebble.web.view.View;
 
 /**
  * Tests for the CopyFileAction class.
@@ -47,7 +54,7 @@ import java.io.FileWriter;
  */
 public class CopyFileActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new CopyFileAction();
 
     super.setUp();
@@ -56,7 +63,7 @@ public class CopyFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can be copied.
    */
-  public void testCopyFile() throws Exception {
+  @Test public void testCopyFile() throws Exception {
     File sourceFile = new File(blog.getFilesDirectory(), "afile.txt");
     File destinationFile = new File(blog.getFilesDirectory(), "anewfile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(sourceFile));
@@ -64,7 +71,7 @@ public class CopyFileActionTest extends SecureActionTestCase {
     writer.flush();
     writer.close();
 
-    assertFalse("Destination file already exists", destinationFile.exists());
+    assertFalse(destinationFile.exists(), "Destination file already exists");
 
     request.setParameter("path", "/");
     request.setParameter("name", "afile.txt");
@@ -75,7 +82,7 @@ public class CopyFileActionTest extends SecureActionTestCase {
     View view = action.process(request, response);
 
     // check file now exists and the right view is returned
-    assertTrue("File doesn't exist", destinationFile.exists());
+    assertTrue(destinationFile.exists(), "File doesn't exist");
     assertEquals(sourceFile.length(), destinationFile.length());
     assertTrue(view instanceof RedirectView);
 
@@ -87,7 +94,7 @@ public class CopyFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can be renamed (moved).
    */
-  public void testRenameFile() throws Exception {
+  @Test public void testRenameFile() throws Exception {
     File sourceFile = new File(blog.getFilesDirectory(), "afile.txt");
     File destinationFile = new File(blog.getFilesDirectory(), "anewfile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(sourceFile));
@@ -96,7 +103,7 @@ public class CopyFileActionTest extends SecureActionTestCase {
     writer.close();
     long sourceLength = sourceFile.length();
 
-    assertFalse("Destination file already exists", destinationFile.exists());
+    assertFalse(destinationFile.exists(), "Destination file already exists");
 
     request.setParameter("path", "/");
     request.setParameter("name", "afile.txt");
@@ -108,8 +115,8 @@ public class CopyFileActionTest extends SecureActionTestCase {
 
     // check source doesn't exist, destination exists and
     // correct view is returned
-    assertFalse("File still exists", sourceFile.exists());
-    assertTrue("File doesn't exist", destinationFile.exists());
+    assertFalse(sourceFile.exists(), "File still exists");
+    assertTrue(destinationFile.exists(), "File doesn't exist");
     assertEquals(sourceLength, destinationFile.length());
     assertTrue(view instanceof RedirectView);
 
@@ -120,7 +127,7 @@ public class CopyFileActionTest extends SecureActionTestCase {
   /**
    * Tests that a file can't be copied from/to outside of the root.
    */
-  public void testCopyFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
+  @Test public void testCopyFileReturnsForbiddenWheOutsideOfRoot() throws Exception {
     request.setParameter("path", "/");
     request.setParameter("name", "../afile.txt");
     request.setParameter("type", FileMetaData.BLOG_FILE);

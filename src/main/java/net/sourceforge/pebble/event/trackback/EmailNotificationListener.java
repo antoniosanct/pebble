@@ -45,6 +45,11 @@ import java.util.HashSet;
 public class EmailNotificationListener extends AbstractEmailNotificationListener {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 25825288181919489L;
+
+/**
    * Returns the collection of recipients.
    *
    * @param trackBack   the TrackBack from the event

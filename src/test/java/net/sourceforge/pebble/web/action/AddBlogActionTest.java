@@ -32,6 +32,11 @@
 
 package net.sourceforge.pebble.web.action;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.Constants;
 
 /**
@@ -41,7 +46,7 @@ import net.sourceforge.pebble.Constants;
  */
 public class AddBlogActionTest extends SecureActionTestCase {
 
-  protected void setUp() throws Exception {
+  @BeforeEach protected void setUp() throws Exception {
     action = new AddBlogAction();
 
     super.setUp();
@@ -50,7 +55,7 @@ public class AddBlogActionTest extends SecureActionTestCase {
   /**
    * Tests that only Pebble admins can add blogs.
    */
-  public void testSecurityRolesForBlogImages() {
+  @Test public void testSecurityRolesForBlogImages() {
     String roles[] = action.getRoles(request);
 
     assertEquals(1, roles.length);

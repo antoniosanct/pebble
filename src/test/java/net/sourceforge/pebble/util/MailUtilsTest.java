@@ -31,8 +31,11 @@
  */
 package net.sourceforge.pebble.util;
 
-import junit.framework.TestCase;
-import net.sourceforge.pebble.web.validation.ValidationContext;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import net.sourceforge.pebble.web.validation.ValidationContext;
 
 /**
@@ -40,9 +43,9 @@ import net.sourceforge.pebble.web.validation.ValidationContext;
  *
  * @author    Simon Brown
  */
-public class MailUtilsTest extends TestCase {
+public class MailUtilsTest {
 
-  public void testValidEmailAddresses() {
+  @Test public void testValidEmailAddresses() {
     ValidationContext context = new ValidationContext();
 
     MailUtils.validate("somebody@somedomain.com", context);
@@ -92,7 +95,7 @@ public class MailUtilsTest extends TestCase {
 
   }
 
-  public void testInvalidMailAddresses() {
+  @Test public void testInvalidMailAddresses() {
 	    ValidationContext context = new ValidationContext();
 
 	    MailUtils.validate("somebody@somedomain@someotherdomain.com", context);

@@ -48,7 +48,12 @@ import java.util.HashMap;
  */
 public abstract class PermalinkProviderSupport implements PermalinkProvider {
 
-  /** the regex used to check for a day request */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5353570230140549014L;
+
+/** the regex used to check for a day request */
   private static final String DAY_PERMALINK_REGEX = "/\\d\\d\\d\\d/\\d\\d/\\d\\d.html";
 
   /** the regex used to check for a monthly blog request */

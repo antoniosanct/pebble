@@ -43,7 +43,12 @@ import net.sourceforge.pebble.api.event.blogentry.BlogEntryEvent;
  */
 public class XmlRpcNotificationListener extends BlogEntryListenerSupport {
 
-  /** the name of the URL list property */
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2562972603369769809L;
+	
+/** the name of the URL list property */
   public static final String URL_LIST_KEY = "XmlRpcNotificationListener.urlList";
 
   /**
